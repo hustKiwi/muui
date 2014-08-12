@@ -1,0 +1,129 @@
+@import core/const
+
+// ref: http://joshbroton.com/quick-fix-sass-mixins-for-css-keyframe-animations/
+=animation($animate...)
+    $max: length($animate)
+    $animations: ''
+
+    @for $i from 1 through $max
+        $animations: #{$animations + nth($animate, $i)}
+        @if $i < $max
+            $animations: #{$animations + ", "}
+
+    -webkit-animation: $animations
+    -moz-animation: $animations
+    -o-animation: $animations
+    animation: $animations
+
+=keyframes($name)
+    @-webkit-keyframes #{$name}
+        @content
+    @-moz-keyframes #{$name}
+        @content
+    @-ms-keyframes #{$name}
+        @content
+    @-o-keyframes #{$name}
+        @content
+    @keyframes #{$name}
+        @content
+
+=title($font: 16px, $color: $black)
+    color: $color
+    font-size: $font
+    font-weight: bold
+
+=size($height, $width)
+    width: $width
+    height: $height
+
+=square($size)
+    +size($size, $size)
+
+=line-height($height)
+    height: $height
+    line-height: $height
+
+=center-block($width)
+    display: block
+    margin-left: auto
+    margin-right: auto
+    @if $width
+        width: $width
+
+// http://ued.taobao.com/blog/2010/10/research-of-word-wrap/
+=break-word
+    word-wrap: break-word
+    word-break: break-all
+    overflow: hidden
+
+// http://css-tricks.com/snippets/css/useful-css3-less-mixins/
+=gradient($start, $end)
+    background-color: $start
+    +background-image(linear-gradient($start, $end))
+
+=radial-gradient($center, $outer, $radius: null)
+    background-color: $outer
+    @if $radius == null
+        +background-image(radial-gradient($center, $outer))
+    @else
+        +background-image(radial-gradient($center, $outer $radius))
+
+// Webkit-style focus
+// ------------------
+=tab-focus
+    // Default
+    outline: thin dotted #333
+    // Webkit
+    outline: 5px auto -webkit-focus-ring-color
+    outline-offset: -2px
+
+//------------------------------------------------------------
+// Flexible box model
+// @orient: horizontal | vertical
+// @direction: normal | reverse | inherit
+// @pack: start | end | center | justify
+// @align: start | end | center | baseline | stretch
+//------------------------------------------------------------
+=box-model($orient: horizontal, $direction: normal, $pack: start, $align: center)
+    +display-box
+    +box-orient($orient)
+    +box-direction($direction)
+    +box-pack($pack)
+    +box-align($align)
+
+// Text overflow
+// -------------------------
+// Requires inline-block or block for proper styling
+=text-overflow
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+// ref: http://demo.doyoe.com/css3/justify/
+=text-justfy
+    overflow: hidden
+    text-align: justify
+    text-align-last: justify
+    &:after
+        display: inline-block
+        content: ''
+        overflow: hidden
+        width: 100%
+        height: 0
+
+// 消除CSS3动画时的闪烁问题，参考:
+// http://stackoverflow.com/questions/3461441/prevent-flicker-on-webkit-transition-of-webkit-transform
+// http://davidwalsh.name/translate3d
+=accelerate
+    -webkit-transform: translate3d(0,0,0)
+    -webkit-backface-visibility: hidden
+    -webkit-perspective: 1000
+
+=icon($icon, $height, $width, $suffix: png)
+    $height: $height
+    $width: $width
+    +inline-block
+    +size($height, $width)
+    background: url($img_path + $icon + '.' + $suffix) no-repeat
+    +background-size($width, $height)
+    overflow: hidden
