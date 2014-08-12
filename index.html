@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" type="text/css" href="build/build.css">
+    <link rel="stylesheet" type="text/css" href="build/index.css">
 </head>
 <body>
-  <script src="build/build.js"></script>
-  <script>require('mu-component-tab/scripts/index.js');</script>
+    <script src="bower_components/requirejs/require.js"></script>
+    <script>
+    require(['build/index'], function(mod) {
+        console.log(mod);
+    });
+    </script>
 </body>

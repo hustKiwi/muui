@@ -1,6 +1,0 @@
-{
-    "name": "mu-component-tab",
-    "private": true,
-    "scripts": ["scripts/index.js"],
-    "styles": ["styles/index.css"]
-}
