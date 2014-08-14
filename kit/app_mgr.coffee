@@ -8,10 +8,8 @@ main = ->
             setup = require './setup'
             setup.start()
 
-        when 'watch'
-            builder.watch()
-
         when 'build'
             builder.start()
+            builder.watch()
 
 main()

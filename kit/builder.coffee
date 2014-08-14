@@ -35,10 +35,10 @@ class Builder
     watch: ->
         {compile_coffee, compile_tmpl} = @
 
-        gaze "#{js_path}/**/*.coffee", (err, watch) ->
+        gaze "#{@js_path}/**/*.coffee", (err, watch) ->
             @on 'changed', compile_coffee
 
-        gaze "#{tmpl_path}/**/*.html", (err, watch) ->
+        gaze "#{@tmpl_path}/**/*.html", (err, watch) ->
             @on 'changed', compile_tmpl
 
         os.spawn('compass', [
