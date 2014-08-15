@@ -7,5 +7,9 @@ block js
     :coffee
         require ['ui/tab'], (UI) ->
             ui = new UI({
-                el: '.main'
+                el: '#content'
+                datasource: '/datasource/tab'
+                data_filter: (r) ->
+                    r.items = r.items.slice(0, 2)
+                    r
             })

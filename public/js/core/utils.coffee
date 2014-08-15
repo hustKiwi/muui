@@ -1,4 +1,5 @@
-define(() ->
+define( ->
+    cfg = _mu.cfg
     StrProto = String.prototype
 
     unless _.isFunction(StrProto.startsWith)
@@ -59,12 +60,7 @@ define(() ->
                 type: opts.type
 
                 success: (r) ->
-                    code = r.code
-                    if code is cfg.apiCode.SUCCESS
-                        def.resolve(r)
-                    else
-                        def.reject(r)
-                        opts.handleError(r, url, data)
+                    def.resolve(r)
 
                 # 调用错误很少见, 可以不做处理
                 error: ->

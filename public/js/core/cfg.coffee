@@ -1,3 +1,9 @@
+unless window._mu
+    window._mu = {}
+
+_mu.cfg =
+    debug: true
+
 require.config({
     baseUrl: '/st/js'
 

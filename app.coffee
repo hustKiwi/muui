@@ -23,6 +23,24 @@ class App
         app.get '/tab', (req, res) ->
             res.render 'ui/tab'
 
+        app.get '/datasource/tab', (req, res) ->
+            res.jsonp({
+                items: [
+                    {
+                        target: '.rec-panel',
+                        name: '推荐'
+                    }
+                    {
+                        target: '.pop-panel',
+                        name: '流行'
+                    }
+                    {
+                        target: '.rock-panel',
+                        name: '摇滚'
+                    }
+                ]
+            })
+
     start_server: ->
         {app, port} = @
         app.listen port
