@@ -1,0 +1,11 @@
+<ul class="muui-tab">
+    <%
+        if (typeof cur === 'undefined') {
+            cur = items[0].name;
+        }
+    %>
+
+    <% _.each(items, function(item) { %>
+        <li class="<% cur === item.name ? 'on' : '' %>" data-target="<%- item.target %>"><%- item.name %></li>
+    <% }); %>
+</ul>

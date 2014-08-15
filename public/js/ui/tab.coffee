@@ -2,7 +2,7 @@ define () ->
     class Tab
         @defaults:
             el: ''
-            tmpl: 'src/tmpl/index'
+            tmpl: 'tmpl/index'
             render_fn: 'html'
             render_done: ->
 

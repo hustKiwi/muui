@@ -95,5 +95,8 @@ define(() ->
         to_num: (num) ->
             Number(num.endsWith('px') and num.slice(0, -2) or num)
 
+        capitalize: (name) ->
+            name.charAt(0).toUpperCase() + name.substring(1).toLowerCase()
+
     _.utils = utils
 )

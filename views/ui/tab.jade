@@ -1,0 +1,11 @@
+extends ../core/base
+
+append vars
+    - var ui_name = 'tab'
+
+block js
+    :coffee
+        require ['ui/tab'], (UI) ->
+            ui = new UI({
+                el: '.main'
+            })

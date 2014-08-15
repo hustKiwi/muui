@@ -8,26 +8,17 @@ coffee_bin = './node_modules/.bin/coffee'
 
 class Builder
     constructor: ->
-        @src_path = "#{__dirname}/../src"
-        @build_path = "#{__dirname}/../build"
+        @src_path = "#{__dirname}/../public"
         @js_path = "#{@src_path}/js"
         @css_path = "#{@src_path}/css"
         @tmpl_path = "#{@src_path}/tmpl"
 
     start: ->
         Q.fcall =>
-            os.remove @build_path
-        .then =>
             Q.all([
                 @compile_all_coffee()
                 @compile_all_sass()
                 @compile_all_tmpl()
-                os.mkdir @build_path
-            ])
-        .then =>
-            Q.all([
-                os.symlink "#{@js_path}/index.js", 'build/index.js'
-                os.symlink "#{@css_path}/index.css", 'build/index.css'
             ])
         .done ->
             console.log '>> Build done.'.yellow
@@ -92,6 +83,8 @@ class Builder
                 os.outputFile(js_path,  code)
             .then ->
                 console.log '>> Compiled: '.cyan + path
+        .fail (err) ->
+            console.log ">> Compile #{path} fail.".red
 
     compile_all_tmpl: ->
         Q.fcall =>

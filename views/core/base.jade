@@ -1,0 +1,29 @@
+block vars
+- String.prototype.capitalize = function() { return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase(); }
+doctype html
+html
+    head
+        title
+            block title
+                | MuUI - #{ui_name.capitalize()}
+        meta(charset="utf-8")
+        meta(name="vieport" content="width=device-width, initial-scale=1.0")
+        link(rel="icon" type="image/x-icon" href="/st/img/heart.png")
+        link(rel="stylesheet", href="/st/css/ui/#{ui_name}.css")
+        <!--[if lt IE 9]>
+        <script src="/st/bower/html5shiv/dist/html5shiv.min.js"></script>
+        <![endif]-->
+        block head
+        style
+            block css
+    body
+        include ./header
+        #content
+            block content
+        include ./footer
+        script(src="/st/bower/jquery/dist/jquery.min.js")
+        script(src="/st/bower/lodash/dist/lodash.min.js")
+        script(src="/st/bower/requirejs/require.js")
+        script(src="/st/js/core/cfg.js")
+        script
+            block js
