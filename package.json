@@ -1,12 +1,12 @@
 {
-  "name": "component-tab",
+  "name": "MuUI",
   "version": "0.0.1",
   "authors": [
     "https://github.com/hustKiwi"
   ],
   "private": true,
   "scripts": {
-    "install": "coffee kit/app_mgr.coffee setup"
+    "install": "./node_modules/.bin/coffee ./kit/app_mgr.coffee setup"
   },
   "devDependencies": {
     "bower": "~1.3.3",

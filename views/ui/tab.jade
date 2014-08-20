@@ -3,13 +3,29 @@ extends ../core/base
 append vars
     - var ui_name = 'tab'
 
+block content
+    #tab-placeholder
+    .muui-tab-panel.rec-panel.
+        推荐
+    .muui-tab-panel.pop-panel.
+        流行
+    .muui-tab-panel.rock-panel.on.
+        摇滚
+    .muui-tab-panel.hiphop-panel.
+        HipHop/说唱
+
+block css
+    :css
+        .muui-tab-panel {
+            padding-top: 50px;
+            text-align: center;
+            font-size: 24px;
+        }
+
 block js
     :coffee
         require ['ui/tab'], (UI) ->
             ui = new UI({
-                el: '#tab-ui'
+                el: '#tab-placeholder'
                 datasource: '/datasource/tab'
-                data_filter: (r) ->
-                    r.items = r.items.slice(0, 2)
-                    r
             })

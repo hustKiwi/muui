@@ -3,9 +3,9 @@ define () ->
         @defaults:
             el: ''
             datasource: ''
-            tmpl: 'tmpl/index'
-            render_fn: 'html'
-            render_done: ->
+            tmpl: 'tmpl/tab'
+            render_fn: 'replaceWith'
+            render_done: (r) =>
             data_filter: (r) ->
                 r
 
@@ -14,7 +14,8 @@ define () ->
             unless opts.el
                 throw 'el cannot be empty.'
             @$el = $(opts.el)
-            @render()
+            @render().done =>
+                @init_events()
 
         get_datasource: ->
             datasource = @opts.datasource
@@ -24,17 +25,22 @@ define () ->
                 datasource = @opts.datasource
             datasource
 
-        render: () ->
+        render: ->
             {$el, opts} = @
+            def = $.Deferred()
             tmpl = opts.tmpl
+            render_fn = opts.render_fn
             datasource = @get_datasource()
 
             if tmpl
-                require([tmpl], (tmpl) ->
-                    render_tmpl = (r) ->
-                        tmpl = tmpl(r)
-                        $el[opts.render_fn](tmpl)
-                        opts.render_done(tmpl)
+                require([tmpl], (tmpl) =>
+                    render_tmpl = (r) =>
+                        $tmpl = $(tmpl(r))
+                        $el[render_fn]($tmpl)
+                        if render_fn is 'replaceWith'
+                            @$el = $tmpl
+                        def.resolve(r, $tmpl)
+                        opts.render_done(r, $tmpl)
 
                     if datasource
                         _.utils.api(datasource).done (r) ->
@@ -43,6 +49,22 @@ define () ->
                         render_tmpl()
                 )
             else
+                def.resolve()
                 opts.render_done()
+
+            def.promise()
+
+        init_events: ->
+            @$el.on 'mouseenter', '.nav-item:not(.on)', ->
+                $(@).addClass('hover')
+            .on 'mouseleave', '.nav-item:not(.on)', ->
+                $(@).removeClass('hover')
+            .on 'click', '.nav-item:not(.on)', ->
+                $this = $(@)
+                $this.siblings('.on').removeClass('on').end()
+                    .removeClass('hover').addClass('on')
+                $($this.data('target')).siblings('.on').removeClass('on')
+                    .end().addClass('on')
+                return false
 
     Tab
