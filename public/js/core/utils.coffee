@@ -15,7 +15,7 @@ define( ->
 
             defaults =
                 type: 'GET'
-                dataType: 'json'
+                dataType: 'jsonp'
                 handleError: (r) ->
                     console?.error(r)
 
