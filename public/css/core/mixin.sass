@@ -75,20 +75,6 @@
     outline: 5px auto -webkit-focus-ring-color
     outline-offset: -2px
 
-//------------------------------------------------------------
-// Flexible box model
-// @orient: horizontal | vertical
-// @direction: normal | reverse | inherit
-// @pack: start | end | center | justify
-// @align: start | end | center | baseline | stretch
-//------------------------------------------------------------
-=box-model($orient: horizontal, $direction: normal, $pack: start, $align: center)
-    +display-box
-    +box-orient($orient)
-    +box-direction($direction)
-    +box-pack($pack)
-    +box-align($align)
-
 // Text overflow
 // -------------------------
 // Requires inline-block or block for proper styling

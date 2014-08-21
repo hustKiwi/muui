@@ -1,4 +1,6 @@
-define ['core/utils'], (utils) ->
+define [
+    'core/utils'
+], (utils) ->
     class MuUI
         @defaults:
             el: ''

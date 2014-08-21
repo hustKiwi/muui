@@ -1,4 +1,6 @@
-define ['ui/muui'], (MuUI) ->
+define [
+    'ui/muui'
+], (MuUI) ->
     class Tab extends MuUI
         @defaults:
             tmpl: 'tmpl/tab'
