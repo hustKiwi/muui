@@ -5,7 +5,7 @@ append vars
 
 block content
     #tab-placeholder
-    .muui-tab-panel.rec-panel.
+    .muui-tab-panel.rec-panel.on.
         推荐
     .muui-tab-panel.pop-panel.
         流行
@@ -26,6 +26,6 @@ block js
                 datasource: '/datasource/tab'
                 data_filter: (r) ->
                     r.cur = '.rec-panel'
-                    r.items = r.items.slice(2)
+                    r.items = r.items.slice(0, 2)
                     r
             })

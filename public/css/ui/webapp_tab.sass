@@ -3,8 +3,27 @@
 .muui-tab
     +display-flex
     +flex-wrap(wrap)
+    border-bottom: 1px solid transparent
     .nav-item
         +flex(1 0)
         +inline-block
         +line-height(43px)
         text-align: center
+        font-size: 16px
+        position: relative
+        &.on
+            &:after
+                +size(10px, 20px)
+                +background-size(19px)
+                overflow: hidden
+                content: ''
+                position: absolute
+                bottom: -1px
+                left: 50%
+                margin-left: -10px
+                background: url('/st/img/ui/webapp_tab/triangle.png') no-repeat -8px -2px
+
+.muui-tab-panel
+    display: none
+    &.on
+        display: block
