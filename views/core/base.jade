@@ -8,7 +8,6 @@ html
                 | MuUI - #{ui_name.capitalize()}
         meta(charset="utf-8")
         meta(name="vieport" content="width=device-width, initial-scale=1.0")
-        link(rel="icon" type="image/x-icon" href="/st/img/heart.png")
         link(rel="stylesheet", href="/st/css/core/layout.css")
         link(rel="stylesheet", href="/st/css/ui/#{ui_name}.css")
         <!--[if lt IE 9]>
@@ -24,6 +23,14 @@ html
                 block content
         include ./footer
         script(src="/st/bower/requirejs/require.js")
-        script(src="/st/js/core/cfg.js")
+        script
+            :coffee
+                require.config
+                    deps: ['jquery', 'lodash']
+                    baseUrl: '/st/js'
+                    paths:
+                        tmpl: '/st/tmpl'
+                        jquery: '/st/bower/jquery/dist/jquery.min'
+                        lodash: '/st/bower/lodash/dist/lodash.min'
         script
             block js
