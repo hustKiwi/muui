@@ -1,4 +1,3 @@
-fs = require 'fs'
 express = require 'express'
 
 class App
