@@ -9,6 +9,7 @@ html
         meta(charset="utf-8")
         meta(name="vieport" content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/st/css/core/layout.css")
+        link(rel="stylesheet", href="/st/css/theme/main.css")
         link(rel="stylesheet", href="/st/css/ui/#{ui_name}.css")
         <!--[if lt IE 9]>
         <script src="/st/bower/html5shiv/dist/html5shiv.min.js"></script>
@@ -16,7 +17,7 @@ html
         block head
         style
             block css
-    body
+    body.muui-theme-main
         include ./header
         #content
             .center-wrap

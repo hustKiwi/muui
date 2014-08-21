@@ -3,28 +3,20 @@
 .muui-tab
     +pie-clearfix
     overflow: hidden
-    border-bottom: 2px solid $tab_on_bg_color
     .nav-item
         +float-left
         +line-height(40px)
         position: relative
         left: 0
         top: 1px
-        color: $tab_color
         border: $border
         border-left: none
-        background: $tab_bg_color
         padding: 0 25px
         cursor: pointer
         &.first
             border-left: $border
         &.on
-            color: $tab_bg_color
-            background: $tab_on_bg_color
-            border-color: $tab_on_bg_color
             cursor: default
-        &.hover
-            background: $tab_hover_bg_color
 
 .muui-tab-panel
     display: none
