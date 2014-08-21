@@ -1,0 +1,33 @@
+block vars
+- String.prototype.capitalize = function() { return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase(); }
+doctype html
+html
+    head
+        title
+            block title
+                | MuUI - #{ui_name.capitalize()}
+        meta(charset="utf-8")
+        meta(name="vieport" content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="/st/css/core/layout.css")
+        link(rel="stylesheet", href="/st/css/ui/webapp_#{ui_name}.css")
+        block head
+        style
+            block css
+    body
+        include ./webapp_header
+        #content
+            .center-wrap
+                block content
+        include ./footer
+        script(src="/st/bower/requirejs/require.js")
+        script
+            :coffee
+                require.config
+                    deps: ['zepto', 'lodash']
+                    baseUrl: '/st/js'
+                    paths:
+                        tmpl: '/st/tmpl'
+                        zepto: '/st/js/lib/zepto'
+                        lodash: '/st/bower/lodash/dist/lodash.min'
+        script
+            block js
