@@ -19,33 +19,8 @@ class App
         app.use('/st/bower', express.static('./bower_components'))
 
     init_routers: ->
-        app = @app
-
-        app.get '/tab', (req, res) ->
-            res.render 'ui/tab'
-
-        app.get '/datasource/tab', (req, res) ->
-            res.jsonp({
-                cur: '.rock-panel'
-                items: [
-                    {
-                        target: '.rec-panel'
-                        name: '推荐'
-                    },
-                    {
-                        target: '.pop-panel'
-                        name: '流行'
-                    },
-                    {
-                        target: '.rock-panel'
-                        name: '摇滚'
-                    },
-                    {
-                        target: '.hiphop-panel'
-                        name: 'HipHop/说唱'
-                    }
-                ]
-            })
+        @routes = require './routes/index'
+        @routes.init(@app)
 
     start_server: ->
         {app, port} = @
