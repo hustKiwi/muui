@@ -1,5 +1,5 @@
 define [
-    'ui/muui'
+    'muui/ui/muui'
 ], (MuUI) ->
     class Tab extends MuUI
         @defaults:

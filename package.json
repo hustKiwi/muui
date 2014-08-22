@@ -6,7 +6,7 @@
   ],
   "private": true,
   "scripts": {
-    "install": "./node_modules/.bin/coffee ./kit/app_mgr.coffee setup"
+    "install": "coffee ./kit/app_mgr.coffee setup"
   },
   "devDependencies": {
     "bower": "~1.3.3",

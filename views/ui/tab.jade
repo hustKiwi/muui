@@ -24,7 +24,9 @@ block css
 
 block js
     :coffee
-        require ['ui/tab'], (UI) ->
+        require [
+            'muui/ui/tab'
+        ], (UI) ->
             ui = new UI({
                 el: '#tab-placeholder'
                 datasource: '/datasource/tab'
