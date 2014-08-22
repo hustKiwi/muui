@@ -18,8 +18,10 @@ define [
             unless opts.el
                 throw 'el cannot be empty.'
             @$el = $(opts.el)
+            @before_render()
             @render().done =>
                 @init_events()
+                @after_render()
 
         get_datasource: ->
             datasource = @opts.datasource
@@ -57,6 +59,10 @@ define [
                 opts.render_done()
 
             def.promise()
+
+        before_render: ->
+
+        after_render: ->
 
         init_events: ->
 

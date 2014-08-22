@@ -6,6 +6,6 @@
     %>
 
     <% _.each(items, function(item, i) { %>
-        <li class="nav-item<%- cur === item.target ? ' on' : '' %><%- i === 0 ? ' first' : '' %>" data-target="<%- item.target %>"><%- item.name %></li>
+        <li class="muui-tab-item<%- cur === item.target ? ' on' : '' %><%- i === 0 ? ' first' : '' %>" data-target="<%- item.target %>"><%- item.name %></li>
     <% }); %>
 </ul>
