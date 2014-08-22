@@ -1,0 +1,48 @@
+/* line 3, webapp_tab.sass */
+.muui-tab {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  border-bottom: 1px solid transparent;
+}
+/* line 7, webapp_tab.sass */
+.muui-tab .muui-tab-item {
+  -webkit-flex: 1 0;
+  flex: 1 0;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  height: 43px;
+  line-height: 43px;
+  text-align: center;
+  font-size: 16px;
+  position: relative;
+}
+/* line 15, webapp_tab.sass */
+.muui-tab .muui-tab-item.on:after {
+  width: 20px;
+  height: 10px;
+  -moz-background-size: 19px;
+  -o-background-size: 19px;
+  -webkit-background-size: 19px;
+  background-size: 19px;
+  overflow: hidden;
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  margin-left: -10px;
+  background: url("/st/img/ui/webapp_tab/triangle.png") no-repeat -8px -2px;
+}
+
+/* line 26, webapp_tab.sass */
+.muui-tab-panel {
+  display: none;
+}
+/* line 28, webapp_tab.sass */
+.muui-tab-panel.on {
+  display: block;
+}

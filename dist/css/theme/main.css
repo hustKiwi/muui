@@ -1,0 +1,19 @@
+/* line 4, ../core/theme.sass */
+.muui-theme-main .muui-tab {
+  border-color: #327ccb;
+}
+/* line 6, ../core/theme.sass */
+.muui-theme-main .muui-tab .muui-tab-item {
+  color: #252525;
+  background: #fff;
+}
+/* line 9, ../core/theme.sass */
+.muui-theme-main .muui-tab .muui-tab-item.on {
+  color: #fff;
+  background: #327ccb;
+  border-color: #327ccb;
+}
+/* line 13, ../core/theme.sass */
+.muui-theme-main .muui-tab .muui-tab-item.hover {
+  background: #eee;
+}

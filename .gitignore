@@ -2,11 +2,11 @@
 .idea
 *.swp
 *.swo
-*.js
-*.css
 .sass-cache
 node_modules
 bower_components
+public/*.js
+public/*.css
 !public/js/lib/*.js
 
 # Compiled source #
