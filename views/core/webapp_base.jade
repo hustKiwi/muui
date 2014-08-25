@@ -13,6 +13,10 @@ html
         link(rel="stylesheet", href="/st/css/ui/webapp_#{ui_name}.css")
         block head
         style
+            :css
+                #header .center-wrap, #footer .center-wrap {
+                    padding: 0 25px;
+                }
             block css
     body.muui-theme-webapp-main
         include ./webapp_header

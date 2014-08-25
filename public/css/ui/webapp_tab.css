@@ -5,8 +5,9 @@
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   border-bottom: 1px solid transparent;
+  background: #fbfbfb;
 }
-/* line 7, webapp_tab.sass */
+/* line 8, webapp_tab.sass */
 .muui-tab .muui-tab-item {
   -webkit-flex: 1 0;
   flex: 1 0;
@@ -21,7 +22,7 @@
   font-size: 16px;
   position: relative;
 }
-/* line 15, webapp_tab.sass */
+/* line 16, webapp_tab.sass */
 .muui-tab .muui-tab-item.on:after {
   width: 20px;
   height: 10px;
@@ -38,11 +39,11 @@
   background: url("/st/img/ui/webapp_tab/triangle.png") no-repeat -8px -2px;
 }
 
-/* line 26, webapp_tab.sass */
+/* line 27, webapp_tab.sass */
 .muui-tab-panel {
   display: none;
 }
-/* line 28, webapp_tab.sass */
+/* line 29, webapp_tab.sass */
 .muui-tab-panel.on {
   display: block;
 }
