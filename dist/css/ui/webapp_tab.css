@@ -42,9 +42,9 @@
 
 /* line 29, webapp_tab.sass */
 .muui-tab-panel {
-  display: none;
+  display: none !important;
 }
 /* line 31, webapp_tab.sass */
 .muui-tab-panel.on {
-  display: block;
+  display: block !important;
 }
