@@ -8,7 +8,9 @@ define(['muui/core/utils'], function(utils) {
       render_fn: 'replaceWith',
       data_filter: function(r) {
         return r;
-      }
+      },
+      before_render: function() {},
+      after_render: function() {}
     };
 
     MuUI.prototype.get_opts = function(options) {
@@ -41,11 +43,11 @@ define(['muui/core/utils'], function(utils) {
     };
 
     MuUI.prototype.render = function() {
-      var $el, def, opts, tmpl;
-      this.before_render();
+      var $el, after_render, before_render, def, opts, tmpl;
       $el = this.$el, opts = this.opts;
+      before_render = opts.before_render, after_render = opts.after_render, tmpl = opts.tmpl;
+      before_render();
       def = $.Deferred();
-      tmpl = opts.tmpl;
       if (tmpl) {
         require([tmpl], (function(_this) {
           return function(tmpl) {
@@ -59,7 +61,7 @@ define(['muui/core/utils'], function(utils) {
                 _this.$el = $tmpl;
               }
               def.resolve(r, $tmpl);
-              return _this.after_render(r, $tmpl);
+              return after_render(r, $tmpl);
             };
             datasource = _this.get_datasource();
             if (datasource) {
@@ -73,14 +75,10 @@ define(['muui/core/utils'], function(utils) {
         })(this));
       } else {
         def.resolve();
-        this.after_render();
+        after_render();
       }
       return def.promise();
     };
-
-    MuUI.prototype.before_render = function() {};
-
-    MuUI.prototype.after_render = function() {};
 
     MuUI.prototype.init_events = function() {};
 

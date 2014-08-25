@@ -5,8 +5,10 @@
 .sass-cache
 node_modules
 bower_components
-public/*.js
-public/*.css
+*.js
+*.css
+!dist/*.js
+!dist/*.css
 !public/js/lib/*.js
 
 # Compiled source #
