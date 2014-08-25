@@ -13,16 +13,18 @@
         font-size: 16px
         position: relative
         &.on
-            &:after
-                +size(10px, 20px)
-                +background-size(19px)
-                overflow: hidden
+            &:before, &:after
+                +square(0)
                 content: ''
+                border-left: 10px solid transparent
+                border-right: 10px solid transparent
                 position: absolute
-                bottom: -1px
                 left: 50%
                 margin-left: -10px
-                background: url('/st/img/ui/webapp_tab/triangle.png') no-repeat -8px -2px
+                bottom: 0
+                display: block
+            &:after
+                bottom: -1px
 
 .muui-tab-panel
     display: none

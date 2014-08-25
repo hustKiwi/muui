@@ -10,5 +10,9 @@
                 color: $tab_on_color
                 background: $tab_on_bg_color
                 border-color: $tab_on_bg_color
+                &:before
+                    border-bottom: 10px solid $tab_bottom_border_color
+                &:after
+                    border-bottom: 10px solid $tab_on_bg_color
             &.hover
                 background: $tab_hover_bg_color

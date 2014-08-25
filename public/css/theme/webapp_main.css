@@ -14,6 +14,14 @@
   border-color: #fbfbfb;
 }
 /* line 13, ../core/theme.sass */
+.muui-theme-webapp-main .muui-tab .muui-tab-item.on:before {
+  border-bottom: 10px solid #e6e6e6;
+}
+/* line 15, ../core/theme.sass */
+.muui-theme-webapp-main .muui-tab .muui-tab-item.on:after {
+  border-bottom: 10px solid #fbfbfb;
+}
+/* line 17, ../core/theme.sass */
 .muui-theme-webapp-main .muui-tab .muui-tab-item.hover {
   background: #fbfbfb;
 }
