@@ -34,9 +34,9 @@
 
 /* line 22, tab.sass */
 .muui-tab-panel {
-  display: none;
+  display: none !important;
 }
 /* line 24, tab.sass */
 .muui-tab-panel.on {
-  display: block;
+  display: block !important;
 }

@@ -6,7 +6,6 @@ define(['muui/core/utils'], function(utils) {
       el: '',
       datasource: '',
       render_fn: 'replaceWith',
-      render_done: function(r) {},
       data_filter: function(r) {
         return r;
       }
@@ -23,11 +22,9 @@ define(['muui/core/utils'], function(utils) {
         throw 'el cannot be empty.';
       }
       this.$el = $(opts.el);
-      this.before_render();
       this.render().done((function(_this) {
         return function() {
-          _this.init_events();
-          return _this.after_render();
+          return _this.init_events();
         };
       })(this));
     }
@@ -44,16 +41,16 @@ define(['muui/core/utils'], function(utils) {
     };
 
     MuUI.prototype.render = function() {
-      var $el, datasource, def, opts, render_fn, tmpl;
+      var $el, def, opts, tmpl;
+      this.before_render();
       $el = this.$el, opts = this.opts;
       def = $.Deferred();
       tmpl = opts.tmpl;
-      render_fn = opts.render_fn;
-      datasource = this.get_datasource();
       if (tmpl) {
         require([tmpl], (function(_this) {
           return function(tmpl) {
-            var render_tmpl;
+            var datasource, render_fn, render_tmpl;
+            render_fn = opts.render_fn;
             render_tmpl = function(r) {
               var $tmpl;
               $tmpl = $(tmpl(r));
@@ -62,8 +59,9 @@ define(['muui/core/utils'], function(utils) {
                 _this.$el = $tmpl;
               }
               def.resolve(r, $tmpl);
-              return opts.render_done(r, $tmpl);
+              return _this.after_render(r, $tmpl);
             };
+            datasource = _this.get_datasource();
             if (datasource) {
               return utils.api(datasource).done(function(r) {
                 return render_tmpl(opts.data_filter(r));
@@ -75,7 +73,7 @@ define(['muui/core/utils'], function(utils) {
         })(this));
       } else {
         def.resolve();
-        opts.render_done();
+        this.after_render();
       }
       return def.promise();
     };

@@ -6,7 +6,6 @@ define [
             el: ''
             datasource: ''
             render_fn: 'replaceWith'
-            render_done: (r) =>
             data_filter: (r) ->
                 r
 
@@ -18,10 +17,8 @@ define [
             unless opts.el
                 throw 'el cannot be empty.'
             @$el = $(opts.el)
-            @before_render()
             @render().done =>
                 @init_events()
-                @after_render()
 
         get_datasource: ->
             datasource = @opts.datasource
@@ -32,22 +29,23 @@ define [
             datasource
 
         render: ->
+            @before_render()
             {$el, opts} = @
             def = $.Deferred()
             tmpl = opts.tmpl
-            render_fn = opts.render_fn
-            datasource = @get_datasource()
 
             if tmpl
                 require([tmpl], (tmpl) =>
+                    render_fn = opts.render_fn
                     render_tmpl = (r) =>
                         $tmpl = $(tmpl(r))
                         $el[render_fn]($tmpl)
                         if render_fn is 'replaceWith'
                             @$el = $tmpl
                         def.resolve(r, $tmpl)
-                        opts.render_done(r, $tmpl)
+                        @after_render(r, $tmpl)
 
+                    datasource = @get_datasource()
                     if datasource
                         utils.api(datasource).done (r) ->
                             render_tmpl opts.data_filter(r)
@@ -56,7 +54,7 @@ define [
                 )
             else
                 def.resolve()
-                opts.render_done()
+                @after_render()
 
             def.promise()
 

@@ -3,6 +3,7 @@ define [
 ], (MuUI) ->
     class Tab extends MuUI
         @defaults:
+            el: '.muui-tab'
             tmpl: 'tmpl/tab'
             handles:
                 change: ($item, $target) ->

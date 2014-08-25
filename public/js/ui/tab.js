@@ -12,6 +12,7 @@ define(['muui/ui/muui'], function(MuUI) {
     }
 
     Tab.defaults = {
+      el: '.muui-tab',
       tmpl: 'tmpl/tab',
       handles: {
         change: function($item, $target) {}
