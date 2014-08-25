@@ -21,7 +21,7 @@ define(['muui/core/utils'], function(utils) {
       var opts;
       this.opts = opts = this.get_opts(options);
       if (!opts.el) {
-        throw 'el cannot be empty.';
+        throw new Error('el cannot be empty.');
       }
       this.$el = $(opts.el);
       this.render().done((function(_this) {

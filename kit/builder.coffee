@@ -7,6 +7,7 @@ gaze = require 'gaze'
 path = os.path
 relative = path.relative
 coffee_bin = './node_modules/.bin/coffee'
+coffee_lint_bin = './node_modules/.bin/coffeelint'
 
 class Builder
     constructor: ->
@@ -25,6 +26,8 @@ class Builder
     start: ->
         Q.fcall =>
             os.remove @dist_path
+        .then =>
+            @lint_all_coffee()
         .then =>
             Q.all([
                 @compile_all_coffee()
@@ -45,10 +48,14 @@ class Builder
             console.log '>> Build done.'.yellow
 
     watch: ->
-        {compile_coffee, compile_tmpl} = @
+        {lint_coffee, compile_coffee, compile_tmpl} = @
 
         gaze "#{@js_path}/**/*.coffee", (err, watch) ->
-            @on 'changed', compile_coffee
+            @on 'changed', (path) ->
+                Q.fcall ->
+                    lint_coffee path
+                .then ->
+                    compile_coffee path
 
         gaze "#{@tmpl_path}/**/*.html", (err, watch) ->
             @on 'changed', compile_tmpl
@@ -58,6 +65,24 @@ class Builder
             '--sass-dir', @css_path
             '--css-dir', @css_path
         ])
+
+    find_all: (file_type, callback) ->
+        Q.fcall =>
+            os.glob path.join(@src_path, '**', "*.#{file_type}")
+        .then (file_list) =>
+            Q.all(
+                _.flatten(file_list).map callback
+            )
+
+    lint_coffee: (path) =>
+        os.spawn coffee_lint_bin, [
+            '-f',
+            "#{@root_path}/coffeelint.json"
+            path
+        ]
+
+    lint_all_coffee: ->
+        @find_all('coffee', @lint_coffee)
 
     compile_coffee: (path) =>
         try
@@ -71,12 +96,7 @@ class Builder
             console.log ">> Error: #{relative(@root_path, path)} \n#{e}".red
 
     compile_all_coffee: ->
-        Q.fcall =>
-            os.glob path.join(@js_path, '**', '*.coffee')
-        .then (coffee_list) =>
-            Q.all(
-                _.flatten(coffee_list).map @compile_coffee
-            )
+        @find_all('coffee', @compile_coffee)
 
     compile_all_sass: ->
         Q.fcall =>
@@ -108,11 +128,6 @@ class Builder
             console.log ">> Compile #{relative(@root_path, path)} fail.".red
 
     compile_all_tmpl: ->
-        Q.fcall =>
-            os.glob path.join(@tmpl_path, '**', '*.html')
-        .then (tmpl_list) =>
-            Q.all(
-                _.flatten(tmpl_list).map @compile_tmpl
-            )
+        @find_all('html', @compile_tmpl)
 
 module.exports = new Builder

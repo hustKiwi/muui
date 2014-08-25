@@ -17,7 +17,7 @@ define [
         constructor: (options) ->
             @opts = opts = @get_opts(options)
             unless opts.el
-                throw 'el cannot be empty.'
+                throw new Error 'el cannot be empty.'
             @$el = $(opts.el)
             @render().done =>
                 @init_events()
