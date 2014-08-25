@@ -8,6 +8,8 @@ define [
             render_fn: 'replaceWith'
             data_filter: (r) ->
                 r
+            before_render: ->
+            after_render: ->
 
         get_opts: (options) ->
             $.extend({}, MuUI.defaults, options)
@@ -29,10 +31,10 @@ define [
             datasource
 
         render: ->
-            @before_render()
             {$el, opts} = @
+            {before_render, after_render, tmpl} = opts
+            before_render()
             def = $.Deferred()
-            tmpl = opts.tmpl
 
             if tmpl
                 require([tmpl], (tmpl) =>
@@ -43,7 +45,7 @@ define [
                         if render_fn is 'replaceWith'
                             @$el = $tmpl
                         def.resolve(r, $tmpl)
-                        @after_render(r, $tmpl)
+                        after_render(r, $tmpl)
 
                     datasource = @get_datasource()
                     if datasource
@@ -54,13 +56,9 @@ define [
                 )
             else
                 def.resolve()
-                @after_render()
+                after_render()
 
             def.promise()
-
-        before_render: ->
-
-        after_render: ->
 
         init_events: ->
 
