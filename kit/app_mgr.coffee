@@ -1,5 +1,4 @@
 os = require '../lib/os'
-builder = require './builder'
 
 app_path = os.path.resolve os.path.join(process.cwd(), 'app.coffee')
 nodemon_bin = os.path.resolve os.path.join('node_modules','.bin', 'nodemon')
@@ -13,6 +12,7 @@ main = ->
             setup.start()
 
         when 'build'
+            builder = require './builder'
             builder.start()
             builder.watch()
 

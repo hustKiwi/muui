@@ -4,8 +4,8 @@ _ = require 'lodash'
 os = require '../lib/os'
 gaze = require 'gaze'
 
-path = os.path
-relative = path.relative
+os_path = os.path
+relative = os_path.relative
 coffee_bin = './node_modules/.bin/coffee'
 coffee_lint_bin = './node_modules/.bin/coffeelint'
 
@@ -36,10 +36,10 @@ class Builder
             ])
         .then =>
             Q.all([
-                os.glob path.join(@js_path, '**', '*.js')
-                os.glob path.join(@css_path, '**', '*.css')
-                os.glob path.join(@img_path, '**', '*.*')
-                os.glob path.join(@tmpl_path, '**', '*.js')
+                os.glob os_path.join(@js_path, '**', '*.js')
+                os.glob os_path.join(@css_path, '**', '*.css')
+                os.glob os_path.join(@img_path, '**', '*.*')
+                os.glob os_path.join(@tmpl_path, '**', '*.js')
             ])
         .then (file_list) =>
             Q.all _.flatten(file_list).map (file) =>

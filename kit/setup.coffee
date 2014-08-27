@@ -1,6 +1,6 @@
-os = require '../lib/os'
 Q = require 'q'
 _ = require 'lodash'
+os = require '../lib/os'
 
 class Setup
     start: ->
