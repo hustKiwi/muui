@@ -1,13 +1,11 @@
 @import core/base
 
 .muui-tab
-    +display-flex
-    +flex-wrap(wrap)
+    +display-box()
     border-bottom: 1px solid transparent
     background: #fbfbfb
     .muui-tab-item
-        +flex(1 0)
-        +inline-block
+        +box-flex(1)
         +line-height(43px)
         text-align: center
         font-size: 16px
@@ -18,6 +16,7 @@
                 content: ''
                 border-left: 8px solid transparent
                 border-right: 8px solid transparent
+                border-bottom: 8px solid transparent
                 position: absolute
                 left: 50%
                 margin-left: -8px
