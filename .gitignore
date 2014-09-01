@@ -7,9 +7,9 @@ node_modules
 bower_components
 *.js
 *.css
-!dist/*.js
-!dist/*.css
-!public/js/lib/*.js
+!dist/**/*.js
+!dist/**/*.css
+!public/js/lib/**/*.js
 
 # Compiled source #
 ###################
