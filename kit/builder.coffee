@@ -68,7 +68,7 @@ class Builder
 
     find_all: (file_type, callback) ->
         Q.fcall =>
-            os.glob path.join(@src_path, '**', "*.#{file_type}")
+            os.glob os_path.join(@src_path, '**', "*.#{file_type}")
         .then (file_list) =>
             Q.all(
                 _.flatten(file_list).map callback
