@@ -8,6 +8,9 @@ task 'build', 'Build all source code.', ->
 task 'watch', 'Build all source code.', ->
     os.spawn coffee_bin, ['kit/app_mgr.coffee', 'watch']
 
+task 'dev', 'Build all source code.', ->
+    os.spawn coffee_bin, ['kit/app_mgr.coffee', 'dev']
+
 option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 server'
 task 'server', 'Start test server.', (opts) ->
     os.spawn coffee_bin, ['kit/app_mgr.coffee', 'server', opts.port or 8077]

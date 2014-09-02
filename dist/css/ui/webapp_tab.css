@@ -1,0 +1,44 @@
+/* line 3, webapp_tab.sass */
+.muui-tab {
+  display: -webkit-box;
+  display: box;
+  border-bottom: 1px solid transparent;
+  background: #fbfbfb;
+}
+/* line 7, webapp_tab.sass */
+.muui-tab .muui-tab-item {
+  -webkit-box-flex: 1;
+  box-flex: 1;
+  height: 43px;
+  line-height: 43px;
+  text-align: center;
+  font-size: 16px;
+  position: relative;
+}
+/* line 14, webapp_tab.sass */
+.muui-tab .muui-tab-item.on:before, .muui-tab .muui-tab-item.on:after {
+  width: 0;
+  height: 0;
+  content: "";
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  position: absolute;
+  left: 50%;
+  margin-left: -8px;
+  bottom: 0;
+  display: block;
+}
+/* line 25, webapp_tab.sass */
+.muui-tab .muui-tab-item.on:after {
+  bottom: -1px;
+}
+
+/* line 28, webapp_tab.sass */
+.muui-tab-panel {
+  display: none !important;
+}
+/* line 30, webapp_tab.sass */
+.muui-tab-panel.on {
+  display: block !important;
+}

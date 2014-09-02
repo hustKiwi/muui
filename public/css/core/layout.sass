@@ -1,0 +1,47 @@
+@import core/base
+@import compass/reset
+
+#header
+    background: #5bc0de
+    border-bottom: 1px solid #28a1c5
+    h1
+        +line-height(50px)
+        color: $white
+        font-size: 24px
+        font-weight: bold
+        em, i
+            font-size: 20px
+        i
+            +text-shadow(1px 1px 0 $white)
+            color: #28a1c5
+            margin-left: 5px
+
+#content
+    +min-height(490px)
+    margin: 50px auto
+
+#footer
+    +line-height(60px)
+    background: $dark_white
+    border-top: $border
+
+*
+    +box-sizing(border-box)
+
+html, body
+    background: $white
+    line-height: 1.3
+    font-size: 14px
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif
+    font-weight: normal
+
+h1, h2
+    +title
+    line-height: 1
+    padding-bottom: .2em
+
+.clearfix
+    +pie-clearfix
+
+.center-wrap
+    +center-block(auto)

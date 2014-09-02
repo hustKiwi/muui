@@ -1,0 +1,18 @@
+@import core/base
+
+=theme
+    .muui-tab
+        border-color: $tab_bottom_border_color
+        .muui-tab-item
+            color: $tab_color
+            background: $tab_bg_color
+            &.on
+                color: $tab_on_color
+                background: $tab_on_bg_color
+                border-color: $tab_on_bg_color
+                &:before
+                    border-bottom-color: $tab_bottom_border_color
+                &:after
+                    border-bottom-color: $tab_on_bg_color
+            &.hover
+                background: $tab_hover_bg_color

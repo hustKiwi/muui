@@ -13,6 +13,10 @@ main = ->
 
         when 'build'
             builder = require './builder'
+            builder.build()
+
+        when 'dev'
+            builder = require './builder'
             builder.start()
 
         when 'watch'

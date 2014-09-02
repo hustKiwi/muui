@@ -27,6 +27,7 @@ class Builder
             console.log '>> Copy: '.cyan + relative(@root_path, from) + ' -> '.green + relative(@root_path, to)
 
     start: ->
+        deferred = Q.defer()
         Q.fcall =>
             os.remove @dist_path
         .then =>
@@ -49,10 +50,17 @@ class Builder
         .then (file_list) =>
             Q.all _.flatten(file_list).map (file) =>
                 @copy file, @dist_path + '/' + relative(@src_path, file)
-                os.remove @css_styl_path
-                # os.remove @css_path
         .done ->
-            console.log '>> Build done.'.yellow
+            console.log '>> Dev Done.'.yellow
+            deferred.resolve()
+        deferred.promise
+
+    build: ->
+        self = @
+        @start().done ->
+            os.remove self.css_styl_path
+            # os.remove @css_path
+            console.log '>> Build Done.'.red
 
     watch: ->
         {lint_coffee, compile_coffee, compile_tmpl, compile_all_stylus} = @
@@ -135,7 +143,7 @@ class Builder
                     Q.invoke stylus, 'render', str, { filename: path }
 
                 .then (code) ->
-                    os.outputFile path.replace(/\/stylus\//, '/css_styl/').replace(/\.styl$/, '.css'), code if core
+                    os.outputFile path.replace(/\/stylus\//, '/css_styl/').replace(/\.styl$/, '.css'), code if code
 
                 .catch (error) ->
                     console.log error

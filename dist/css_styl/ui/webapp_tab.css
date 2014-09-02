@@ -1,0 +1,39 @@
+.muui-tab {
+  display: -webkit-box;
+  display: box;
+  border-bottom: 1px solid transparent;
+  background: #fbfbfb;
+}
+.muui-tab .muui-tab-item {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  height: 43px;
+  line-height: 43px;
+  text-align: center;
+  font-size: 16px;
+  position: relative;
+}
+.muui-tab .muui-tab-item.on:before,
+.muui-tab .muui-tab-item.on:after {
+  width: 0;
+  height: 0;
+  content: '';
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  position: absolute;
+  left: 50%;
+  margin-left: -8px;
+  bottom: 0;
+  display: block;
+}
+.muui-tab .muui-tab-item.on:after {
+  bottom: -1px;
+}
+.muui-tab-panel {
+  display: none !important;
+}
+.muui-tab-panel.on {
+  display: block !important;
+}
