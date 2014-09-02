@@ -14,6 +14,9 @@ main = ->
         when 'build'
             builder = require './builder'
             builder.start()
+
+        when 'watch'
+            builder = require './builder'
             builder.watch()
 
         when 'server'

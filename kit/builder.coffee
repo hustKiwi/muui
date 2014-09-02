@@ -3,6 +3,7 @@ Q = require 'q'
 _ = require 'lodash'
 os = require '../lib/os'
 gaze = require 'gaze'
+stylus = require 'stylus'
 
 os_path = os.path
 relative = os_path.relative
@@ -32,6 +33,7 @@ class Builder
             Q.all([
                 @compile_all_coffee()
                 @compile_all_sass()
+                @compile_all_stylus()
                 @compile_all_tmpl()
             ])
         .then =>
@@ -48,7 +50,8 @@ class Builder
             console.log '>> Build done.'.yellow
 
     watch: ->
-        {lint_coffee, compile_coffee, compile_tmpl} = @
+        {lint_coffee, compile_coffee, compile_tmpl, compile_all_stylus} = @
+        self = @
 
         gaze "#{@js_path}/**/*.coffee", (err, watch) ->
             @on 'changed', (path) ->
@@ -61,10 +64,16 @@ class Builder
             @on 'changed', compile_tmpl
 
         os.spawn('compass', [
-            'watch'
+            'compile'
             '--sass-dir', @css_path
             '--css-dir', @css_path
         ])
+
+        gaze "#{@css_path}/**/*.styl", (err, watch) ->
+            @on 'changed', (path) ->
+                self.compile_all_stylus path
+
+        console.log 'Waiting...>>> ' + 'watching for changes.'.green +  ' Press Ctrl-C to Stop.'.red
 
     find_all: (file_type, callback) ->
         Q.fcall =>
@@ -105,6 +114,28 @@ class Builder
                 '--sass-dir', @css_path
                 '--css-dir', @css_path
             ])
+
+    compile_all_stylus: (path) ->
+        rootPath = @root_path
+
+        os.glob @css_path + "/**/*.styl"
+        .then (paths) ->
+            if path
+                paths = []
+                paths.push path
+            Q.all paths.map (path) ->
+                console.log '>> Compile: '.cyan + relative(rootPath, path)
+                os.readFile path, 'utf8'
+                .then (str) ->
+                    Q.invoke stylus, 'render', str, { filename: path }
+
+                .then (code) ->
+                    os.outputFile path.replace(/\.styl$/, '.css'), code
+        .then ->
+            console.log '>> Stylus Compiled.'.green
+        .catch (error) ->
+            console.log error
+
 
     compile_tmpl: (path) =>
         js_path = path.replace(/(\.html)$/, '') + '.js'
