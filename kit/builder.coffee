@@ -16,6 +16,8 @@ class Builder
         @src_path = "#{root_path}/public"
         @js_path = "#{@src_path}/js"
         @css_path = "#{@src_path}/css"
+        @stylus_path = "#{@src_path}/stylus"
+        @css_styl_path = "#{@src_path}/css_styl"
         @img_path = "#{@src_path}/img"
         @tmpl_path = "#{@src_path}/tmpl"
         @dist_path = "#{root_path}/dist"
@@ -41,11 +43,14 @@ class Builder
                 os.glob os_path.join(@js_path, '**', '*.js')
                 os.glob os_path.join(@css_path, '**', '*.css')
                 os.glob os_path.join(@img_path, '**', '*.*')
+                os.glob os_path.join(@css_styl_path, '**', '*.css')
                 os.glob os_path.join(@tmpl_path, '**', '*.js')
             ])
         .then (file_list) =>
             Q.all _.flatten(file_list).map (file) =>
                 @copy file, @dist_path + '/' + relative(@src_path, file)
+                os.remove @css_styl_path
+                # os.remove @css_path
         .done ->
             console.log '>> Build done.'.yellow
 
@@ -69,7 +74,7 @@ class Builder
             '--css-dir', @css_path
         ])
 
-        gaze "#{@css_path}/**/*.styl", (err, watch) ->
+        gaze "#{@stylus_path}/**/*.styl", (err, watch) ->
             @on 'changed', (path) ->
                 self.compile_all_stylus path
 
@@ -118,7 +123,7 @@ class Builder
     compile_all_stylus: (path) ->
         rootPath = @root_path
 
-        os.glob @css_path + "/**/*.styl"
+        os.glob @stylus_path + "/**/*.styl"
         .then (paths) ->
             if path
                 paths = []
@@ -130,7 +135,10 @@ class Builder
                     Q.invoke stylus, 'render', str, { filename: path }
 
                 .then (code) ->
-                    os.outputFile path.replace(/\.styl$/, '.css'), code
+                    os.outputFile path.replace(/\/stylus\//, '/css_styl/').replace(/\.styl$/, '.css'), code if core
+
+                .catch (error) ->
+                    console.log error
         .then ->
             console.log '>> Stylus Compiled.'.green
         .catch (error) ->
