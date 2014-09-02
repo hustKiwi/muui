@@ -64,7 +64,7 @@ class Builder
             @on 'changed', compile_tmpl
 
         os.spawn('compass', [
-            'compile'
+            'watch'
             '--sass-dir', @css_path
             '--css-dir', @css_path
         ])
