@@ -1,8 +1,3 @@
-# require 'colors'
-# Q = require 'q'
-# _ = require 'lodash'
-# os = require '../lib/os'
-# kit.watch_files = require 'kit.watch_files'
 stylus = require 'stylus'
 
 { kit } = require 'nobone'
@@ -30,21 +25,6 @@ class Builder
         kit.copy(from, to).then =>
             console.log '>> Copy: '.cyan + relative(@root_path, from) + ' -> '.green + relative(@root_path, to)
 
-    start: ->
-        Q.fcall =>
-            console.log '>> Init start.'.yellow
-        # .then =>
-        #     @lint_all_coffee()
-        # .then =>
-        #     Q.all([
-        #         @compile_all_coffee()
-        #         @compile_all_sass()
-        #         @compile_all_stylus()
-        #         @compile_all_tmpl()
-        #     ])
-        .then ->
-            console.log '>> Init Done.'.yellow
-
     build: ->
         self = @
         @start().done ->
@@ -65,37 +45,6 @@ class Builder
             .done ->
                 kit.remove self.css_styl_path
                 console.log '>> Build Done.'.red
-
-    dev: ->
-        self = @
-        @start().then ->
-            self.watch()
-
-    watch: ->
-        {lint_coffee, compile_coffee, compile_tmpl, compile_all_stylus} = @
-        self = @
-
-        kit.watch_files "#{@js_path}/**/*.coffee", (path, curr, prev, is_delete) ->
-            return if is_delete
-
-            Q.fcall ->
-                lint_coffee path
-            .then ->
-                compile_coffee path
-
-        kit.watch_files "#{@tmpl_path}/**/*.html", (path) ->
-            compile_tmpl
-
-        kit.spawn('compass', [
-            'watch'
-            '--sass-dir', @css_path
-            '--css-dir', @css_path
-        ])
-
-        kit.watch_files "#{@stylus_path}/**/*.styl", (err, watch) ->
-            self.compile_all_stylus path
-
-        console.log 'Waiting...>>> ' + 'watching for changes.'.green +  ' Press Ctrl-C to Stop.'.red
 
     find_all: (file_type, callback) ->
         Q.fcall =>
@@ -160,7 +109,6 @@ class Builder
             console.log '>> Stylus Compiled.'.green
         .catch (error) ->
             console.log error
-
 
     compile_tmpl: (path) =>
         js_path = path.replace(/(\.html)$/, '') + '.js'

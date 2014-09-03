@@ -9,6 +9,8 @@ task 'setup', 'Setup project', ->
 	setup = require './kit/setup'
 	setup.start()
 
+task 'test', 'Test', ->
+
 task 'build', 'Build all source code.', ->
 	builder = require './kit/builder'
 	builder.build()
@@ -50,3 +52,4 @@ run_static_server = (opts) ->
 			kit.open 'http://127.0.0.1:' + port
 	.done()
 
+task 'watch', 'watch files', ->
