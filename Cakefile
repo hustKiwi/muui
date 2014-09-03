@@ -24,6 +24,13 @@ task 'build', 'Build all source code.', ->
 
 option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 server'
 task 'dev', 'Build all source code.', (opts) ->
+	# sass watcher
+	kit.spawn 'compass', [
+		'watch'
+		'--sass-dir', 'public/css'
+		'--css-dir', 'public/css'
+	]
+
 	serve_fake_datasource()
 
 	run_static_server opts
