@@ -7,7 +7,7 @@ nobone = require 'nobone'
 
 task 'setup', 'Setup project', ->
 	setup = require './kit/setup'
-	setup.start()
+	setup.dev()
 
 task 'test', 'Test', ->
 
@@ -25,8 +25,7 @@ task 'build', 'Build all source code.', ->
 
 option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 server'
 task 'dev', 'Build all source code.', (opts) ->
-	builder = require './kit/builder'
-	builder.dev()
+
 	serve_fake_datasource()
 
 	run_static_server opts
@@ -59,7 +58,7 @@ run_static_server = (opts) ->
 
 		service.listen port, ->
 			kit.log 'Start at port: '.cyan + port
-			# kit.open "http://127.0.0.1:#{port}/tab"
+			kit.open "http://127.0.0.1:#{port}/tab"
 	.done()
 
 task 'watch', 'watch files', ->

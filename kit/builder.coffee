@@ -15,8 +15,6 @@ class Builder
         @src_path = "#{root_path}/public"
         @js_path = "#{@src_path}/js"
         @css_path = "#{@src_path}/css"
-        @stylus_path = "#{@src_path}/stylus"
-        @css_styl_path = "#{@src_path}/css_styl"
         @img_path = "#{@src_path}/img"
         @tmpl_path = "#{@src_path}/tmpl"
         @dist_path = "#{root_path}/dist"
@@ -24,29 +22,22 @@ class Builder
     copy: (from, to) =>
         kit.copy(from, to).then =>
             console.log '>> Copy: '.cyan + relative(@root_path, from) + ' -> '.green + relative(@root_path, to)
-    init: ->
+
+    build: ->
         self = @
         Q.fcall =>
             console.log '>> Build start.'.red
-            kit.remove self.dist_path
         .then =>
             Q.all [
                 @compile_all_coffee()
                 @compile_all_stylus()
                 @compile_all_tmpl()
             ]
-        
-    dev: ->
-        @init()
-
-    build: ->
-        self = @
-        @init().then =>
+        .then =>
             Q.all([
                 kit.glob os_path.join(self.js_path, '**', '*.js')
                 kit.glob os_path.join(self.css_path, '**', '*.css')
                 kit.glob os_path.join(self.img_path, '**', '*.*')
-                kit.glob os_path.join(self.css_styl_path, '**', '*.css')
                 kit.glob os_path.join(self.tmpl_path, '**', '*.js')
             ])
         .then (file_list) =>
@@ -90,7 +81,7 @@ class Builder
     compile_all_stylus: (path) ->
         rootPath = @root_path
 
-        kit.glob @stylus_path + "/**/*.styl"
+        kit.glob @css_path + "/**/*.styl"
         .then (paths) ->
             if path
                 paths = []
@@ -102,7 +93,7 @@ class Builder
                     Q.invoke stylus, 'render', str, { filename: path }
 
                 .then (code) ->
-                    kit.outputFile path.replace(/\/stylus\//, '/css/').replace(/\.styl$/, '.css'), code if code
+                    kit.outputFile path.replace(/\.styl$/, '.css'), code if code
 
                 .catch (error) ->
                     console.log error
