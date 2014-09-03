@@ -17,11 +17,7 @@ main = ->
 
         when 'dev'
             builder = require './builder'
-            builder.start()
-
-        when 'watch'
-            builder = require './builder'
-            builder.watch()
+            builder.dev()
 
         when 'server'
             os.spawn nodemon_bin, [app_path, argv[3]]

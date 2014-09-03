@@ -29,7 +29,7 @@ class Builder
     start: ->
         deferred = Q.defer()
         Q.fcall =>
-            os.remove @dist_path
+            console.log '>> Init start.'.yellow
         .then =>
             @lint_all_coffee()
         .then =>
@@ -39,28 +39,36 @@ class Builder
                 @compile_all_stylus()
                 @compile_all_tmpl()
             ])
-        .then =>
-            Q.all([
-                os.glob os_path.join(@js_path, '**', '*.js')
-                os.glob os_path.join(@css_path, '**', '*.css')
-                os.glob os_path.join(@img_path, '**', '*.*')
-                os.glob os_path.join(@css_styl_path, '**', '*.css')
-                os.glob os_path.join(@tmpl_path, '**', '*.js')
-            ])
-        .then (file_list) =>
-            Q.all _.flatten(file_list).map (file) =>
-                @copy file, @dist_path + '/' + relative(@src_path, file)
         .done ->
-            console.log '>> Dev Done.'.yellow
+            console.log '>> Init Done.'.yellow
             deferred.resolve()
         deferred.promise
 
     build: ->
         self = @
         @start().done ->
-            os.remove self.css_styl_path
-            # os.remove @css_path
-            console.log '>> Build Done.'.red
+            Q.fcall =>
+                console.log '>> Build start.'.red
+                os.remove self.dist_path
+            .then =>
+                Q.all([
+                    os.glob os_path.join(self.js_path, '**', '*.js')
+                    os.glob os_path.join(self.css_path, '**', '*.css')
+                    os.glob os_path.join(self.img_path, '**', '*.*')
+                    os.glob os_path.join(self.css_styl_path, '**', '*.css')
+                    os.glob os_path.join(self.tmpl_path, '**', '*.js')
+                ])
+            .then (file_list) =>
+                Q.all _.flatten(file_list).map (file) =>
+                    self.copy file, self.dist_path + '/' + relative(self.src_path, file)
+            .done ->
+                os.remove self.css_styl_path
+                console.log '>> Build Done.'.red
+
+    dev: ->
+        self = @
+        @start().done ->
+            self.watch()
 
     watch: ->
         {lint_coffee, compile_coffee, compile_tmpl, compile_all_stylus} = @
