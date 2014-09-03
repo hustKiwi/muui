@@ -15,8 +15,13 @@ task 'clean', 'Clean binary files', ->
 	clean()
 
 clean = ->
-	kit.remove 'public/css'
-	kit.log 'Cleaned.'.green
+	kit.glob 'public/**/*.+(css)'
+	.then (paths) ->
+		Q.all paths.map (p) -> kit.remove p
+	.done ->
+		kit.log 'Cleaned.'.green
+
+
 
 task 'build', 'Build all source code.', ->
 	builder = require './kit/builder'
