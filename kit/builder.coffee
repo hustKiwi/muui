@@ -27,24 +27,23 @@ class Builder
 
     build: ->
         self = @
-        @start().done ->
-            Q.fcall =>
-                console.log '>> Build start.'.red
-                kit.remove self.dist_path
-            .then =>
-                Q.all([
-                    kit.glob os_path.join(self.js_path, '**', '*.js')
-                    kit.glob os_path.join(self.css_path, '**', '*.css')
-                    kit.glob os_path.join(self.img_path, '**', '*.*')
-                    kit.glob os_path.join(self.css_styl_path, '**', '*.css')
-                    kit.glob os_path.join(self.tmpl_path, '**', '*.js')
-                ])
-            .then (file_list) =>
-                Q.all _.flatten(file_list).map (file) =>
-                    self.copy file, self.dist_path + '/' + relative(self.src_path, file)
-            .done ->
-                kit.remove self.css_styl_path
-                console.log '>> Build Done.'.red
+        Q.fcall =>
+            console.log '>> Build start.'.red
+            kit.remove self.dist_path
+        .then =>
+            Q.all([
+                kit.glob os_path.join(self.js_path, '**', '*.js')
+                kit.glob os_path.join(self.css_path, '**', '*.css')
+                kit.glob os_path.join(self.img_path, '**', '*.*')
+                kit.glob os_path.join(self.css_styl_path, '**', '*.css')
+                kit.glob os_path.join(self.tmpl_path, '**', '*.js')
+            ])
+        .then (file_list) =>
+            Q.all _.flatten(file_list).map (file) =>
+                self.copy file, self.dist_path + '/' + relative(self.src_path, file)
+        .done ->
+            kit.remove self.css_styl_path
+            console.log '>> Build Done.'.red
 
     find_all: (file_type, callback) ->
         Q.fcall =>

@@ -11,6 +11,13 @@ task 'setup', 'Setup project', ->
 
 task 'test', 'Test', ->
 
+task 'clean', 'Clean binary files', ->
+	kit.glob 'public/**/*.+(js|css)'
+	.then (paths) ->
+		Q.all paths.map (p) -> kit.remove p
+	.done ->
+		kit.log 'Cleaned.'.green
+
 task 'build', 'Build all source code.', ->
 	builder = require './kit/builder'
 	builder.build()
@@ -49,7 +56,7 @@ run_static_server = (opts) ->
 
 		service.listen port, ->
 			kit.log 'Start at port: '.cyan + port
-			kit.open 'http://127.0.0.1:' + port
+			kit.open "http://127.0.0.1:#{port}/tab"
 	.done()
 
 task 'watch', 'watch files', ->
