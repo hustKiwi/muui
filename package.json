@@ -6,13 +6,14 @@
   ],
   "private": true,
   "scripts": {
-    "install": "coffee ./kit/app_mgr.coffee setup"
+    "install": "cake setup"
   },
   "devDependencies": {
     "bower": "~1.3.3",
     "coffee-script": "~1.7.1",
     "coffeelint": "~1.5.6",
-    "stylus": "*",
-    "nobone": "^0.6.5"
+    "jade": "^1.6.0",
+    "nobone": "^0.6.5",
+    "stylus": "*"
   }
 }

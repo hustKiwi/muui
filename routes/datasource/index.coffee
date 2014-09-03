@@ -1,1 +1,0 @@
-exports.tab = require './tab'

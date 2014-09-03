@@ -31,22 +31,19 @@ class Builder
             console.log '>> Copy: '.cyan + relative(@root_path, from) + ' -> '.green + relative(@root_path, to)
 
     start: ->
-        deferred = Q.defer()
         Q.fcall =>
             console.log '>> Init start.'.yellow
-        .then =>
-            @lint_all_coffee()
-        .then =>
-            Q.all([
-                @compile_all_coffee()
-                @compile_all_sass()
-                @compile_all_stylus()
-                @compile_all_tmpl()
-            ])
-        .done ->
+        # .then =>
+        #     @lint_all_coffee()
+        # .then =>
+        #     Q.all([
+        #         @compile_all_coffee()
+        #         @compile_all_sass()
+        #         @compile_all_stylus()
+        #         @compile_all_tmpl()
+        #     ])
+        .then ->
             console.log '>> Init Done.'.yellow
-            deferred.resolve()
-        deferred.promise
 
     build: ->
         self = @
@@ -71,7 +68,7 @@ class Builder
 
     dev: ->
         self = @
-        @start().done ->
+        @start().then ->
             self.watch()
 
     watch: ->
