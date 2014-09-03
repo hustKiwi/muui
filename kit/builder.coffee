@@ -31,6 +31,13 @@ class Builder
             console.log '>> Build start.'.red
             kit.remove self.dist_path
         .then =>
+            Q.all [
+                @compile_all_coffee()
+                @compile_all_sass()
+                @compile_all_stylus()
+                @compile_all_tmpl()
+            ]
+        .then =>
             Q.all([
                 kit.glob os_path.join(self.js_path, '**', '*.js')
                 kit.glob os_path.join(self.css_path, '**', '*.css')
@@ -41,7 +48,7 @@ class Builder
         .then (file_list) =>
             Q.all _.flatten(file_list).map (file) =>
                 self.copy file, self.dist_path + '/' + relative(self.src_path, file)
-        .done ->
+        .then ->
             kit.remove self.css_styl_path
             console.log '>> Build Done.'.red
 
@@ -78,12 +85,11 @@ class Builder
         @find_all('coffee', @compile_coffee)
 
     compile_all_sass: ->
-        Q.fcall =>
-            kit.spawn('compass', [
-                'compile'
-                '--sass-dir', @css_path
-                '--css-dir', @css_path
-            ])
+        kit.spawn('compass', [
+            'compile'
+            '--sass-dir', @css_path
+            '--css-dir', @css_path
+        ])
 
     compile_all_stylus: (path) ->
         rootPath = @root_path

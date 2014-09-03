@@ -12,6 +12,9 @@ task 'setup', 'Setup project', ->
 task 'test', 'Test', ->
 
 task 'clean', 'Clean binary files', ->
+	clean()
+
+clean = ->
 	kit.glob 'public/**/*.+(js|css)'
 	.then (paths) ->
 		Q.all paths.map (p) -> kit.remove p
@@ -20,7 +23,9 @@ task 'clean', 'Clean binary files', ->
 
 task 'build', 'Build all source code.', ->
 	builder = require './kit/builder'
-	builder.build()
+	builder.build().then ->
+		clean()
+	.done()
 
 option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 server'
 task 'dev', 'Build all source code.', (opts) ->
