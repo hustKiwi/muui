@@ -1,19 +1,16 @@
-/* line 3, tab.sass */
 .muui-tab {
   *zoom: 1;
   overflow: hidden;
   border-bottom: 2px solid transparent;
 }
-/* line 38, ../../../../../.rvm/gems/ruby-2.1.0/gems/compass-0.12.6/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
 .muui-tab:after {
   content: "";
   display: table;
   clear: both;
 }
-/* line 7, tab.sass */
 .muui-tab .muui-tab-item {
-  display: inline;
   float: left;
+  display: inline;
   height: 40px;
   line-height: 40px;
   position: relative;
@@ -24,20 +21,15 @@
   padding: 0 25px;
   cursor: pointer;
 }
-/* line 17, tab.sass */
 .muui-tab .muui-tab-item.first {
   border-left: 1px solid #e6e6e6;
 }
-/* line 19, tab.sass */
 .muui-tab .muui-tab-item.on {
   cursor: default;
 }
-
-/* line 22, tab.sass */
 .muui-tab-panel {
   display: none !important;
 }
-/* line 24, tab.sass */
 .muui-tab-panel.on {
   display: block !important;
 }

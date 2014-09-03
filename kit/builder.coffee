@@ -24,8 +24,7 @@ class Builder
     copy: (from, to) =>
         kit.copy(from, to).then =>
             console.log '>> Copy: '.cyan + relative(@root_path, from) + ' -> '.green + relative(@root_path, to)
-
-    build: ->
+    init: ->
         self = @
         Q.fcall =>
             console.log '>> Build start.'.red
@@ -33,11 +32,16 @@ class Builder
         .then =>
             Q.all [
                 @compile_all_coffee()
-                @compile_all_sass()
                 @compile_all_stylus()
                 @compile_all_tmpl()
             ]
-        .then =>
+        
+    dev: ->
+        @init()
+
+    build: ->
+        self = @
+        @init().then =>
             Q.all([
                 kit.glob os_path.join(self.js_path, '**', '*.js')
                 kit.glob os_path.join(self.css_path, '**', '*.css')
@@ -49,7 +53,6 @@ class Builder
             Q.all _.flatten(file_list).map (file) =>
                 self.copy file, self.dist_path + '/' + relative(self.src_path, file)
         .then ->
-            kit.remove self.css_styl_path
             console.log '>> Build Done.'.red
 
     find_all: (file_type, callback) ->
@@ -84,13 +87,6 @@ class Builder
     compile_all_coffee: ->
         @find_all('coffee', @compile_coffee)
 
-    compile_all_sass: ->
-        kit.spawn('compass', [
-            'compile'
-            '--sass-dir', @css_path
-            '--css-dir', @css_path
-        ])
-
     compile_all_stylus: (path) ->
         rootPath = @root_path
 
@@ -106,7 +102,7 @@ class Builder
                     Q.invoke stylus, 'render', str, { filename: path }
 
                 .then (code) ->
-                    kit.outputFile path.replace(/\/stylus\//, '/css_styl/').replace(/\.styl$/, '.css'), code if code
+                    kit.outputFile path.replace(/\/stylus\//, '/css/').replace(/\.styl$/, '.css'), code if code
 
                 .catch (error) ->
                     console.log error

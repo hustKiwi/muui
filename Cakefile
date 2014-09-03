@@ -15,27 +15,18 @@ task 'clean', 'Clean binary files', ->
 	clean()
 
 clean = ->
-	kit.glob 'public/**/*.+(js|css)'
-	.then (paths) ->
-		Q.all paths.map (p) -> kit.remove p
-	.done ->
-		kit.log 'Cleaned.'.green
+	kit.remove 'public/css'
+	kit.log 'Cleaned.'.green
 
 task 'build', 'Build all source code.', ->
 	builder = require './kit/builder'
-	builder.build().then ->
+	builder.build().then () ->
 		clean()
-	.done()
 
 option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 server'
 task 'dev', 'Build all source code.', (opts) ->
-	# sass watcher
-	kit.spawn 'compass', [
-		'watch'
-		'--sass-dir', 'public/css'
-		'--css-dir', 'public/css'
-	]
-
+	builder = require './kit/builder'
+	builder.dev()
 	serve_fake_datasource()
 
 	run_static_server opts
@@ -68,7 +59,8 @@ run_static_server = (opts) ->
 
 		service.listen port, ->
 			kit.log 'Start at port: '.cyan + port
-			kit.open "http://127.0.0.1:#{port}/tab"
+			# kit.open "http://127.0.0.1:#{port}/tab"
 	.done()
 
 task 'watch', 'watch files', ->
+	console.log 'watch'
