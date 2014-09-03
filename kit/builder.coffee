@@ -1,11 +1,15 @@
-require 'colors'
-Q = require 'q'
-_ = require 'lodash'
-os = require '../lib/os'
-gaze = require 'gaze'
+# require 'colors'
+# Q = require 'q'
+# _ = require 'lodash'
+# os = require '../lib/os'
+# kit.watch_files = require 'kit.watch_files'
 stylus = require 'stylus'
 
-os_path = os.path
+{ kit } = require 'nobone'
+
+{ Q, _ } = kit
+
+os_path = kit.path
 relative = os_path.relative
 coffee_bin = './node_modules/.bin/coffee'
 coffee_lint_bin = './node_modules/.bin/coffeelint'
@@ -23,7 +27,7 @@ class Builder
         @dist_path = "#{root_path}/dist"
 
     copy: (from, to) =>
-        os.copy(from, to).then =>
+        kit.copy(from, to).then =>
             console.log '>> Copy: '.cyan + relative(@root_path, from) + ' -> '.green + relative(@root_path, to)
 
     start: ->
@@ -49,20 +53,20 @@ class Builder
         @start().done ->
             Q.fcall =>
                 console.log '>> Build start.'.red
-                os.remove self.dist_path
+                kit.remove self.dist_path
             .then =>
                 Q.all([
-                    os.glob os_path.join(self.js_path, '**', '*.js')
-                    os.glob os_path.join(self.css_path, '**', '*.css')
-                    os.glob os_path.join(self.img_path, '**', '*.*')
-                    os.glob os_path.join(self.css_styl_path, '**', '*.css')
-                    os.glob os_path.join(self.tmpl_path, '**', '*.js')
+                    kit.glob os_path.join(self.js_path, '**', '*.js')
+                    kit.glob os_path.join(self.css_path, '**', '*.css')
+                    kit.glob os_path.join(self.img_path, '**', '*.*')
+                    kit.glob os_path.join(self.css_styl_path, '**', '*.css')
+                    kit.glob os_path.join(self.tmpl_path, '**', '*.js')
                 ])
             .then (file_list) =>
                 Q.all _.flatten(file_list).map (file) =>
                     self.copy file, self.dist_path + '/' + relative(self.src_path, file)
             .done ->
-                os.remove self.css_styl_path
+                kit.remove self.css_styl_path
                 console.log '>> Build Done.'.red
 
     dev: ->
@@ -74,38 +78,38 @@ class Builder
         {lint_coffee, compile_coffee, compile_tmpl, compile_all_stylus} = @
         self = @
 
-        gaze "#{@js_path}/**/*.coffee", (err, watch) ->
-            @on 'changed', (path) ->
-                Q.fcall ->
-                    lint_coffee path
-                .then ->
-                    compile_coffee path
+        kit.watch_files "#{@js_path}/**/*.coffee", (path, curr, prev, is_delete) ->
+            return if is_delete
 
-        gaze "#{@tmpl_path}/**/*.html", (err, watch) ->
-            @on 'changed', compile_tmpl
+            Q.fcall ->
+                lint_coffee path
+            .then ->
+                compile_coffee path
 
-        os.spawn('compass', [
+        kit.watch_files "#{@tmpl_path}/**/*.html", (path) ->
+            compile_tmpl
+
+        kit.spawn('compass', [
             'watch'
             '--sass-dir', @css_path
             '--css-dir', @css_path
         ])
 
-        gaze "#{@stylus_path}/**/*.styl", (err, watch) ->
-            @on 'changed', (path) ->
-                self.compile_all_stylus path
+        kit.watch_files "#{@stylus_path}/**/*.styl", (err, watch) ->
+            self.compile_all_stylus path
 
         console.log 'Waiting...>>> ' + 'watching for changes.'.green +  ' Press Ctrl-C to Stop.'.red
 
     find_all: (file_type, callback) ->
         Q.fcall =>
-            os.glob os_path.join(@src_path, '**', "*.#{file_type}")
+            kit.glob os_path.join(@src_path, '**', "*.#{file_type}")
         .then (file_list) =>
             Q.all(
                 _.flatten(file_list).map callback
             )
 
     lint_coffee: (path) =>
-        os.spawn coffee_lint_bin, [
+        kit.spawn coffee_lint_bin, [
             '-f',
             "#{@root_path}/coffeelint.json"
             path
@@ -116,7 +120,7 @@ class Builder
 
     compile_coffee: (path) =>
         try
-            os.spawn coffee_bin, [
+            kit.spawn coffee_bin, [
                 '-c'
                 '-b'
                 path
@@ -130,7 +134,7 @@ class Builder
 
     compile_all_sass: ->
         Q.fcall =>
-            os.spawn('compass', [
+            kit.spawn('compass', [
                 'compile'
                 '--sass-dir', @css_path
                 '--css-dir', @css_path
@@ -139,19 +143,19 @@ class Builder
     compile_all_stylus: (path) ->
         rootPath = @root_path
 
-        os.glob @stylus_path + "/**/*.styl"
+        kit.glob @stylus_path + "/**/*.styl"
         .then (paths) ->
             if path
                 paths = []
                 paths.push path
             Q.all paths.map (path) ->
                 console.log '>> Compile: '.cyan + relative(rootPath, path)
-                os.readFile path, 'utf8'
+                kit.readFile path, 'utf8'
                 .then (str) ->
                     Q.invoke stylus, 'render', str, { filename: path }
 
                 .then (code) ->
-                    os.outputFile path.replace(/\/stylus\//, '/css_styl/').replace(/\.styl$/, '.css'), code if code
+                    kit.outputFile path.replace(/\/stylus\//, '/css_styl/').replace(/\.styl$/, '.css'), code if code
 
                 .catch (error) ->
                     console.log error
@@ -165,7 +169,7 @@ class Builder
         js_path = path.replace(/(\.html)$/, '') + '.js'
 
         Q.fcall ->
-            os.readFile(path, 'utf8')
+            kit.readFile(path, 'utf8')
         .then (str) ->
             _.template(str)
         .then (code) =>
@@ -176,7 +180,7 @@ class Builder
                         return <%= code %>
                     });
                 """, code: code)
-                os.outputFile(js_path,  code)
+                kit.outputFile(js_path,  code)
             .then =>
                 console.log '>> Compiled: '.cyan + relative(@root_path, path)
         .fail (err) =>

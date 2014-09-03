@@ -1,7 +1,8 @@
-os = require '../lib/os'
+# os = require '../lib/os'
+{ kit } = require 'nobone'
 
-app_path = os.path.resolve os.path.join(process.cwd(), 'app.coffee')
-nodemon_bin = os.path.resolve os.path.join('node_modules','.bin', 'nodemon')
+app_path = kit.path.resolve kit.path.join(process.cwd(), 'app.coffee')
+nodemon_bin = kit.path.resolve kit.path.join('node_modules','.bin', 'nodemon')
 
 main = ->
     argv = process.argv
@@ -20,6 +21,6 @@ main = ->
             builder.dev()
 
         when 'server'
-            os.spawn nodemon_bin, [app_path, argv[3]]
+            kit.spawn nodemon_bin, [app_path, argv[3]]
 
 main()
