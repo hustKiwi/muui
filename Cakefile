@@ -2,38 +2,17 @@ process.env.NODE_ENV = 'development'
 
 require 'coffee-script/register'
 nobone = require 'nobone'
+
 { kit, service, renderer } = nobone()
-{ Q } = kit
-
-task 'setup', 'Setup project', ->
-	setup = require './kit/setup'
-	setup.dev()
-
-task 'test', 'Test', ->
-
-task 'clean', 'Clean binary files', ->
-	clean()
+{ Q, _ } = kit
 
 clean = ->
 	kit.glob 'public/**/*.+(css)'
 	.then (paths) ->
-		Q.all paths.map (p) -> kit.remove p
-	.done ->
+		Q.all paths.map (p) ->
+            kit.remove p
+	.then ->
 		kit.log 'Cleaned.'.green
-
-
-
-task 'build', 'Build all source code.', ->
-	builder = require './kit/builder'
-	builder.build().then () ->
-		clean()
-
-option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 server'
-task 'dev', 'Build all source code.', (opts) ->
-
-	serve_fake_datasource()
-
-	run_static_server opts
 
 serve_fake_datasource = ->
 	kit.glob 'kit/datasource/*.coffee'
@@ -43,10 +22,9 @@ serve_fake_datasource = ->
 			url = "/datasource/#{name}"
 			kit.log 'Fake Datasource: '.cyan + url
 			service.get url, require('./' + p)
-	.done()
 
 run_static_server = (opts) ->
-	port = opts.port or 8077
+	port = opts.port
 
 	renderer.file_handlers['.css'].ext_src = ['.styl']
 
@@ -59,12 +37,39 @@ run_static_server = (opts) ->
 					res.send tpl_fn()
 	.then ->
 		service.use '/st/bower', renderer.static('bower_components')
-		service.use '/st', renderer.static('public')
+		service.use '/st', renderer.static(opts.st_path)
 
 		service.listen port, ->
 			kit.log 'Start at port: '.cyan + port
 			kit.open "http://127.0.0.1:#{port}/tab"
 	.done()
 
-task 'watch', 'watch files', ->
-	console.log 'watch'
+option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 server'
+
+task 'setup', 'Setup project', ->
+	setup = require './kit/setup'
+	setup.start()
+
+task 'clean', 'Clean binary files', ->
+	clean()
+
+task 'build', 'Build project.', ->
+	builder = require './kit/builder'
+	builder.build().then ->
+        clean()
+    .then ->
+        serve_fake_datasource()
+    .then ->
+        run_static_server _.defaults({
+            port: 8078
+            st_path: 'dist'
+        }, opts)
+
+task 'dev', 'Run project on Development mode.', (opts) ->
+    Q.fcall ->
+        serve_fake_datasource()
+    .then ->
+        run_static_server _.defaults({
+            port: 8077
+            st_path: 'public'
+        }, opts)

@@ -33,14 +33,17 @@ define [
         render: ->
             {$el, opts} = @
             {before_render, after_render, tmpl} = opts
+
             before_render()
             def = $.Deferred()
 
             if tmpl
-                require([tmpl], (tmpl) =>
+                require([
+                    "text!#{tmpl}.html"
+                ], (tmpl) =>
                     render_fn = opts.render_fn
                     render_tmpl = (r) =>
-                        $tmpl = $(tmpl(r))
+                        $tmpl = $(_.template(tmpl)(r))
                         $el[render_fn]($tmpl)
                         if render_fn is 'replaceWith'
                             @$el = $tmpl

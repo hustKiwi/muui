@@ -1,11 +1,10 @@
 stylus = require 'stylus'
-
 { kit } = require 'nobone'
 
 { Q, _ } = kit
 
-os_path = kit.path
-relative = os_path.relative
+kit_path = kit.path
+relative = kit_path.relative
 coffee_bin = './node_modules/.bin/coffee'
 coffee_lint_bin = './node_modules/.bin/coffeelint'
 
@@ -25,30 +24,34 @@ class Builder
 
     build: ->
         self = @
-        Q.fcall =>
+        Q.fcall ->
             console.log '>> Build start.'.red
-        .then =>
+        .then ->
+            kit.remove self.dist_path
+            console.log '>> Clean dist.'.green
+        .then ->
+            self.lint_all_coffee()
+        .then ->
             Q.all [
-                @compile_all_coffee()
-                @compile_all_stylus()
-                @compile_all_tmpl()
+                self.compile_all_coffee()
+                self.compile_all_stylus()
             ]
-        .then =>
+        .then ->
             Q.all([
-                kit.glob os_path.join(self.js_path, '**', '*.js')
-                kit.glob os_path.join(self.css_path, '**', '*.css')
-                kit.glob os_path.join(self.img_path, '**', '*.*')
-                kit.glob os_path.join(self.tmpl_path, '**', '*.js')
+                kit.glob kit_path.join(self.js_path, '**', '*.js')
+                kit.glob kit_path.join(self.css_path, '**', '*.css')
+                kit.glob kit_path.join(self.img_path, '**', '*.*')
+                kit.glob kit_path.join(self.tmpl_path, '**', '*.html')
             ])
-        .then (file_list) =>
-            Q.all _.flatten(file_list).map (file) =>
+        .then (file_list) ->
+            Q.all _.flatten(file_list).map (file) ->
                 self.copy file, self.dist_path + '/' + relative(self.src_path, file)
         .then ->
-            console.log '>> Build Done.'.red
+            console.log '>> Build done.'.red
 
     find_all: (file_type, callback) ->
         Q.fcall =>
-            kit.glob os_path.join(@src_path, '**', "*.#{file_type}")
+            kit.glob kit_path.join(@src_path, '**', "*.#{file_type}")
         .then (file_list) =>
             Q.all(
                 _.flatten(file_list).map callback
@@ -79,7 +82,7 @@ class Builder
         @find_all('coffee', @compile_coffee)
 
     compile_all_stylus: (path) ->
-        rootPath = @root_path
+        root_path = @root_path
 
         kit.glob @css_path + "/**/*.styl"
         .then (paths) ->
@@ -87,7 +90,7 @@ class Builder
                 paths = []
                 paths.push path
             Q.all paths.map (path) ->
-                console.log '>> Compile: '.cyan + relative(rootPath, path)
+                console.log '>> Compile: '.cyan + relative(root_path, path)
                 kit.readFile path, 'utf8'
                 .then (str) ->
                     Q.invoke stylus, 'render', str, { filename: path }
@@ -98,32 +101,8 @@ class Builder
                 .catch (error) ->
                     console.log error
         .then ->
-            console.log '>> Stylus Compiled.'.green
+            console.log '>> Stylus compiled.'.green
         .catch (error) ->
             console.log error
-
-    compile_tmpl: (path) =>
-        js_path = path.replace(/(\.html)$/, '') + '.js'
-
-        Q.fcall ->
-            kit.readFile(path, 'utf8')
-        .then (str) ->
-            _.template(str)
-        .then (code) =>
-            Q.fcall ->
-                # 包装成AMD方式
-                code = _.template("""
-                    define(function() {
-                        return <%= code %>
-                    });
-                """, code: code)
-                kit.outputFile(js_path,  code)
-            .then =>
-                console.log '>> Compiled: '.cyan + relative(@root_path, path)
-        .fail (err) =>
-            console.log ">> Compile #{relative(@root_path, path)} fail.".red
-
-    compile_all_tmpl: ->
-        @find_all('html', @compile_tmpl)
 
 module.exports = new Builder
