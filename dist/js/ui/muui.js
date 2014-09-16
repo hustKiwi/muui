@@ -49,13 +49,13 @@ define(['muui/core/utils'], function(utils) {
       before_render();
       def = $.Deferred();
       if (tmpl) {
-        require([tmpl], (function(_this) {
+        require(["text!" + tmpl + ".html"], (function(_this) {
           return function(tmpl) {
             var datasource, render_fn, render_tmpl;
             render_fn = opts.render_fn;
             render_tmpl = function(r) {
               var $tmpl;
-              $tmpl = $(tmpl(r));
+              $tmpl = $(_.template(tmpl)(r));
               $el[render_fn]($tmpl);
               if (render_fn === 'replaceWith') {
                 _this.$el = $tmpl;

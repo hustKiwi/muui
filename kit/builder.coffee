@@ -5,6 +5,7 @@ stylus = require 'stylus'
 
 kit_path = kit.path
 relative = kit_path.relative
+
 coffee_bin = './node_modules/.bin/coffee'
 coffee_lint_bin = './node_modules/.bin/coffeelint'
 
@@ -84,7 +85,7 @@ class Builder
     compile_all_stylus: (path) ->
         root_path = @root_path
 
-        kit.glob @css_path + "/**/*.styl"
+        kit.glob @css_path + '/**/*.styl'
         .then (paths) ->
             if path
                 paths = []
