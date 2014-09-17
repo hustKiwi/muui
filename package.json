@@ -14,6 +14,7 @@
     "coffeelint": "~1.5.6",
     "jade": "^1.6.0",
     "nobone": "^0.6.5",
-    "stylus": "*"
+    "stylus": "*",
+    "nib": "~1.0.3"
   }
 }

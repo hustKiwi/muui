@@ -2,6 +2,7 @@ process.env.NODE_ENV = 'development'
 
 require 'coffee-script/register'
 nobone = require 'nobone'
+nib = require 'nib'
 
 { kit, service, renderer } = nobone()
 { Q, _ } = kit
@@ -25,6 +26,23 @@ serve_fake_datasource = ->
 
 run_static_server = (opts) ->
     {port, st} = opts
+
+    renderer.file_handlers['.css'] =
+        ext_src: ['.styl']
+        compiler: (str, path) ->
+            stylus = kit.require 'stylus'
+            deferred = Q.defer()
+            stylus(str)
+                .set 'filename', path
+                .set 'compress', process.env.NODE_ENV is 'production'
+                .set 'paths', [__dirname + '/public/css']
+                .use nib()
+                .import 'nib'
+                .import 'core/base'
+                .render (err, css) ->
+                    throw err if err
+                    deferred.resolve(css)
+            deferred.promise
 
     kit.glob 'views/ui/*.jade'
     .then (paths) ->

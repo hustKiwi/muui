@@ -1,6 +1,4 @@
-
 // base mixin
-
 vendor(prop, args)
     -webkit-{prop} args
     -moz-{prop} args
@@ -14,7 +12,7 @@ box-sizing()
     vendor('box-sizing', arguments)
 
 border-radius()
-  vendor('border-radius', arguments)
+    vendor('border-radius', arguments)
 
 display-box()
     display: -webkit-box
@@ -22,7 +20,6 @@ display-box()
 
 box-flex()
     vendor('box-flex', arguments)
-
 
 // nib
 border(color, args...)
@@ -73,4 +70,3 @@ float-left()
 float-right()
     float: right
     display: inline
-
