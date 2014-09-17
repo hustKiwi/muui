@@ -26,7 +26,6 @@ serve_fake_datasource = ->
 run_static_server = (opts) ->
     {port, st} = opts
 
-    console.log st
     kit.glob 'views/ui/*.jade'
     .then (paths) ->
         Q.all paths.map (p) ->
