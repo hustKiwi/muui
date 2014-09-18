@@ -15,13 +15,13 @@ coffee_lint_bin = './node_modules/.bin/coffeelint'
 
 class Builder
     constructor: ->
-        @root_path = "."
-        @src_path = "#{@root_path}/public"
-        @js_path = "#{@src_path}/js"
-        @css_path = "#{@src_path}/css"
-        @img_path = "#{@src_path}/img"
-        @tmpl_path = "#{@src_path}/tmpl"
-        @dist_path = "#{@root_path}/dist"
+        @src_path = "public"
+        @dist_path = "dist"
+
+        @js_path = "js"
+        @css_path = "css"
+        @img_path = "img"
+        @tmpl_path = "tmpl"
 
     copy: (from, to) =>
         kit.copy(from, to).then =>
@@ -29,77 +29,39 @@ class Builder
 
     build: ->
         self = @
+
+        kit.log '>> Build start.'.cyan
+
         Q.fcall ->
-            kit.log '>> Build start.'.red
-        .then ->
+            kit.log '>> Clean dist.'.cyan
             kit.remove self.dist_path
-            kit.log '>> Clean dist.'.green
-        .then ->
-            self.lint_all_coffee()
         .then ->
             Q.all [
-                self.compile_all_coffee()
-                self.compile_all_stylus()
+                self.batch_compile 'coffee', 'js', self.js_path
+                self.batch_compile 'styl', 'css', self.css_path
             ]
         .then ->
-            Q.all([
-                kit.glob kit.path.join(self.js_path, '**', '*.js')
-                kit.glob kit.path.join(self.css_path, '**', '*.css')
-                kit.glob kit.path.join(self.img_path, '**', '*.*')
-                kit.glob kit.path.join(self.tmpl_path, '**', '*.html')
-            ])
-        .then (file_list) ->
-            Q.all _.flatten(file_list).map (file) ->
-                self.copy file, self.dist_path + '/' + file
-        .then ->
-            kit.log '>> Build done.'.red
+            kit.log '>> Build done.'.green
         .catch (err) ->
             kit.err err.stack.red
 
-    find_all: (file_type, callback) ->
-        kit.glob kit.path.join(@src_path, '**', "*.#{file_type}")
-        .then (file_list) =>
-            Q.all(
-                _.flatten(file_list).map callback
-            )
-
-    lint_coffee: (path) =>
-        kit.spawn coffee_lint_bin, [
-            '-f',
-            "#{@root_path}/coffeelint.json"
-            path
-        ]
-
-    lint_all_coffee: ->
-        @find_all('coffee', @lint_coffee)
-
-    compile_coffee: (path) ->
-        renderer.render path, '.js'
-        .then (code) ->
-            js_path = path.replace(/\.coffee$/, '.js')
-            kit.outputFile js_path, code
-            kit.log '>> Compiled: '.cyan + path
-
-    compile_all_coffee: ->
-        @find_all('coffee', @compile_coffee)
-
-    compile_all_stylus: ->
-        { root_path, css_path } = @
-
-        renderer.file_handlers['.css'] = config.stylus_handler
-
-        kit.glob css_path + '/**/*.styl'
-        .then (paths) ->
+    batch_compile: (ext_src, ext_bin, src_dir) ->
+        self = @
+        kit.glob(
+            kit.path.join(src_dir, "**/*.#{ext_src}")
+            { cwd: @src_path }
+        ).then (paths) ->
             Q.all paths.map (path) ->
-                kit.log '>> Compile: '.cyan + path
-                renderer.render path, '.css'
+                src_path = kit.path.join self.src_path, path
+                dist_path = kit.path.join(self.dist_path, path)
+                    .replace new RegExp("\\.#{ext_src}$"), ".#{ext_bin}"
+
+                kit.log '>> Compile: '.cyan + src_path + ' -> '.grey + dist_path
+
+                renderer.render src_path, ".#{ext_bin}"
                 .then (code) ->
-                    kit.outputFile path.replace(/\.styl$/, '.css'), code
-                .catch (err) ->
-                    kit.err err.stack.red
+                    kit.outputFile dist_path, code
         .then ->
-            kit.log '>> Stylus compiled.'.green
-        .catch (err) ->
-            kit.err err.stack.red
+            kit.log ">> All #{ext_src} compiled.".cyan
 
 module.exports = new Builder
