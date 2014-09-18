@@ -24,28 +24,11 @@ serve_fake_datasource = ->
             service.get url, require('./' + p)
 
 run_static_server = (opts) ->
+    config = require './config'
+
     {port, st} = opts
 
-    renderer.file_handlers['.css'] =
-        ext_src: ['.styl']
-        dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
-        compiler: (str, path) ->
-            nib = kit.require 'nib'
-            stylus = kit.require 'stylus'
-            deferred = Q.defer()
-            stylus(str)
-                .set 'filename', path
-                .set 'compress', process.env.NODE_ENV is 'production'
-                .set 'paths', [__dirname + '/public/css']
-                .use nib()
-                .import 'nib'
-                .import 'core/base'
-                .render (err, css) ->
-                    if err
-                        deferred.reject(err)
-                    else
-                        deferred.resolve(css)
-            deferred.promise
+    renderer.file_handlers['.css'] = config.stylus_handler
 
     kit.glob 'views/ui/*.jade'
     .then (paths) ->

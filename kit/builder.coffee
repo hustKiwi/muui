@@ -1,11 +1,14 @@
-nib = require 'nib'
-stylus = require 'stylus'
-{ kit } = require 'nobone'
+process.env.NODE_ENV = 'production'
 
-{ Q, _ } = kit
+config = require '../config'
+nobone = require 'nobone'
+{ kit, renderer } = nobone { renderer: {} }
+{
+    Q
+    _
+    path: { relative }
+} = kit
 
-kit_path = kit.path
-relative = kit_path.relative
 
 coffee_bin = './node_modules/.bin/coffee'
 coffee_lint_bin = './node_modules/.bin/coffeelint'
@@ -40,20 +43,22 @@ class Builder
             ]
         .then ->
             Q.all([
-                kit.glob kit_path.join(self.js_path, '**', '*.js')
-                kit.glob kit_path.join(self.css_path, '**', '*.css')
-                kit.glob kit_path.join(self.img_path, '**', '*.*')
-                kit.glob kit_path.join(self.tmpl_path, '**', '*.html')
+                kit.glob kit.path.join(self.js_path, '**', '*.js')
+                kit.glob kit.path.join(self.css_path, '**', '*.css')
+                kit.glob kit.path.join(self.img_path, '**', '*.*')
+                kit.glob kit.path.join(self.tmpl_path, '**', '*.html')
             ])
         .then (file_list) ->
             Q.all _.flatten(file_list).map (file) ->
                 self.copy file, self.dist_path + '/' + relative(self.src_path, file)
         .then ->
             kit.log '>> Build done.'.red
+        .catch (err) ->
+            kit.err err.stack.red
 
     find_all: (file_type, callback) ->
         Q.fcall =>
-            kit.glob kit_path.join(@src_path, '**', "*.#{file_type}")
+            kit.glob kit.path.join(@src_path, '**', "*.#{file_type}")
         .then (file_list) =>
             Q.all(
                 _.flatten(file_list).map callback
@@ -78,7 +83,8 @@ class Builder
             ]
             kit.log '>> Compiled: '.cyan + relative(@root_path, path)
         catch e
-            kit.log ">> Error: #{relative(@root_path, path)} \n#{e}".red
+            kit.log ">> Error: #{relative(@root_path, path)}".red
+            kit.err e.stack.red
 
     compile_all_coffee: ->
         @find_all('coffee', @compile_coffee)
@@ -86,36 +92,20 @@ class Builder
     compile_all_stylus: ->
         { root_path, css_path } = @
 
+        renderer.file_handlers['.css'] = config.stylus_handler
+
         kit.glob css_path + '/**/*.styl'
         .then (paths) ->
             Q.all paths.map (path) ->
                 kit.log '>> Compile: '.cyan + relative(root_path, path)
-                kit.readFile path, 'utf8'
-                .then (str) ->
-                    #Q.invoke stylus, 'render', str, { filename: path }
-                    deferred = Q.defer()
-                    stylus(str)
-                        .set 'filename', path
-                        .set 'compress', process.env.NODE_ENV is 'production'
-                        .set 'paths', [css_path]
-                        .use nib()
-                        .import 'nib'
-                        .import 'core/base'
-                        .render (err, css) ->
-                            if err
-                                deferred.reject(err)
-                            else
-                                deferred.resolve(css)
-                    deferred.promise
-
+                renderer.render path, '.css'
                 .then (code) ->
-                    kit.outputFile path.replace(/\.styl$/, '.css'), code if code
-
+                    kit.outputFile path.replace(/\.styl$/, '.css'), code
                 .catch (err) ->
-                    kit.log err, 'error'
+                    kit.err err.stack.red
         .then ->
             kit.log '>> Stylus compiled.'.green
         .catch (err) ->
-            kit.log err, 'error'
+            kit.err err.stack.red
 
 module.exports = new Builder
