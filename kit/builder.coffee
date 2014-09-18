@@ -42,6 +42,7 @@ class Builder
             Q.all [
                 self.batch_compile 'coffee', 'js', self.js_path
                 self.batch_compile 'styl', 'css', self.css_path
+                self.batch_compile 'html', 'html', self.tmpl_path
             ]
         .then ->
             kit.log '>> Build done.'.green
