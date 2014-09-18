@@ -15,7 +15,7 @@ module.exports = {
                 .set 'paths', ['public/css']
                 .use nib()
                 .import 'nib'
-                .include 'core/base'
+                .import 'core/base'
                 .render (err, css) ->
                     if err
                         deferred.reject(err)
