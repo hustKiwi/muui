@@ -2,12 +2,9 @@ process.env.NODE_ENV = 'production'
 
 config = require '../config'
 nobone = require 'nobone'
+
 { kit, renderer } = nobone { renderer: {} }
-{
-    Q
-    _
-    path: { relative }
-} = kit
+{ Q, _, path } = kit
 
 
 coffee_bin = './node_modules/.bin/coffee'
