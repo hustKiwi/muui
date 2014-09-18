@@ -6,14 +6,6 @@ nobone = require 'nobone'
 { kit, service, renderer } = nobone()
 { Q, _ } = kit
 
-clean = ->
-    kit.glob 'public/**/*.+(css|js)'
-    .then (paths) ->
-        Q.all paths.map (p) ->
-            kit.remove p
-    .then ->
-        kit.log 'Cleaned.'.green
-
 serve_fake_datasource = ->
     kit.glob 'kit/datasource/*.coffee'
     .then (paths) ->
@@ -26,7 +18,10 @@ serve_fake_datasource = ->
 run_static_server = (opts) ->
     config = require './config'
 
-    {port, st} = opts
+    {port, st} = _.defaults opts, {
+        port: 8078
+        st: 'public'
+    }
 
     renderer.file_handlers['.css'] = config.stylus_handler
 
@@ -49,31 +44,19 @@ run_static_server = (opts) ->
 
 option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 dev'
 option '-o', '--open', 'Whether to open a webpage with the default browser?'
+option '-s', '--st [st]', 'Static directory.'
 
 task 'setup', 'Setup project', ->
     setup = require './kit/setup'
     setup.start()
 
-task 'clean', 'Clean binary files', ->
-    clean()
-
 task 'build', 'Build project.', (opts) ->
     builder = require './kit/builder'
-    builder.build().then ->
-        clean()
-    .then ->
-        serve_fake_datasource()
-    .then ->
-        run_static_server _.defaults({
-            st: 'dist'
-            port: 8078
-        }, opts)
+    builder.build()
+    .done()
 
 task 'dev', 'Run project on Development mode.', (opts) ->
     Q.fcall ->
         serve_fake_datasource()
     .then ->
-        run_static_server _.defaults({
-            st: 'public'
-            port: 8077
-        }, opts)
+        run_static_server(opts)

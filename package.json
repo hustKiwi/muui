@@ -13,8 +13,9 @@
     "coffee-script": "~1.7.1",
     "coffeelint": "~1.5.6",
     "jade": "^1.6.0",
-    "nobone": "^0.6.5",
+    "nobone": "*",
     "stylus": "*",
-    "nib": "~1.0.3"
+    "nib": "~1.0.3",
+    "uglify-js": "^2.4.15"
   }
 }

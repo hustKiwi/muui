@@ -1,4 +1,5 @@
-{ kit, kit: { Q } } = require 'nobone'
+{ kit, kit: { Q, _ } } = require 'nobone'
+coffeelint_config = require 'coffeelint'
 
 module.exports = {
     stylus_handler: {
@@ -14,13 +15,37 @@ module.exports = {
                 .set 'paths', ['public/css']
                 .use nib()
                 .import 'nib'
-                .import 'core/base'
+                .include 'core/base'
                 .render (err, css) ->
                     if err
                         deferred.reject(err)
                     else
                         deferred.resolve(css)
             deferred.promise
+    }
+
+    coffee_handler: {
+        ext_src: '.coffee'
+        compiler: (str, path, data = {}) ->
+            # Lint
+            coffeelint = kit.require 'coffeelint'
+            lint_results = coffeelint.lint str, coffeelint_config
+            if lint_results.length > 0
+                info = "node_modules/.bin/coffeelint -f coffeelint.json #{path}".cyan
+                kit.err '\nCoffeeLint Warning: '.red + path +
+                    "\nUse '#{info}' to lint the file."
+
+            coffee = kit.require 'coffee-script'
+            code = coffee.compile str, _.defaults(data, {
+                bare: true
+                compress: process.env.NODE_ENV == 'production'
+                compress_opts: { fromString: true }
+            })
+            if data.compress
+                ug = kit.require 'uglify-js'
+                ug.minify(code, data.compress_opts).code
+            else
+                code
     }
 }
 
