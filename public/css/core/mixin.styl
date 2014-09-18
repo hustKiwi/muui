@@ -1,45 +1,3 @@
-// base mixin
-vendor(prop, args)
-    -webkit-{prop} args
-    -moz-{prop} args
-    {prop} args
-
-// css3
-text-shadow()
-    text-shadow: arguments
-
-box-sizing()
-    vendor('box-sizing', arguments)
-
-border-radius()
-    vendor('border-radius', arguments)
-
-display-box()
-    display: -webkit-box
-    display: box
-
-box-flex()
-    vendor('box-flex', arguments)
-
-// nib
-border(color, args...)
-  if color is a 'color'
-    border: 1px solid color args
-  else
-    border: arguments
-
-size()
-  if length(arguments) == 1
-    width: arguments[0]
-    height: arguments[0]
-  else
-    width: arguments[0]
-    height: arguments[1]
-
-
-square($size)
-    size($size, $size)
-
 line-height($height)
     height: $height
     line-height: $height
@@ -49,14 +7,7 @@ title($font = 16px, $color = $black)
     font-size: $font
     font-weight: bold
 
-clearfix()
-    *zoom: 1
-    &:after
-        content: ""
-        display: table
-        clear: both
-
-center-block($width)
+center-block($width = $$page_width)
     display: block
     margin-left: auto
     margin-right: auto
