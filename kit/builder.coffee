@@ -1,4 +1,3 @@
-stylus = require 'stylus'
 { kit } = require 'nobone'
 
 { Q, _ } = kit
@@ -82,19 +81,33 @@ class Builder
     compile_all_coffee: ->
         @find_all('coffee', @compile_coffee)
 
-    compile_all_stylus: (path) ->
-        root_path = @root_path
+    compile_all_stylus: ->
+        nib = kit.require 'nib'
+        stylus = kit.require 'stylus'
 
-        kit.glob @css_path + '/**/*.styl'
+        { root_path, css_path } = @
+
+        kit.glob css_path + '/**/*.styl'
         .then (paths) ->
-            if path
-                paths = []
-                paths.push path
             Q.all paths.map (path) ->
                 console.log '>> Compile: '.cyan + relative(root_path, path)
                 kit.readFile path, 'utf8'
                 .then (str) ->
-                    Q.invoke stylus, 'render', str, { filename: path }
+                    #Q.invoke stylus, 'render', str, { filename: path }
+                    deferred = Q.defer()
+                    stylus(str)
+                        .set 'filename', path
+                        .set 'compress', process.env.NODE_ENV is 'production'
+                        .set 'paths', [css_path]
+                        .use nib()
+                        .import 'nib'
+                        .import 'core/base'
+                        .render (err, css) ->
+                            if err
+                                deferred.reject(err)
+                            else
+                                deferred.resolve(css)
+                    deferred.promise
 
                 .then (code) ->
                     kit.outputFile path.replace(/\.styl$/, '.css'), code if code

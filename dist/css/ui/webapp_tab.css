@@ -1,13 +1,21 @@
 .muui-tab {
   display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: box;
+  display: flex;
   border-bottom: 1px solid transparent;
   background: #fbfbfb;
 }
 .muui-tab .muui-tab-item {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
+  -o-box-flex: 1;
   box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   height: 43px;
   line-height: 43px;
   text-align: center;

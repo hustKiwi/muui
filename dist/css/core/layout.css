@@ -37,10 +37,6 @@ sub,
 sup,
 tt,
 var,
-b,
-u,
-i,
-center,
 dl,
 dt,
 dd,
@@ -58,45 +54,31 @@ tfoot,
 thead,
 tr,
 th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
+td {
   margin: 0;
   padding: 0;
   border: 0;
-  font: inherit;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-family: inherit;
   font-size: 100%;
   vertical-align: baseline;
 }
-html {
+body {
   height: 1;
   line-height: 1;
+  color: #000;
+  background: #fff;
 }
 ol,
 ul {
   list-style: none;
 }
 table {
-  border-collapse: collapse;
+  border-collapse: separate;
   border-spacing: 0;
+  vertical-align: middle;
 }
 caption,
 th,
@@ -105,34 +87,8 @@ td {
   font-weight: normal;
   vertical-align: middle;
 }
-q,
-blockquote {
-  quotes: none;
-}
-q:before,
-q:after,
-blockquote:before,
-blockquote:after {
-  content: "";
-  content: none;
-}
 a img {
   border: none;
-}
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-main,
-menu,
-nav,
-section,
-summary {
-  display: block;
 }
 #header {
   background: #5bc0de;
@@ -162,7 +118,7 @@ summary {
   height: 60px;
   line-height: 60px;
   background: #f4f4f4;
-  border-top: 1px solid #e6e6e6;
+  border-top: $border;
 }
 * {
   -webkit-box-sizing: border-box;
@@ -188,11 +144,14 @@ h2 {
   padding-bottom: 0.2em;
 }
 .clearfix {
-  *zoom: 1;
+  zoom: 1;
 }
+.clearfix:before,
 .clearfix:after {
   content: "";
   display: table;
+}
+.clearfix:after {
   clear: both;
 }
 .center-wrap {

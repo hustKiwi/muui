@@ -2,7 +2,6 @@ process.env.NODE_ENV = 'development'
 
 require 'coffee-script/register'
 nobone = require 'nobone'
-nib = require 'nib'
 
 { kit, service, renderer } = nobone()
 { Q, _ } = kit
@@ -29,7 +28,9 @@ run_static_server = (opts) ->
 
     renderer.file_handlers['.css'] =
         ext_src: ['.styl']
+        dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
         compiler: (str, path) ->
+            nib = kit.require 'nib'
             stylus = kit.require 'stylus'
             deferred = Q.defer()
             stylus(str)
