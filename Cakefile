@@ -7,7 +7,7 @@ nobone = require 'nobone'
 { Q, _ } = kit
 
 clean = ->
-    kit.glob 'public/**/*.+(css)'
+    kit.glob 'public/**/*.+(css|js)'
     .then (paths) ->
         Q.all paths.map (p) ->
             kit.remove p
