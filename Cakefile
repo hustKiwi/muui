@@ -41,8 +41,10 @@ run_static_server = (opts) ->
                 .import 'nib'
                 .import 'core/base'
                 .render (err, css) ->
-                    throw err if err
-                    deferred.resolve(css)
+                    if err
+                        deferred.reject(err)
+                    else
+                        deferred.resolve(css)
             deferred.promise
 
     kit.glob 'views/ui/*.jade'
@@ -58,10 +60,12 @@ run_static_server = (opts) ->
 
         service.listen port, ->
             kit.log 'Start at port: '.cyan + port
-            kit.open "http://127.0.0.1:#{port}/tab"
+            if ~~opts.open
+                kit.open "http://127.0.0.1:#{port}/tab"
     .done()
 
-option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 server'
+option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 dev'
+option '-o', '--open', 'Whether to open a webpage with the default browser?'
 
 task 'setup', 'Setup project', ->
     setup = require './kit/setup'
