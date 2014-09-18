@@ -15,17 +15,17 @@ coffee_lint_bin = './node_modules/.bin/coffeelint'
 
 class Builder
     constructor: ->
-        @root_path = root_path = "#{__dirname}/.."
-        @src_path = "#{root_path}/public"
+        @root_path = "."
+        @src_path = "#{@root_path}/public"
         @js_path = "#{@src_path}/js"
         @css_path = "#{@src_path}/css"
         @img_path = "#{@src_path}/img"
         @tmpl_path = "#{@src_path}/tmpl"
-        @dist_path = "#{root_path}/dist"
+        @dist_path = "#{@root_path}/dist"
 
     copy: (from, to) =>
         kit.copy(from, to).then =>
-            kit.log '>> Copy: '.cyan + relative(@root_path, from) + ' -> '.green + relative(@root_path, to)
+            kit.log '>> Copy: '.cyan + from + ' -> '.green + to
 
     build: ->
         self = @
@@ -50,15 +50,14 @@ class Builder
             ])
         .then (file_list) ->
             Q.all _.flatten(file_list).map (file) ->
-                self.copy file, self.dist_path + '/' + relative(self.src_path, file)
+                self.copy file, self.dist_path + '/' + file
         .then ->
             kit.log '>> Build done.'.red
         .catch (err) ->
             kit.err err.stack.red
 
     find_all: (file_type, callback) ->
-        Q.fcall =>
-            kit.glob kit.path.join(@src_path, '**', "*.#{file_type}")
+        kit.glob kit.path.join(@src_path, '**', "*.#{file_type}")
         .then (file_list) =>
             Q.all(
                 _.flatten(file_list).map callback
@@ -74,17 +73,12 @@ class Builder
     lint_all_coffee: ->
         @find_all('coffee', @lint_coffee)
 
-    compile_coffee: (path) =>
-        try
-            kit.spawn coffee_bin, [
-                '-c'
-                '-b'
-                path
-            ]
-            kit.log '>> Compiled: '.cyan + relative(@root_path, path)
-        catch e
-            kit.log ">> Error: #{relative(@root_path, path)}".red
-            kit.err e.stack.red
+    compile_coffee: (path) ->
+        renderer.render path, '.js'
+        .then (code) ->
+            js_path = path.replace(/\.coffee$/, '.js')
+            kit.outputFile js_path, code
+            kit.log '>> Compiled: '.cyan + path
 
     compile_all_coffee: ->
         @find_all('coffee', @compile_coffee)
@@ -97,7 +91,7 @@ class Builder
         kit.glob css_path + '/**/*.styl'
         .then (paths) ->
             Q.all paths.map (path) ->
-                kit.log '>> Compile: '.cyan + relative(root_path, path)
+                kit.log '>> Compile: '.cyan + path
                 renderer.render path, '.css'
                 .then (code) ->
                     kit.outputFile path.replace(/\.styl$/, '.css'), code
