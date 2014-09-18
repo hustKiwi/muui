@@ -9,8 +9,11 @@ module.exports = {
             nib = kit.require 'nib'
             stylus = kit.require 'stylus'
             deferred = Q.defer()
+
+            abs_path = kit.path.join(process.cwd(), path)
+
             stylus(str)
-                .set 'filename', path
+                .set 'filename', abs_path
                 .set 'compress', process.env.NODE_ENV is 'production'
                 .set 'paths', ['public/css']
                 .use nib()
@@ -21,6 +24,7 @@ module.exports = {
                         deferred.reject(err)
                     else
                         deferred.resolve(css)
+
             deferred.promise
     }
 
