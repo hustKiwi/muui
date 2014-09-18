@@ -1,5 +1,5 @@
 { kit, kit: { Q, _ } } = require 'nobone'
-coffeelint_config = require 'coffeelint'
+coffeelint_config = require './coffeelint.json'
 
 module.exports = {
     stylus_handler: {
