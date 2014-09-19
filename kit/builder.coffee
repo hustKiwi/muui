@@ -61,7 +61,8 @@ class Builder
 
                 renderer.render src_path, ".#{ext_bin}"
                 .then (code) ->
-                    kit.outputFile dist_path, code
+                    if code
+                        kit.outputFile dist_path, code
         .then ->
             kit.log ">> All #{ext_src} compiled.".cyan
 
