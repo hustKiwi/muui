@@ -53,7 +53,6 @@ task 'setup', 'Setup project', ->
 task 'build', 'Build project.', (opts) ->
     builder = require './kit/builder'
     builder.build()
-    .done()
 
 task 'dev', 'Run project on Development mode.', (opts) ->
     Q.fcall ->

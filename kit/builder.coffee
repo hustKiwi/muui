@@ -6,7 +6,6 @@ nobone = require 'nobone'
 { kit, renderer } = nobone { renderer: {} }
 { Q, _, path } = kit
 
-
 coffee_bin = './node_modules/.bin/coffee'
 coffee_lint_bin = './node_modules/.bin/coffeelint'
 
@@ -41,10 +40,10 @@ class Builder
                 self.batch_compile 'styl', 'css', self.css_path
                 self.batch_compile 'html', 'html', self.tmpl_path
             ]
-        .then ->
-            kit.log '>> Build done.'.green
         .catch (err) ->
             kit.err err.stack.red
+        .done ->
+            kit.log '>> Build done.'.green
 
     batch_compile: (ext_src, ext_bin, src_dir) ->
         self = @
