@@ -29,8 +29,11 @@ module.exports = {
     }
 
     coffee_handler: {
-        ext_src: '.coffee'
+        ext_src: ['.js', '.coffee']
         compiler: (str, path, data = {}) ->
+            if @ext == '.js'
+                return str
+
             # Lint
             coffeelint = kit.require 'coffeelint'
             lint_results = coffeelint.lint str, coffeelint_config
