@@ -1,8 +1,8 @@
 { kit, kit: { Q, _ } } = require 'nobone'
 coffeelint_config = require './coffeelint.json'
 
-module.exports = {
-    stylus_handler: {
+module.exports =
+    stylus_handler:
         ext_src: ['.styl']
         dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
         compiler: (str, path) ->
@@ -26,9 +26,8 @@ module.exports = {
                         deferred.resolve(css)
 
             deferred.promise
-    }
 
-    coffee_handler: {
+    coffee_handler:
         ext_src: '.coffee'
         compiler: (str, path, data = {}) ->
             # Lint
@@ -45,10 +44,9 @@ module.exports = {
                 compress: process.env.NODE_ENV == 'production'
                 compress_opts: { fromString: true }
             })
+
             if data.compress
                 ug = kit.require 'uglify-js'
                 ug.minify(code, data.compress_opts).code
             else
                 code
-    }
-}

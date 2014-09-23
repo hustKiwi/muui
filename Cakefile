@@ -33,7 +33,7 @@ run_static_server = (opts) ->
                 renderer.render(p, '.html').then (tpl_fn) ->
                     res.send tpl_fn()
     .then ->
-        service.use '/st/bower', renderer.static('bower_components')
+        service.use '/st/bower', renderer.static('./bower_components')
         service.use '/st', renderer.static(st)
 
         service.listen port, ->
