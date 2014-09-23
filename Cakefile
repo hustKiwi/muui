@@ -7,7 +7,7 @@ nobone = require 'nobone'
 { Q, _ } = kit
 
 serve_fake_datasource = ->
-    kit.glob 'kit/datasource/*.coffee'
+    kit.glob './kit/datasource/*.coffee'
     .then (paths) ->
         Q.all paths.map (p) ->
             name = kit.path.basename p, '.coffee'
