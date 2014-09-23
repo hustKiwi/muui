@@ -24,6 +24,7 @@ run_static_server = (opts) ->
     }
 
     renderer.file_handlers['.css'] = config.stylus_handler
+    renderer.file_handlers['.js'] = config.coffee_handler
 
     kit.glob 'views/ui/*.jade'
     .then (paths) ->
