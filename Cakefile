@@ -16,15 +16,15 @@ serve_fake_datasource = ->
             service.get url, require('./' + p)
 
 run_static_server = (opts) ->
-    config = require './config'
+    compiler = require './kit/compiler'
 
     {port, st} = _.defaults opts, {
         port: 8078
         st: 'public'
     }
 
-    renderer.file_handlers['.css'] = config.stylus_handler
-    renderer.file_handlers['.js'] = config.coffee_handler
+    renderer.file_handlers['.css'] = compiler.stylus_handler
+    renderer.file_handlers['.js'] = compiler.coffee_handler
 
     kit.glob 'views/ui/*.jade'
     .then (paths) ->

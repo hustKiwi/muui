@@ -1,6 +1,5 @@
 process.env.NODE_ENV = 'production'
 
-config = require '../config'
 nobone = require 'nobone'
 
 { kit, renderer } = nobone { renderer: {} }
@@ -24,6 +23,7 @@ class Builder
             kit.log '>> Copy: '.cyan + from + ' -> '.green + to
 
     build: ->
+        compiler = require './kit/compiler'
         self = @
 
         kit.log '>> Build start.'.cyan
@@ -32,8 +32,8 @@ class Builder
             kit.log '>> Clean dist.'.cyan
             kit.remove self.dist_path
         .then ->
-            renderer.file_handlers['.css'] = config.stylus_handler
-            renderer.file_handlers['.js'] = config.coffee_handler
+            renderer.file_handlers['.css'] = compiler.stylus_handler
+            renderer.file_handlers['.js'] = compiler.coffee_handler
 
             Q.all [
                 self.batch_compile 'coffee', 'js', self.js_path
