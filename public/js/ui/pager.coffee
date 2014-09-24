@@ -12,5 +12,6 @@ define [
             $.extend({}, Pager.defaults, super(options))
 
         init_events: ->
+            console.log 'init_events'
 
     Pager

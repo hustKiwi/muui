@@ -19,9 +19,9 @@ block css
 block js
     :coffee
         require [
-            'muui/ui/tab'
+            'muui/ui/pager'
         ], (UI) ->
             new UI({
-                el: '#tab-placeholder'
+                el: '#pager-placeholder'
                 datasource: '/datasource/tab'
             })

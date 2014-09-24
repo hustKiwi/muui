@@ -1,7 +1,3 @@
-line-height($height)
-    height: $height
-    line-height: $height
-
 title($font = 16px, $color = $black)
     color: $color
     font-size: $font
@@ -14,6 +10,15 @@ center-block($width = $$page_width)
     if $width
         width: $width
 
+line-height($height)
+    height: $height
+    line-height: $height
+
+inline-block()
+    display: inline-block
+    *zoom: 1
+    *display: inline
+
 float-left()
     float: left
     display: inline
@@ -21,3 +26,37 @@ float-left()
 float-right()
     float: right
     display: inline
+
+// http://ued.taobao.com/blog/2010/10/research-of-word-wrap/
+break-word()
+    word-wrap: break-word
+    word-break: break-all
+    overflow: hidden
+
+// 消除CSS3动画时的闪烁问题，参考:
+// http://stackoverflow.com/questions/3461441/prevent-flicker-on-webkit-transition-of-webkit-transform
+// http://davidwalsh.name/translate3d
+accelerate()
+    -webkit-transform: translate3d(0, 0, 0)
+    -webkit-backface-visibility: hidden
+    -webkit-perspective: 1000
+
+border-vendor(direction, color, args...)
+    unless direction in (top right bottom left)
+        error('invalid direction')
+    if color is a 'color' && !args
+        border-{direction}: 1px solid color
+    else
+        border-{direction}: color args
+
+border-top(color, args...)
+    border-vendor(top, color, args)
+
+border-right(color, args...)
+    border-vendor(right, color, args)
+
+border-bottom(color, args...)
+    border-vendor(bottom, color, args)
+
+border-left(color, args...)
+    border-vendor(left, color, args)
