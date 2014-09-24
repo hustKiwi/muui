@@ -12,6 +12,12 @@ define [
             $.extend({}, Pager.defaults, super(options))
 
         init_events: ->
-            console.log 'init_events'
+            item_cls = 'muui-pager-item'
+            handles = @opts.handles
+
+            @$el.on 'mouseenter', ".#{item_cls}:not(.on, .cur)", ->
+                $(@).addClass('on')
+            .on 'mouseleave', ".#{item_cls}", ->
+                $(@).removeClass('on')
 
     Pager

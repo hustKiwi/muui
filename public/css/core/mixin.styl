@@ -41,7 +41,7 @@ accelerate()
     -webkit-backface-visibility: hidden
     -webkit-perspective: 1000
 
-border-vendor(direction, color, args...)
+-border-vendor(direction, color, args...)
     unless direction in (top right bottom left)
         error('invalid direction')
     if color is a 'color' && !args
@@ -49,14 +49,14 @@ border-vendor(direction, color, args...)
     else
         border-{direction}: color args
 
-border-top(color, args...)
-    border-vendor(top, color, args)
+border-top()
+    -border-vendor(top, arguments)
 
-border-right(color, args...)
-    border-vendor(right, color, args)
+border-right()
+    -border-vendor(right, arguments)
 
-border-bottom(color, args...)
-    border-vendor(bottom, color, args)
+border-bottom()
+    -border-vendor(bottom, arguments)
 
-border-left(color, args...)
-    border-vendor(left, color, args)
+border-left()
+    -border-vendor(left, arguments)
