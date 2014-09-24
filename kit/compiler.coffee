@@ -1,21 +1,26 @@
 { kit, kit: { Q, _ } } = require 'nobone'
 coffeelint_config = require '../coffeelint.json'
 
+cwd = process.cwd()
+css_path = kit.path.join(cwd, './public/css')
+
 module.exports =
     stylus_handler:
         ext_src: ['.styl']
         dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
+        dependency_roots: [css_path]
         compiler: (str, path) ->
             nib = kit.require 'nib'
             stylus = kit.require 'stylus'
             deferred = Q.defer()
 
-            abs_path = kit.path.join(process.cwd(), path)
+            path = kit.path.join(cwd, path)
 
             stylus(str)
-                .set 'filename', abs_path
+                .set 'filename', path
                 .set 'compress', process.env.NODE_ENV is 'production'
-                .set 'paths', ['public/css']
+                .set 'paths', [css_path]
+                .set 'cache', false
                 .use nib()
                 .import 'nib'
                 .import 'core/base'

@@ -16,7 +16,15 @@ serve_files = (opts) ->
     [port, st, open] = opts
 
     compiler = require './kit/compiler'
+    html_compiler = renderer.file_handlers['.html'].compiler
 
+    renderer.file_handlers['.html'] =
+        ext_src: ['.html', '.jade']
+        compiler: (str, path, data) ->
+            if @ext is '.html'
+                return str
+
+            html_compiler.apply(@, [str, path, data])
     renderer.file_handlers['.css'] = compiler.stylus_handler
     renderer.file_handlers['.js'] = compiler.coffee_handler
 
