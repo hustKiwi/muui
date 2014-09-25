@@ -3,6 +3,7 @@ coffeelint_config = require '../coffeelint.json'
 
 cwd = process.cwd()
 css_path = kit.path.join(cwd, './public/css')
+bower_path = kit.path.join(cwd, './bower_components')
 
 module.exports =
     stylus_handler:
@@ -19,8 +20,9 @@ module.exports =
             stylus(str)
                 .set 'filename', path
                 .set 'compress', process.env.NODE_ENV is 'production'
-                .set 'paths', [css_path]
+                .set 'paths', [css_path, bower_path]
                 .set 'cache', false
+                .set 'include css', true
                 .use nib()
                 .import 'nib'
                 .import 'core/base'

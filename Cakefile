@@ -1,9 +1,7 @@
 process.env.NODE_ENV ?= 'development'
 
 require 'coffee-script/register'
-nobone = require 'nobone'
-
-{ kit, kit: { _ } } = nobone
+{ kit, kit: { _ } } = require 'nobone'
 
 run_server = (opts) ->
     compiler = require './kit/compiler'
