@@ -1,20 +1,15 @@
 process.env.NODE_ENV ?= 'development'
 
-require 'coffee-script/register'
 { kit, kit: { _ } } = require 'nobone'
 
 run_server = (opts) ->
-    compiler = require './kit/compiler'
-
-    nodemon_bin = './node_modules/.bin/nodemon'
-
     {port, st, open} = _.defaults opts, {
         port: 8078
         st: 'public'
         open: false
     }
 
-    kit.spawn nodemon_bin, [
+    kit.spawn './node_modules/.bin/coffee', [
         './server.coffee',
         port,
         st,

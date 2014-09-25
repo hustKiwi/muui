@@ -4,7 +4,7 @@ append vars
     - var ui_name = 'pager'
 
 block content
-    #panel
+    #panel.
         第1页
     #pager-placeholder
 
@@ -21,7 +21,9 @@ block js
         require [
             'muui/ui/pager'
         ], (UI) ->
-            new UI({
+            pager = new UI({
                 el: '#pager-placeholder'
                 datasource: '/datasource/tab'
             })
+
+            console.log pager.build(29, 281, 10)

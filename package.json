@@ -16,7 +16,6 @@
     "jade": "*",
     "stylus": "*",
     "nib": "*",
-    "uglify-js": "~2.4.15",
-    "nodemon": "*"
+    "uglify-js": "~2.4.15"
   }
 }

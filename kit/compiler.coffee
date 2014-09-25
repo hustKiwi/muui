@@ -40,13 +40,15 @@ module.exports =
             if @ext is '.js'
                 return str
 
-            # Lint
             coffeelint = kit.require 'coffeelint'
+
+            # Lint
             lint_results = coffeelint.lint str, coffeelint_config
             if lint_results.length > 0
-                info = "node_modules/.bin/coffeelint -f coffeelint.json #{path}".cyan
-                kit.err '\nCoffeeLint Warning: '.red + path +
-                    "\nUse '#{info}' to lint the file."
+                kit.err 'Coffeelint Error:'.red
+                kit.spawn "#{cwd}/node_modules/.bin/coffeelint", [
+                    '-f', "#{cwd}/coffeelint.json", "#{cwd}/#{path}"
+                ]
 
             coffee = kit.require 'coffee-script'
             code = coffee.compile str, _.defaults(data, {
