@@ -20,10 +20,15 @@ block js
     :coffee
         require [
             'muui/ui/pager'
-        ], (UI) ->
-            pager = new UI({
+        ], (Pager) ->
+            pager = new Pager({
                 el: '#pager-placeholder'
                 datasource: '/datasource/tab'
+                render_args:
+                    cur: 10
+                    total: 199
+                    size: 10
+                    length: 8
+                after_render: (r) ->
+                    console.log r
             })
-
-            console.log pager.build(29, 281, 10)

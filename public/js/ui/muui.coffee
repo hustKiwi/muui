@@ -5,6 +5,7 @@ define [
         @defaults:
             el: ''
             datasource: ''
+            render_args: {}
             render_fn: 'replaceWith'
             data_filter: (r) ->
                 r
@@ -19,7 +20,7 @@ define [
             unless opts.el
                 throw new Error 'el cannot be empty.'
             @$el = $(opts.el)
-            @render().done =>
+            @render(opts.render_args).done =>
                 @init_events()
 
         get_datasource: ->
@@ -32,7 +33,7 @@ define [
 
         render: ->
             {$el, opts} = @
-            {before_render, after_render, tmpl} = opts
+            {before_render, after_render, render_fn, tmpl} = opts
 
             before_render()
             def = $.Deferred()
@@ -41,7 +42,6 @@ define [
                 require([
                     "text!#{tmpl}.html"
                 ], (tmpl) =>
-                    render_fn = opts.render_fn
                     render_tmpl = (r) =>
                         $tmpl = $(_.template(tmpl)(r))
                         $el[render_fn]($tmpl)
