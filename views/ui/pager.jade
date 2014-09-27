@@ -3,14 +3,20 @@ extends ../core/base
 append vars
     - page = page || 1
 
+append head
+    link(rel="stylesheet", href="/st/css/ui/tab.css")
+
 block content
-    #panel.
-      第#{page}页
+    #tab-placeholder
+    .muui-tab-panel.default-panel.on.
+        第#{page}页
+    .muui-tab-panel.ajax-panel.
+        第#{page}页
     #pager-placeholder
 
 block css
     :stylus
-        #panel
+        .muui-tab-panel
             height: 200px
             line-height: 200px
             font-size: 36px
@@ -24,8 +30,25 @@ block css
 block js
     :coffee
         require [
+            'muui/ui/tab'
             'muui/ui/pager'
-        ], (Pager) ->
+        ], (Tab, Pager) ->
+            new Tab({
+                el: '#tab-placeholder'
+                data:
+                    cur: '.default-panel'
+                    items: [
+                        {
+                            target: '.default-panel'
+                            name: '页面刷新'
+                        }
+                        {
+                            target: '.ajax-panel'
+                            name: '局部刷新'
+                        }
+                    ]
+            })
+
             pager = new Pager({
                 el: '#pager-placeholder'
                 datasource: '/datasource/tab'
