@@ -11,11 +11,15 @@ define [
                 <div class="muui-pager">
                 <% _.each(pager, function(item) { %>
                     <% if (item === 'prev') { %>
-                        <a class="muui-pager-prev muui-pager-item" href="<%- path.replace(/{page}/g, args.prev) %>">
+                        <a class="muui-pager-prev muui-pager-item"
+                            data-page="<%- args.prev %>"
+                            href="<%- path.replace(/{page}/g, args.prev) %>">
                             <%- args.prev_lable %>
                         </a>
                     <% } else if (item === 'next') { %>
-                        <a class="muui-pager-next muui-pager-item" href="<%- path.replace(/{page}/g, args.next) %>">
+                        <a class="muui-pager-next muui-pager-item"
+                            data-page="<%- args.next %>"
+                            href="<%- path.replace(/{page}/g, args.next) %>">
                             <%- args.next_lable %>
                         </a>
                     <% } else if (item === 'cur') { %>
@@ -23,13 +27,17 @@ define [
                     <% } else if (item === '...') { %>
                         <span class="muui-pager-ellipse">...</span>
                     <% } else { %>
-                        <a class="muui-pager-item" href="<%- path.replace(/{page}/g, item) %>"><%- item %></a>
+                        <a class="muui-pager-item"
+                            data-page="<%- item %>"
+                            href="<%- path.replace(/{page}/g, item) %>">
+                            <%- item %>
+                        </a>
                     <% } %>
                 <% }); %>
                 </div>
             """)
             handles:
-                change: ($item, $target) ->
+                redirect: (e) ->
 
         get_opts: (options) ->
             $.extend({}, Pager.defaults, super(options))
@@ -42,6 +50,7 @@ define [
                 $(@).addClass('on')
             .on 'mouseleave', ".#{item_cls}", ->
                 $(@).removeClass('on')
+            .on 'click', ".#{item_cls}", handles.redirect
 
         render: (args) ->
             {$el, opts} = @
@@ -57,10 +66,14 @@ define [
 
                 return done(r) unless r.pager.length
 
+                if _.isString(tmpl)
+                    tmpl = _.template(tmpl)
+
                 $tmpl = $(tmpl(r))
                 $el[render_fn]($tmpl)
                 if render_fn is 'replaceWith'
                     @$el = $tmpl
+
                 done(r)
 
             def.promise()

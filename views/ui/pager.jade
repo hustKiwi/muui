@@ -1,11 +1,8 @@
 extends ../core/base
 
-append vars
-    - var ui_name = 'pager'
-
 block content
     #panel.
-        第1页
+      第#{page}页
     #pager-placeholder
 
 block css

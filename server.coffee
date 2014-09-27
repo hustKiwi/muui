@@ -1,7 +1,7 @@
 nobone = require 'nobone'
 
 { kit, service, renderer } = nobone()
-{ Q } = kit
+{ Q, _ } = kit
 
 serve_fake_datasource = ->
     kit.glob './kit/datasource/*.coffee'
@@ -32,9 +32,14 @@ serve_files = (opts) ->
     .then (paths) ->
         Q.all paths.map (p) ->
             name = kit.path.basename p, '.jade'
-            service.get '/' + name, (req, res) ->
+            service.get "/#{name}", (req, res) ->
                 renderer.render(p, '.html').then (tpl_fn) ->
-                    res.send tpl_fn()
+                    try
+                        res.send tpl_fn(_.extend({
+                            ui_name: name
+                        }, req.query))
+                    catch err
+                        kit.err err.stack.red
     .then ->
         service.use '/st/bower', renderer.static('./bower_components')
         service.use '/st', renderer.static(st)

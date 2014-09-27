@@ -8,8 +8,8 @@ class Setup
             spawn 'node_modules/.bin/bower', ['install']
         .then =>
             @build_zepto()
-        .catch (e) ->
-            if e.message is 'canceled'
+        .catch (err) ->
+            if err.message is 'canceled'
                 log '\n>> Canceled.'.red
                 process.exit 0
         .done ->
