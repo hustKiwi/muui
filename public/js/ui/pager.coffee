@@ -53,11 +53,12 @@ define [
             .on 'click', ".#{item_cls}", handles.redirect
 
         render: (args) ->
-            { $el, opts } = @
+            { opts } = @
             {
                 before_render, after_render
                 render_fn, tmpl
             } = opts
+            @$el = $el = $(opts.el)
 
             before_render()
             def = $.Deferred()

@@ -8,11 +8,11 @@ append head
 
 block content
     #tab-placeholder
-    .muui-tab-panel.default-panel.on.
-        第#{page}页
-    .muui-tab-panel.ajax-panel.
-        第#{page}页
-    #pager-placeholder
+    .muui-tab-panel.default-panel.on
+        | 第#{page}页
+        .default-pager-placeholder
+    .muui-tab-panel.ajax-panel
+        include ./include/ajax_pager.jade
 
 block css
     :stylus
@@ -26,6 +26,7 @@ block css
             margin-bottom: 25px
         .muui-pager
             text-align: center
+            font-weight: normal
 
 block js
     :coffee
@@ -49,17 +50,38 @@ block js
                     ]
             })
 
+            render_args = {
+                path: '/pager?page={page}'
+                cur: '#{page}'
+                total: 199
+                size: 10
+                length: 8
+                prev_lable: '上页'
+                next_lable: '下页'
+            }
+
+
+            new Pager({
+                el: '.default-pager-placeholder'
+                render_args: render_args
+            })
+
             pager = new Pager({
-                el: '#pager-placeholder'
-                datasource: '/datasource/tab'
-                render_args:
-                    path: '/pager?page={page}'
-                    cur: '#{page}'
-                    total: 199
-                    size: 10
-                    length: 8
-                    prev_lable: '上页'
-                    next_lable: '下页'
-                after_render: (r) ->
-                    console.log r
+                el: '.ajax-pager-placeholder'
+                render_args: render_args
+                handles:
+                    redirect: (e) ->
+                        e.preventDefault()
+
+                        page = $(this).data('page')
+                        url = "/include/ajax_pager?page=#{page}"
+
+                        $('.ajax-panel').load(url, ->
+                            pager.render(
+                                _.defaults({
+                                    cur: page
+                                }, render_args)
+                            ).done ->
+                                pager.init_events()
+                        )
             })

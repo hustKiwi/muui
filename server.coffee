@@ -9,7 +9,7 @@ serve_fake_datasource = ->
         Q.all paths.map (p) ->
             name = kit.path.basename p, '.coffee'
             url = "/datasource/#{name}"
-            kit.log 'Fake Datasource: '.cyan + url
+            kit.log 'Fake datasource: '.cyan + url
             service.get url, require('./' + p)
 
 serve_files = (opts) ->
@@ -28,10 +28,16 @@ serve_files = (opts) ->
     renderer.file_handlers['.css'] = compiler.stylus_handler
     renderer.file_handlers['.js'] = compiler.coffee_handler
 
-    kit.glob 'views/ui/*.jade'
+    kit.glob 'views/ui/**/*.jade'
     .then (paths) ->
         Q.all paths.map (p) ->
-            name = kit.path.basename p, '.jade'
+            if p.indexOf('views/ui/include') is 0
+                name = p.substring(9, p.length - 5)
+            else
+                name = kit.path.basename p, '.jade'
+
+            kit.log "Create route: ".cyan + name
+
             service.get "/#{name}", (req, res) ->
                 renderer.render(p, '.html').then (tpl_fn) ->
                     try
