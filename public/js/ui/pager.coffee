@@ -7,18 +7,23 @@ define [
         @defaults:
             el: '.muui-pager'
             tmpl: _.template("""
+                <% var path = args.path; %>
                 <div class="muui-pager">
                 <% _.each(pager, function(item) { %>
                     <% if (item === 'prev') { %>
-                        <a class="muui-pager-prev muui-pager-item">上一页</a>
+                        <a class="muui-pager-prev muui-pager-item" href="<%- path.replace(/{page}/g, args.prev) %>">
+                            <%- args.prev_lable %>
+                        </a>
                     <% } else if (item === 'next') { %>
-                        <a class="muui-pager-next muui-pager-item">下一页</a>
+                        <a class="muui-pager-next muui-pager-item" href="<%- path.replace(/{page}/g, args.next) %>">
+                            <%- args.next_lable %>
+                        </a>
                     <% } else if (item === 'cur') { %>
-                        <a class="muui-pager-item cur"><%- args.cur %></a>
+                        <span class="muui-pager-item cur"><%- args.cur %></span>
                     <% } else if (item === '...') { %>
                         <span class="muui-pager-ellipse">...</span>
                     <% } else { %>
-                        <a class="muui-pager-item"><%- item %></a>
+                        <a class="muui-pager-item" href="<%- path.replace(/{page}/g, item) %>"><%- item %></a>
                     <% } %>
                 <% }); %>
                 </div>
@@ -45,9 +50,7 @@ define [
             before_render()
             def = $.Deferred()
 
-            do (r = @build(
-                args.cur, args.total, args.size, args.length
-            )) =>
+            do (r = @build(args)) =>
                 done = (r) ->
                     def.resolve(r)
                     after_render(r)
@@ -62,7 +65,16 @@ define [
 
             def.promise()
 
-        build: (cur, total, size, length = 7) ->
+        build: (data) ->
+            _.defaults data, {
+                path: ''
+                size: 10
+                length: 7
+                prev_lable: '上一页'
+                next_lable: '下一页'
+            }
+            { cur, total, size, length } = data
+
             page_num = ceil(total / size)
             if page_num < length
                 length = page_num
@@ -71,9 +83,11 @@ define [
 
             if cur isnt 1
                 has_prev = true
+                data.prev = cur - 1
 
             if cur isnt page_num
                 has_next = true
+                data.next = cur + 1
 
             if cur - length < 1
                 r = [1..length]
@@ -104,11 +118,12 @@ define [
             r.push('next') if has_next
 
             {
-                args:
+                args: _.extend data, {
                     cur: cur
                     total: total
                     size: size
                     length: length
+                }
                 pager: r
             }
 

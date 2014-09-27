@@ -25,10 +25,13 @@ block js
                 el: '#pager-placeholder'
                 datasource: '/datasource/tab'
                 render_args:
+                    path: '/pager?page={page}'
                     cur: 10
                     total: 199
                     size: 10
                     length: 8
+                    prev_lable: '上页'
+                    next_lable: '下页'
                 after_render: (r) ->
                     console.log r
             })
