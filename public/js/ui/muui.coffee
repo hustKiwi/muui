@@ -23,17 +23,13 @@ define [
             @render(opts.render_args).done =>
                 @init_events()
 
-        get_datasource: ->
-            datasource = @opts.datasource
-            try
-                datasource = JSON.parse(datasource)
-            catch
-                datasource = @opts.datasource
-            datasource
-
         render: ->
-            {$el, opts} = @
-            {before_render, after_render, render_fn, tmpl} = opts
+            { $el, opts } = @
+            {
+                before_render, after_render
+                render_fn, tmpl
+                datasource, data_filter
+            } = opts
 
             before_render()
             def = $.Deferred()
@@ -50,12 +46,11 @@ define [
                         def.resolve(r, $tmpl)
                         after_render(r, $tmpl)
 
-                    datasource = @get_datasource()
                     if datasource
                         utils.api(datasource).done (r) ->
-                            render_tmpl opts.data_filter(r)
+                            render_tmpl data_filter(r)
                     else
-                        render_tmpl()
+                        render_tmpl(opts.data or {})
                 )
             else
                 def.resolve()
