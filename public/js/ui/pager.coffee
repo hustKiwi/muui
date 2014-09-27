@@ -93,8 +93,8 @@ define [
             { cur, total, size, length } = data
 
             page_num = ceil(total / size)
-            if page_num < length
-                length = page_num
+            length = page_num if page_num < length
+            length = 2 if length < 7
 
             cur = 1 unless 1 <= (cur = ~~cur) <= page_num
 
@@ -106,30 +106,30 @@ define [
                 has_next = true
                 data.next = cur + 1
 
-            if cur - length < 1
+            offset = floor((length - 1) / 2)
+            if cur - offset < 1
                 r = [1..length]
-            else if cur + length > page_num
-                r = [(page_num - length + 1)..page_num]
+            else if cur + offset > page_num - 2
+                r = [(page_num - length)..page_num]
             else
-                offset = floor((length - 1) / 2)
-                if cur - offset < 1
-                    offset = cur - 1
+                r = [(cur - offset)..(cur + length - 1 - offset)]
 
-                r = (i for i in [(cur - offset)..(cur + length - 1 - offset)])
+            if r.length is 1
+                return []
+            else if length isnt 2
+                if r[0] isnt 1
+                    r[0] = 1
+                    if r[1] isnt cur
+                        r[1] = '...'
 
-            return [] if r.length is 1
+                l = r.length
+                if r[l - 1] isnt page_num
+                    r[l - 1] = page_num
+                    r[l - 2] = '...'
 
-            if r[0] isnt 1
-                r[0] = 1
-                if r[1] isnt cur
-                    r[1] = '...'
-
-            l = r.length
-            if r[l - 1] isnt page_num
-                r[l - 1] = page_num
-                r[l - 2] = '...'
-
-            r[_.indexOf(r, cur)] = 'cur'
+                r[_.indexOf(r, cur)] = 'cur'
+            else
+                r.length = 0
 
             r.unshift('prev') if has_prev
             r.push('next') if has_next
