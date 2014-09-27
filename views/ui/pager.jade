@@ -1,17 +1,25 @@
 extends ../core/base
 
+append vars
+    - page = page || 1
+
 block content
     #panel.
       第#{page}页
     #pager-placeholder
 
 block css
-    :css
-        .muui-tab-panel {
-            padding-top: 50px;
-            text-align: center;
-            font-size: 24px;
-        }
+    :stylus
+        #panel
+            height: 200px
+            line-height: 200px
+            font-size: 36px
+            font-weight: bold
+            text-align: center
+            background: #fafafa
+            margin-bottom: 25px
+        .muui-pager
+            text-align: center
 
 block js
     :coffee
@@ -23,7 +31,7 @@ block js
                 datasource: '/datasource/tab'
                 render_args:
                     path: '/pager?page={page}'
-                    cur: 10
+                    cur: '#{page}'
                     total: 199
                     size: 10
                     length: 8

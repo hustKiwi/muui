@@ -2,10 +2,14 @@ $pager_color = $blue
 $pager_border_color = #e7ecf0
 
 .muui-pager
-    clearfix()
+    // HACK: 去除inline-block元素的间隙
+    // 参考: http://css-tricks.com/fighting-the-space-between-inline-block-elements/
+    font-size: 0
+    -webkit-text-size-adjust: none
     .muui-pager-ellipse
-        float-left()
+        inline-block()
         line-height(24px)
+        font-size: 14px
         color: $pager_color
         margin-right: 5px
     .muui-pager-item
