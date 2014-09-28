@@ -27,3 +27,20 @@
     display: none !important
     &.on
         display: block !important
+
+if $theme is 'main'
+    .muui-tab
+        border-color: $light_grey
+        .muui-tab-item
+            color: $grey
+            background: #fbfbfb
+            &.on
+                color: $blue
+                background: #fbfbfb
+                border-color: #fbfbfb
+                &:before
+                    border-bottom-color: $light_grey
+                &:after
+                    border-bottom-color: #fbfbfb
+            &.hover
+                background: #fbfbfb
