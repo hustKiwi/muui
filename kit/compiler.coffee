@@ -1,11 +1,22 @@
-{ kit, kit: { Q, _ } } = require 'nobone'
+nobone = require 'nobone'
 coffeelint_config = require '../coffeelint.json'
+
+{ renderer, kit, kit: { Q, _ } } = nobone()
 
 cwd = process.cwd()
 css_path = kit.path.join(cwd, './public/css')
 bower_path = kit.path.join(cwd, './bower_components')
+views_path = kit.path.join(cwd, './views')
 
 module.exports =
+    html_handler:
+        ext_src: ['.html', '.jade']
+        compiler: (str, path, data) ->
+            if @ext is '.html'
+                return str
+            renderer.file_handlers['.html'].compiler
+                .apply(@, [str, path, data])
+
     stylus_handler:
         ext_src: ['.styl']
         dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
