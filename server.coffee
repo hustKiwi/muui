@@ -23,12 +23,24 @@ serve_files = (opts) ->
         compiler: (str, path, data) ->
             if @ext is '.html'
                 return str
-
             html_compiler.apply(@, [str, path, data])
     renderer.file_handlers['.css'] = compiler.stylus_handler
     renderer.file_handlers['.js'] = compiler.coffee_handler
 
-    kit.glob 'views/ui/**/*.jade'
+    render_jade = (route, path, data) ->
+        service.get route, (req, res) ->
+            renderer.render(path, '.html').then (tpl_fn) ->
+                try
+                    res.send tpl_fn _.extend(data, req.query)
+                catch err
+                    kit.err err.stack.red
+
+    Q.fcall ->
+        render_jade('/', 'views/index.jade', {
+            ui_name: '首页'
+        })
+    .then ->
+        kit.glob 'views/ui/**/*.jade'
     .then (paths) ->
         Q.all paths.map (p) ->
             if p.indexOf('views/ui/include') is 0
@@ -38,15 +50,10 @@ serve_files = (opts) ->
 
             kit.log "Create route: ".cyan + name
 
-            service.get "/#{name}", (req, res) ->
-                renderer.render(p, '.html').then (tpl_fn) ->
-                    try
-                        res.send tpl_fn(_.extend({
-                            ui_name: name
-                        }, req.query))
-                    catch err
-                        kit.err err.stack.red
-    .then ->
+            render_jade "/#{name}", p, {
+                ui_name: name
+            }
+    .done ->
         service.use '/st/bower', renderer.static('./bower_components')
         service.use '/st', renderer.static(st)
 
