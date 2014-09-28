@@ -5,12 +5,18 @@ html
     head
         title
             block title
-                | MuUI - #{ui_name.capitalize()}
+                if ui_name
+                    | MuUI - #{ui_name.capitalize()}
+                else
+                    | MuUI - 百度音乐UI组件库
         meta(charset="utf-8")
         meta(name="vieport" content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/st/css/core/layout.css")
         link(rel="stylesheet", href="/st/css/theme/main.css")
-        link(rel="stylesheet", href="/st/css/ui/#{ui_name}.css")
+        if ui_name
+            link(rel="stylesheet", href="/st/css/ui/#{ui_name}.css")
+        else
+            link(rel="stylesheet", href="/st/css/index.css")
         <!--[if lt IE 9]>
         <script src="/st/bower/html5shiv/dist/html5shiv.min.js"></script>
         <![endif]-->
@@ -27,17 +33,18 @@ html
             .center-wrap
                 block content
         include ./footer
-        script(src="/st/bower/requirejs/require.js")
-        script
-            :coffee
-                require.config
-                    deps: ['jquery', 'lodash']
-                    baseUrl: '/st/js'
-                    paths:
-                        muui: './'
-                        tmpl: '/st/tmpl'
-                        text: '/st/bower/requirejs-text/text'
-                        jquery: '/st/bower/jquery/dist/jquery.min'
-                        lodash: '/st/bower/lodash/dist/lodash.min'
-        script
-            block js
+        if ui_name
+            script(src="/st/bower/requirejs/require.js")
+            script
+                :coffee
+                    require.config
+                        deps: ['jquery', 'lodash']
+                        baseUrl: '/st/js'
+                        paths:
+                            muui: './'
+                            tmpl: '/st/tmpl'
+                            text: '/st/bower/requirejs-text/text'
+                            jquery: '/st/bower/jquery/dist/jquery.min'
+                            lodash: '/st/bower/lodash/dist/lodash.min'
+            script
+                block js

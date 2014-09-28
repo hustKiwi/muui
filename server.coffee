@@ -27,7 +27,7 @@ serve_files = (opts) ->
     renderer.file_handlers['.css'] = compiler.stylus_handler
     renderer.file_handlers['.js'] = compiler.coffee_handler
 
-    render_jade = (route, path, data) ->
+    render_jade = (route, path, data = {}) ->
         service.get route, (req, res) ->
             renderer.render(path, '.html').then (tpl_fn) ->
                 try
@@ -36,9 +36,7 @@ serve_files = (opts) ->
                     kit.err err.stack.red
 
     Q.fcall ->
-        render_jade('/', 'views/index.jade', {
-            ui_name: '首页'
-        })
+        render_jade '/', 'views/index.jade'
     .then ->
         kit.glob 'views/ui/**/*.jade'
     .then (paths) ->

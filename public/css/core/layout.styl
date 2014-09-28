@@ -1,8 +1,8 @@
 global-reset()
 
 #header
+    border-bottom(#28a1c5)
     background: #5bc0de
-    border-bottom: 1px solid #28a1c5
     h1
         line-height(50px)
         color: $white
@@ -21,8 +21,8 @@ global-reset()
 
 #footer
     line-height(60px)
+    border-top($light_grey)
     background: $dark_white
-    border-top: $border
 
 *
     box-sizing(border-box)
@@ -44,3 +44,14 @@ h1, h2
 
 .center-wrap
     center-block(auto)
+
+.mod
+    margin-bottom: 40px
+    .hd
+        margin-bottom: 12px
+        &, h2
+            font-size: 18px
+            font-weight: bold
+            padding-bottom: 0
+    .bd
+        break-word()

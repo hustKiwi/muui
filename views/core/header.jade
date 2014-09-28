@@ -1,3 +1,6 @@
 #header
     .center-wrap
-        h1 MuUI - <em>#{ui_name.capitalize()}</em><i>for PC</i>
+        if ui_name
+            h1 MuUI - <em>#{ui_name.capitalize()}</em><i>for PC</i>
+        else
+            h1 MuUI - <em>百度音乐UI组件库</em>

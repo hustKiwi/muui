@@ -1,5 +1,35 @@
 extends core/base
 
+mixin list(items)
+    each item, i in items
+        li(class="#{i % 2 && 'even' || ''}")
+            a(href="#{item.url}") #{item.name}
+
 block content
-    #test.
-        主页
+    #ui-nav
+        .mod
+            .hd
+                h2 PC端组件
+            .bd
+                ul
+                    +list([
+                        {
+                            url: '/tab',
+                            name: 'Tab - 标签切换'
+                        },
+                        {
+                            url: '/pager',
+                            name: 'Pager - 翻页器'
+                        }
+                    ])
+        .mod
+            .hd
+                h2 WebApp端组件
+            .bd
+                ul
+                    +list([
+                        {
+                            url: '/webapp_tab',
+                            name: 'Tab - 标签切换'
+                        }
+                    ])
