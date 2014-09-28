@@ -49,6 +49,13 @@ serve_files = (opts) ->
         service.use '/st/bower', renderer.static('./bower_components')
         service.use '/st', renderer.static(st)
 
+        # https://github.com/strongloop/express/blob/master/examples/error-pages/index.js
+        service.use (req, res, next) ->
+            res.status(404)
+
+            if req.accepts('html')
+                res.redirect '/'
+
         service.listen port, ->
             kit.log 'Start at port: '.cyan + port
             if open is 'true'
