@@ -4,22 +4,20 @@
     background: #fbfbfb
     .muui-tab-item
         flex(1)
-        line-height(43px)
+		relative()
+        line-vertical-middle(43px)
         text-align: center
         font-size: 16px
-        position: relative
         &.on
             &:before, &:after
                 size(0)
+				absolute(left 50% bottom 0)
+				margin-left: -8px
                 content: ''
+				display: block
                 border-left: 8px solid transparent
                 border-right: 8px solid transparent
                 border-bottom: 8px solid transparent
-                position: absolute
-                left: 50%
-                margin-left: -8px
-                bottom: 0
-                display: block
             &:after
                 bottom: -1px
 
