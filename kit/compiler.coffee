@@ -17,7 +17,7 @@ module.exports =
             renderer.file_handlers['.html'].compiler
                 .apply(@, [str, path, data])
 
-    stylus_handler:
+    css_handler:
         ext_src: ['.styl']
         dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
         dependency_roots: [css_path]
@@ -45,7 +45,7 @@ module.exports =
 
             deferred.promise
 
-    coffee_handler:
+    js_handler:
         ext_src: ['.js', '.coffee']
         compiler: (str, path, data = {}) ->
             if @ext is '.js'

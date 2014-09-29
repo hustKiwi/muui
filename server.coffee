@@ -18,8 +18,8 @@ serve_files = (opts) ->
     compiler = require './kit/compiler'
 
     renderer.file_handlers['.html'] = compiler.html_handler
-    renderer.file_handlers['.css'] = compiler.stylus_handler
-    renderer.file_handlers['.js'] = compiler.coffee_handler
+    renderer.file_handlers['.css'] = compiler.css_handler
+    renderer.file_handlers['.js'] = compiler.js_handler
 
     render_jade = (route, path, data = {}) ->
         service.get route, (req, res) ->

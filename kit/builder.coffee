@@ -32,8 +32,8 @@ class Builder
             kit.log '>> Clean dist.'.cyan
             kit.remove self.dist_path
         .then ->
-            renderer.file_handlers['.css'] = compiler.stylus_handler
-            renderer.file_handlers['.js'] = compiler.coffee_handler
+            renderer.file_handlers['.css'] = compiler.css_handler
+            renderer.file_handlers['.js'] = compiler.js_handler
 
             Q.all [
                 self.batch_compile 'coffee', 'js', self.js_path
