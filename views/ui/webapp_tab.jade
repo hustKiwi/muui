@@ -20,9 +20,9 @@ block css
 block js
     :coffee
         require [
-            'muui/tab/index'
-        ], (Tab) ->
-            new Tab({
+            'muui/webapp_tab/index'
+        ], (WebAppTab) ->
+            new WebAppTab({
                 el: '#tab-placeholder'
                 datasource: '/datasource/tab'
                 data_filter: (r) ->
