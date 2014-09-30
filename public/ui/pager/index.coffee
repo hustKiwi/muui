@@ -1,5 +1,5 @@
 define [
-    'muui/ui/muui'
+    'core/muui'
 ], (MuUI) ->
     { ceil, floor } = Math
 

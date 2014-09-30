@@ -13,7 +13,7 @@ html
         meta(name="vieport" content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/st/css/core/layout.css")
         if ui_name
-            link(rel="stylesheet", href="/st/css/ui/#{ui_name}.css")
+            link(rel="stylesheet", href="/st/ui/#{ui_name}/index.css")
         else
             link(rel="stylesheet", href="/st/css/index.css")
         <!--[if lt IE 9]>
@@ -36,8 +36,7 @@ html
                         deps: ['jquery', 'lodash']
                         baseUrl: '/st/js'
                         paths:
-                            muui: './'
-                            tmpl: '/st/tmpl'
+                            muui: '/st/ui'
                             text: '/st/bower/requirejs-text/text'
                             jquery: '/st/bower/jquery/dist/jquery.min'
                             lodash: '/st/bower/lodash/dist/lodash.min'

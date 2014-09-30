@@ -4,7 +4,7 @@ append vars
     - page = page || 1
 
 append head
-    link(rel="stylesheet", href="/st/css/ui/tab.css")
+    link(rel="stylesheet", href="/st/ui/tab/index.css")
 
 block content
     #tab-placeholder
@@ -31,8 +31,8 @@ block css
 block js
     :coffee
         require [
-            'muui/ui/tab'
-            'muui/ui/pager'
+            'muui/tab/index'
+            'muui/pager/index'
         ], (Tab, Pager) ->
             new Tab({
                 el: '#tab-placeholder'

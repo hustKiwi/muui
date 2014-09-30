@@ -1,10 +1,10 @@
 define [
-    'muui/ui/muui'
+    'core/muui'
 ], (MuUI) ->
     class Tab extends MuUI
         @defaults:
             el: '.muui-tab'
-            tmpl: 'tmpl/tab'
+            tmpl: 'muui/tab/index'
             handles:
                 change: ($item, $target) ->
 

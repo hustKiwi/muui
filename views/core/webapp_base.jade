@@ -9,7 +9,7 @@ html
         meta(charset="utf-8")
         meta(name="vieport" content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/st/css/core/layout.css")
-        link(rel="stylesheet", href="/st/css/ui/webapp_#{ui_name}.css")
+        link(rel="stylesheet", href="/st/ui/webapp_#{ui_name}/index.css")
         block head
         style
             block css
@@ -25,8 +25,7 @@ html
                     deps: ['zepto', 'lodash']
                     baseUrl: '/st/js'
                     paths:
-                        muui: './'
-                        tmpl: '/st/tmpl'
+                        muui: '/st/ui'
                         text: '/st/bower/requirejs-text/text'
                         zepto: '/st/bower/zeptojs/dist/zepto.min'
                         lodash: '/st/bower/lodash/dist/lodash.min'
