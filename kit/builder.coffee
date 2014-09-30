@@ -5,21 +5,17 @@ nobone = require 'nobone'
 { kit, renderer } = nobone { renderer: {} }
 { Q, _, path } = kit
 
-coffee_bin = './node_modules/.bin/coffee'
-coffee_lint_bin = './node_modules/.bin/coffeelint'
-
 class Builder
     constructor: ->
-        @src_path = "public"
-        @dist_path = "dist"
+        @src_path = 'public'
+        @dist_path = 'dist'
+        @js_path = 'js'
+        @css_path = 'css'
+        @img_path = 'img'
+        @tmpl_path = 'tmpl'
 
-        @js_path = "js"
-        @css_path = "css"
-        @img_path = "img"
-        @tmpl_path = "tmpl"
-
-    copy: (from, to) =>
-        kit.copy(from, to).then =>
+    copy: (from, to) ->
+        kit.copy(from, to).then ->
             kit.log '>> Copy: '.cyan + from + ' -> '.green + to
 
     build: ->

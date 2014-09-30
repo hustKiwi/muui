@@ -40,7 +40,7 @@ serve_files = (opts) ->
             else
                 name = kit.path.basename p, '.jade'
 
-            kit.log "Create route: ".cyan + name
+            kit.log 'Create route: '.cyan + name
 
             render_jade "/#{name}", p, {
                 ui_name: name

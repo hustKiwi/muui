@@ -20,7 +20,7 @@ class Setup
         mods = 'zepto event ajax ie selector data callbacks deferred stack ios3'
 
         Q.fcall ->
-            log ">> Install zepto dependencies.".cyan
+            log '>> Install zepto dependencies.'.cyan
             spawn 'npm', ['install'], {
                 cwd: zepto_path
             }
