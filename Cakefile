@@ -4,7 +4,7 @@ expand = require 'glob-expand'
 { kit: { Q, _, spawn } } = require 'nobone'
 
 run_server = (opts) ->
-    {port, st, open} = _.defaults opts, {
+    { port, st, open } = _.defaults opts, {
         port: 8078
         st: 'public'
         open: false
@@ -18,6 +18,9 @@ run_server = (opts) ->
     ]
 
 option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 dev'
+option '-q', '--quite',
+    'Run lint script in the quite mode which only print errors.
+    Example: cake -q coffeelint'
 option '-o', '--open', 'Whether to open a webpage with the default browser?'
 option '-s', '--st [st]', 'Static directory.'
 
