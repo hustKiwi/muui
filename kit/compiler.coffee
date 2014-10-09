@@ -1,12 +1,16 @@
 nobone = require 'nobone'
 coffeelint_config = require '../coffeelint.json'
 
-{ renderer, kit, kit: { Q, _ } } = nobone()
+{
+    renderer,
+    kit,
+    kit: { Q, _, path }
+} = nobone()
 
-cwd = process.cwd()
-css_path = kit.path.join(cwd, './public/css')
-bower_path = kit.path.join(cwd, './bower_components')
-views_path = kit.path.join(cwd, './views')
+cwd_path = process.cwd()
+css_path = path.join(cwd_path, './public/css')
+bower_path = path.join(cwd_path, './bower_components')
+views_path = path.join(cwd_path, './views')
 
 module.exports =
     html_handler:
@@ -26,7 +30,7 @@ module.exports =
             stylus = kit.require 'stylus'
             deferred = Q.defer()
 
-            path = kit.path.join(cwd, path)
+            path = kit.path.join(cwd_path, path)
 
             stylus(str)
                 .set 'filename', path

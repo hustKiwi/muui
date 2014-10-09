@@ -1,25 +1,31 @@
 process.env.NODE_ENV = 'production'
 
 nobone = require 'nobone'
+expand = require 'glob-expand'
 
-{ kit, renderer } = nobone { renderer: {} }
-{ Q, _, path } = kit
+{
+    kit,
+    renderer,
+    kit: { Q, _ }
+} = nobone { renderer: {} }
+
+relative = kit.path.relative
 
 class Builder
     constructor: ->
-        @src_path = 'public'
-        @dist_path = 'dist'
+        @cwd_path = cwd_path = process.cwd()
+        @src_path = "#{cwd_path}/public"
+        @dist_path = "#{cwd_path}/dist"
+        @ui_path = 'ui'
         @js_path = 'js'
         @css_path = 'css'
-        @img_path = 'img'
-        @tmpl_path = 'tmpl'
 
     copy: (from, to) ->
         kit.copy(from, to).then ->
             kit.log '>> Copy: '.cyan + from + ' -> '.green + to
 
     build: ->
-        compiler = require './kit/compiler'
+        compiler = require './compiler'
         self = @
 
         kit.log '>> Build start.'.cyan
@@ -33,20 +39,37 @@ class Builder
 
             Q.all [
                 self.batch_compile 'coffee', 'js', self.js_path
-                self.batch_compile 'styl', 'css', self.css_path
-                self.batch_compile 'html', 'html', self.tmpl_path
+                self.batch_compile 'styl', 'css', self.css_path, 'core/**/*.styl'
+                self.batch_compile 'coffee', 'js', self.ui_path
+                self.batch_compile 'styl', 'css', self.ui_path
+                self.batch_compile 'html', 'html', self.ui_path
             ]
         .catch (err) ->
             kit.err err.stack.red
         .done ->
             kit.log '>> Build done.'.green
 
-    batch_compile: (ext_src, ext_bin, src_dir) ->
+    batch_compile: (ext_src, ext_bin, src_dir, exclude = null) ->
         self = @
-        kit.glob(
-            kit.path.join(src_dir, "**/*.#{ext_src}")
-            { cwd: @src_path }
-        ).then (paths) ->
+        Q.fcall ->
+            args = [
+                {
+                    cwd: self.src_path
+                },
+                "#{src_dir}/**/*.#{ext_src}"
+            ]
+
+            if exclude
+                if _.isArray exclude
+                    args.concat(
+                        _.map exclude, (item) ->
+                            "!#{src_dir}/#{item}"
+                    )
+                else
+                    args.push "!#{src_dir}/#{exclude}"
+
+            expand.apply(null, args)
+        .then (paths) ->
             Q.all paths.map (path) ->
                 src_path = kit.path.join self.src_path, path
                 dist_path = kit.path.join(self.dist_path, path)
@@ -59,6 +82,6 @@ class Builder
                     if code
                         kit.outputFile dist_path, code
         .then ->
-            kit.log ">> All #{ext_src} compiled.".cyan
+            kit.log ">> All #{ext_src} in #{src_dir} directory has been compiled.".cyan
 
 module.exports = new Builder
