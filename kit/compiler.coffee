@@ -4,7 +4,7 @@ coffeelint_config = require '../coffeelint.json'
 {
     renderer,
     kit,
-    kit: { Q, _, path }
+    kit: { Promise, _, path }
 } = nobone()
 
 cwd_path = process.cwd()
@@ -28,26 +28,24 @@ module.exports =
         compiler: (str, path) ->
             nib = kit.require 'nib'
             stylus = kit.require 'stylus'
-            deferred = Q.defer()
 
             path = kit.path.join(cwd_path, path)
 
-            stylus(str)
-                .set 'filename', path
-                .set 'compress', process.env.NODE_ENV is 'production'
-                .set 'paths', [css_path, bower_path]
-                .set 'cache', false
-                .set 'include css', true
-                .use nib()
-                .import 'nib'
-                .import 'core/base'
-                .render (err, css) ->
-                    if err
-                        deferred.reject(err)
-                    else
-                        deferred.resolve(css)
-
-            deferred.promise
+            new Promise (resolve, reject) ->
+                stylus(str)
+                    .set 'filename', path
+                    .set 'compress', process.env.NODE_ENV is 'production'
+                    .set 'paths', [css_path, bower_path]
+                    .set 'cache', false
+                    .set 'include css', true
+                    .use nib()
+                    .import 'nib'
+                    .import 'core/base'
+                    .render (err, css) ->
+                        if err
+                            reject(err)
+                        else
+                            resolve(css)
 
     js_handler:
         ext_src: ['.js', '.coffee']

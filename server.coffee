@@ -1,12 +1,12 @@
 nobone = require 'nobone'
 
 { kit, service, renderer } = nobone()
-{ Q, _ } = kit
+{ Promise, _ } = kit
 
 serve_fake_datasource = ->
     kit.glob './kit/datasource/*.coffee'
     .then (paths) ->
-        Q.all paths.map (p) ->
+        Promise.all paths.map (p) ->
             name = kit.path.basename p, '.coffee'
             url = "/datasource/#{name}"
             kit.log 'Fake datasource: '.cyan + url
@@ -29,12 +29,12 @@ serve_files = (opts) ->
                 catch err
                     kit.err err.stack.red
 
-    Q.fcall ->
+    Promise.resolve().then ->
         render_jade '/', 'views/index.jade'
     .then ->
         kit.glob 'views/ui/**/*.jade'
     .then (paths) ->
-        Q.all paths.map (p) ->
+        Promise.all paths.map (p) ->
             if p.indexOf('views/ui/include') is 0
                 name = p.substring(9, p.length - 5)
             else
@@ -63,10 +63,7 @@ serve_files = (opts) ->
 
 class Server
     constructor: (port, st) ->
-        Q.fcall ->
-            serve_fake_datasource()
-        .then ->
+        serve_fake_datasource().then ->
             serve_files(port, st)
-        .done()
 
 new Server(process.argv[2..4])

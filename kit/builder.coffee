@@ -6,7 +6,7 @@ expand = require 'glob-expand'
 {
     kit,
     renderer,
-    kit: { Q, _ }
+    kit: { Promise, _ }
 } = nobone { renderer: {} }
 
 relative = kit.path.relative
@@ -30,14 +30,14 @@ class Builder
 
         kit.log '>> Build start.'.cyan
 
-        Q.fcall ->
+        Promise.resolve().then ->
             kit.log '>> Clean dist.'.cyan
             kit.remove self.dist_path
         .then ->
             renderer.file_handlers['.css'] = compiler.css_handler
             renderer.file_handlers['.js'] = compiler.js_handler
 
-            Q.all [
+            Promise.all [
                 self.batch_compile 'coffee', 'js', self.js_path
                 self.batch_compile 'styl', 'css', self.css_path, 'core/**/*.styl'
                 self.batch_compile 'coffee', 'js', self.ui_path
@@ -51,7 +51,7 @@ class Builder
 
     batch_compile: (ext_src, ext_bin, src_dir, exclude = null) ->
         self = @
-        Q.fcall ->
+        new Promise (resolve, reject) ->
             args = [
                 {
                     cwd: self.src_path
@@ -68,9 +68,9 @@ class Builder
                 else
                     args.push "!#{src_dir}/#{exclude}"
 
-            expand.apply(null, args)
+            resolve expand.apply(null, args)
         .then (paths) ->
-            Q.all paths.map (path) ->
+            Promise.all paths.map (path) ->
                 src_path = kit.path.join self.src_path, path
                 dist_path = kit.path.join(self.dist_path, path)
                     .replace new RegExp("\\.#{ext_src}$"), ".#{ext_bin}"
