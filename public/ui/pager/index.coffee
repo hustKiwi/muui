@@ -16,12 +16,20 @@ define [
                             href="<%- path.replace(/{page}/g, args.prev) %>">
                             <%- args.prev_lable %>
                         </a>
+                    <% } else if (item === 'prev_disabled') { %>
+                        <span class="muui-pager-prev muui-pager-disabled muui-pager-item">
+                            <%- args.prev_lable %>
+                        </span>
                     <% } else if (item === 'next') { %>
                         <a class="muui-pager-next muui-pager-item"
                             data-page="<%- args.next %>"
                             href="<%- path.replace(/{page}/g, args.next) %>">
                             <%- args.next_lable %>
                         </a>
+                    <% } else if (item === 'next_disabled') { %>
+                        <span class="muui-pager-next muui-pager-disabled muui-pager-item">
+                            <%- args.next_lable %>
+                        </span>
                     <% } else if (item === 'cur') { %>
                         <span class="muui-pager-item cur"><%- args.cur %></span>
                     <% } else if (item === '...') { %>
@@ -46,9 +54,9 @@ define [
             item_cls = 'muui-pager-item'
             handles = @opts.handles
 
-            @$el.on 'mouseenter', ".#{item_cls}:not(.on, .cur)", ->
+            @$el.on 'mouseenter', "a.#{item_cls}:not(.on, .cur)", ->
                 $(@).addClass('on')
-            .on 'mouseleave', ".#{item_cls}", ->
+            .on 'mouseleave', "a.#{item_cls}", ->
                 $(@).removeClass('on')
             .on 'click', ".#{item_cls}", handles.redirect
 
@@ -131,8 +139,8 @@ define [
             else
                 r.length = 0
 
-            r.unshift('prev') if has_prev
-            r.push('next') if has_next
+            r.unshift(has_prev and 'prev' or 'prev_disabled')
+            r.push(has_next and 'next' or 'next_disabled')
 
             {
                 args: _.extend data, {

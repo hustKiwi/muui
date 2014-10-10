@@ -1,5 +1,6 @@
 $pager_color = $blue
 $pager_border_color = #e7ecf0
+$pager_disabled_color = #ccc
 
 .muui-pager
     // HACK: 去除inline-block元素的间隙
@@ -16,7 +17,6 @@ $pager_border_color = #e7ecf0
         @extend .muui-pager .muui-pager-ellipse
         border($pager_border_color)
         padding: 0 8px
-        cursor: pointer
         text-decoration: none
         &.on
             background: $pager_border_color
@@ -30,6 +30,8 @@ $pager_border_color = #e7ecf0
             absolute(top 50%)
             height: 24px
             margin-top: -12px
+        &.muui-pager-disabled
+            color: $pager_disabled_color
     .muui-pager-prev
         padding-left: 18px
         &:after
