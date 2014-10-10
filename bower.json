@@ -15,8 +15,9 @@
   "dependencies": {
     "jquery": "~2.1.1",
     "lodash": "~2.4.1",
-    "requirejs": "~2.1.14",
+    "requirejs": "~2.1.15",
     "zeptojs": "~1.1.4",
-    "requirejs-text": "~2.0.12"
+    "requirejs-text": "~2.0.12",
+    "unslider": "git@github.com:idiot/unslider.git#master"
   }
 }

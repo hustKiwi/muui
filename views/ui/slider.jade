@@ -1,0 +1,22 @@
+extends ../core/base
+
+block content
+    ul#slider.muui-slider
+        each page in [1, 2, 3, 4, 5]
+            li.muui-slider-page(class="#{page === 1 && 'on' || ''}")
+                a(href="javascript:;")
+                    img(alt="#{page}" src="/st/img/slider/#{page}.jpg")
+
+block css
+    :stylus
+        #slider
+            width: 580px
+            height: 200px
+            overflow: hidden
+
+block js
+    :coffee
+        require [
+            'muui/slider/index'
+        ], (Slider) ->
+            new Slider()
