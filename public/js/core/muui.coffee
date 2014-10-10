@@ -12,26 +12,31 @@ define [
             before_render: ->
             after_render: ->
 
-        get_opts: (options) ->
-            $.extend({}, MuUI.defaults, options)
+        get_opts: ->
+            MuUI.defaults
 
         constructor: (options) ->
             @opts = opts = @get_opts(options)
+
             unless opts.el
                 throw new Error 'el cannot be empty.'
             @$el = $(opts.el)
-            @render(opts.render_args).done =>
+
+            @before_render()
+            opts.before_render()
+
+            @render(opts.render_args).done (args...) =>
+                @after_render([ args ])
+                opts.after_render([ args ])
                 @init_events()
 
         render: ->
             { $el, opts } = @
             {
-                before_render, after_render
                 render_fn, tmpl
                 datasource, data_filter
             } = opts
 
-            before_render()
             def = $.Deferred()
 
             if tmpl
@@ -44,7 +49,6 @@ define [
                         if render_fn is 'replaceWith'
                             @$el = $tmpl
                         def.resolve(r, $tmpl)
-                        after_render(r, $tmpl)
 
                     if datasource
                         utils.api(datasource).done (r) ->
@@ -54,10 +58,13 @@ define [
                 )
             else
                 def.resolve()
-                after_render()
 
             def.promise()
 
         init_events: ->
+
+        before_render: ->
+
+        after_render: ->
 
     MuUI

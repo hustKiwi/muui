@@ -48,7 +48,7 @@ define [
                 redirect: (e) ->
 
         get_opts: (options) ->
-            $.extend({}, Pager.defaults, super(options))
+            $.extend({}, super(), Pager.defaults, options)
 
         init_events: ->
             item_cls = 'muui-pager-item'
@@ -63,20 +63,14 @@ define [
         render: (args) ->
             { opts } = @
             {
-                before_render, after_render
                 render_fn, tmpl
             } = opts
             @$el = $el = $(opts.el)
 
-            before_render()
             def = $.Deferred()
 
             do (r = @build(args)) =>
-                done = (r) ->
-                    def.resolve(r)
-                    after_render(r)
-
-                return done(r) unless r.pager.length
+                return def.resolve(r) unless r.pager.length
 
                 if _.isString(tmpl)
                     tmpl = _.template(tmpl)
@@ -85,8 +79,6 @@ define [
                 $el[render_fn]($tmpl)
                 if render_fn is 'replaceWith'
                     @$el = $tmpl
-
-                done(r)
 
             def.promise()
 
