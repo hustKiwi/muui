@@ -58,8 +58,8 @@ module.exports =
             lint_results = coffeelint.lint str, coffeelint_config
             if lint_results.length > 0
                 kit.err 'Coffeelint Error:'.red
-                kit.spawn "#{cwd}/node_modules/.bin/coffeelint", [
-                    '-f', "#{cwd}/coffeelint.json", "#{cwd}/#{path}"
+                kit.spawn "#{cwd_path}/node_modules/.bin/coffeelint", [
+                    '-f', "#{cwd_path}/coffeelint.json", "#{cwd_path}/#{path}"
                 ]
 
             coffee = kit.require 'coffee-script'
