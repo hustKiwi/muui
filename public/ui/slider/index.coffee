@@ -28,4 +28,9 @@ define [
             .on 'mouseleave', ->
                 $arrows.fadeOut()
 
+            $arrows.on 'mouseenter', '.arrow', ->
+                $(@).addClass('on')
+            .on 'mouseleave', '.arrow', ->
+                $(@).removeClass('on')
+
     Slider

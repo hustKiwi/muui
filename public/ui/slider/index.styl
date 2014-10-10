@@ -50,7 +50,22 @@ muui-slider-ctrl-bg()
                     border-radius(0 4px 4px 0)
             &.next
                 float-right()
+                &:before
+                    background: url('/st/ui/slider/arrow_right.png')
                 &:after
                     border-radius(4px 0 0 4px)
+            &.on
+                &:before
+                    opacity(1)
             &:after
                 muui-slider-ctrl-bg()
+            &:before
+                opacity(.5)
+                inline-block()
+                size(13px, 21px)
+                absolute(left 50% top 50%)
+                margin-left: -6.5px
+                margin-top: -10.5px
+                z-index: 2
+                content: ''
+                background: url('/st/ui/slider/arrow_left.png')
