@@ -53,9 +53,8 @@ module.exports =
             if @ext is '.js'
                 return str
 
-            coffeelint = kit.require 'coffeelint'
-
             # Lint
+            coffeelint = kit.require 'coffeelint'
             lint_results = coffeelint.lint str, coffeelint_config
             if lint_results.length > 0
                 kit.err 'Coffeelint Error:'.red

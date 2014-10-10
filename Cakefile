@@ -13,9 +13,9 @@ run_server = (opts) ->
     }
 
     spawn './node_modules/.bin/coffee', [
-        './server.coffee',
-        port,
-        st,
+        './server.coffee'
+        port
+        st
         open
     ]
 
@@ -23,10 +23,13 @@ run_server = (opts) ->
 # Options
 ##
 option '-p', '--port [port]', 'Which port to listen to. Example: cake -p 8080 dev'
+
 option '-q', '--quite',
     'Running lint script at quite mode results in only printing errors.
     Example: cake -q coffeelint'
+
 option '-o', '--open', 'To open a webpage with default browser.'
+
 option '-s', '--st [st]', 'Static directory.'
 
 ##

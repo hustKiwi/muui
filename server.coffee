@@ -12,9 +12,7 @@ serve_fake_datasource = ->
             kit.log 'Fake datasource: '.cyan + url
             service.get url, require('./' + p)
 
-serve_files = (opts) ->
-    [port, st, open] = opts
-
+serve_files = (port, st, open) ->
     compiler = require './kit/compiler'
 
     renderer.file_handlers['.html'] = compiler.html_handler
@@ -62,8 +60,8 @@ serve_files = (opts) ->
                 kit.open "http://127.0.0.1:#{port}/tab"
 
 class Server
-    constructor: (port, st) ->
+    constructor: ([ port, st, open ]) ->
         serve_fake_datasource().then ->
-            serve_files(port, st)
+            serve_files(port, st, open)
 
 new Server(process.argv[2..4])
