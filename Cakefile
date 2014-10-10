@@ -2,7 +2,7 @@ process.env.NODE_ENV ?= 'development'
 
 {
     kit,
-    kit: { Promise, _, spawn }
+    kit: { Promise, _ }
 } = require 'nobone'
 
 run_server = (opts) ->
@@ -12,12 +12,11 @@ run_server = (opts) ->
         open: false
     }
 
-    spawn './node_modules/.bin/coffee', [
-        './server.coffee'
-        port
-        st
-        open
-    ]
+    kit.monitor_app {
+        bin: './node_modules/.bin/coffee'
+        args: ['./server.coffee', port, st, open]
+        watch_list: ['./server.coffee', './Cakefile']
+    }
 
 ##
 # Options
@@ -54,7 +53,7 @@ task 'coffeelint', 'Lint all coffee files.', (opts) ->
         args = ['-f', "#{cwd}/coffeelint.json", "#{cwd}/#{path}"]
         if opts.quite
             args.unshift('-q')
-        spawn "#{cwd}/node_modules/.bin/coffeelint", args
+        kit.spawn "#{cwd}/node_modules/.bin/coffeelint", args
 
     Promise.resolve(expand(
         '**/*.coffee',
