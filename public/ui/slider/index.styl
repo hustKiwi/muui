@@ -1,8 +1,56 @@
+$slider_arrows_height = 100px
+
+muui-slider-ctrl-bg()
+    opacity(.5)
+    absolute(top left bottom right)
+    width: 100%
+    content: ''
+    z-index: 1
+    background: $black
+
 .muui-slider
     relative()
-    overflow: auto
-    .muui-slider-page
+    overflow: hidden
+    .muui-slider-item
         float-left()
+    .dots
+        absolute(right 10px bottom 10px)
+        padding: 5px 0
+        overflow: hidden
+        .dot
+            size(6px)
+            relative()
+            hide-text()
+            float-left()
+            border-radius(5px)
+            transition(width, .5s, ease-out)
+            z-index: 2
+            margin: 0 3px
+            cursor: pointer
+            background: $light_grey
+            &.active
+                background: $light_blue
+                width: 15px
+        &:after
+            border-radius(5px)
+            muui-slider-ctrl-bg()
+    .arrows
+        size(100%, $slider_arrows_height)
+        absolute(left top 50%)
         display: none
-        &.on
-            display: block
+        margin-top: - ($slider_arrows_height / 2)
+        .arrow
+            relative()
+            hide-text()
+            size(30px, 100%)
+            cursor: pointer
+            &.prev
+                float-left()
+                &:after
+                    border-radius(0 4px 4px 0)
+            &.next
+                float-right()
+                &:after
+                    border-radius(4px 0 0 4px)
+            &:after
+                muui-slider-ctrl-bg()

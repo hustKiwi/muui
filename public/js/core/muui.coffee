@@ -61,6 +61,9 @@ define [
 
             def.promise()
 
+        ###
+        # 以下方法暴露给子类覆盖
+        ###
         init_events: ->
 
         before_render: ->
