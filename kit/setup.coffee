@@ -1,11 +1,10 @@
 { kit } = require 'nobone'
 
-{ Q, _, spawn, log } = kit
+{ _, spawn, log } = kit
 
 class Setup
     start: ->
-        Q.fcall ->
-            spawn 'node_modules/.bin/bower', ['install']
+        spawn 'node_modules/.bin/bower', ['install']
         .then =>
             @build_zepto()
         .catch (err) ->
@@ -19,11 +18,10 @@ class Setup
         zepto_path = kit.path.resolve kit.path.join('bower_components', 'zeptojs')
         mods = 'zepto event ajax ie selector data callbacks deferred stack ios3'
 
-        Q.fcall ->
-            log '>> Install zepto dependencies.'.cyan
-            spawn 'npm', ['install'], {
-                cwd: zepto_path
-            }
+        log '>> Install zepto dependencies.'.cyan
+        spawn 'npm', ['install'], {
+            cwd: zepto_path
+        }
         .then ->
             coffee_bin = kit.path.join 'node_modules', '.bin', 'coffee'
 
