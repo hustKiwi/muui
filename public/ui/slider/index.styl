@@ -46,18 +46,15 @@ muui-slider-ctrl-bg()
             cursor: pointer
             &.prev
                 float-left()
-                &:after
-                    border-radius(0 4px 4px 0)
             &.next
                 float-right()
                 &:before
                     background: url('/st/ui/slider/arrow_right.png')
-                &:after
-                    border-radius(4px 0 0 4px)
             &.on
                 &:before
                     opacity(1)
             &:after
+                border-radius(4px)
                 muui-slider-ctrl-bg()
             &:before
                 opacity(.5)

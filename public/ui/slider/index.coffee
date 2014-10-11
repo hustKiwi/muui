@@ -14,7 +14,7 @@ define [
                 autoplay: false
 
         get_opts: (options) ->
-            $.extend({}, super(), Slider.defaults, options)
+            $.extend(true, {}, super(), Slider.defaults, options)
 
         after_render: ->
             @unslider = @$el.unslider(@opts.unslider).data('unslider')

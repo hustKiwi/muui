@@ -1,16 +1,30 @@
 extends ../core/base
 
 block content
-    #slider.muui-slider
-        ul.muui-slider-items
-            each page in [1, 2, 3, 4, 5]
-                li.muui-slider-item(class="#{page === 1 && 'on' || ''}")
-                    a(href="javascript:;")
-                        img(alt="#{page}" src="/st/img/slider/#{page}.jpg")
+    each item in [1, 2]
+        .mod
+            .hd.
+                Slider Demo - #{item}
+            .bd
+                .muui-slider(id="slider-#{item}")
+                    ul.muui-slider-items
+                        each page in [1, 2, 3, 4, 5]
+                            li.muui-slider-item(class="#{page === 1 && 'on' || ''}")
+                                a(href="javascript:;")
+                                    img(alt="#{page}" src="/st/img/slider/#{page}.jpg")
 
+                if item === 2
+                    .arrows
+                        .arrow.prev
+                        .arrow.next
 block css
     :stylus
-        #slider
+        #slider-1
+            &, .muui-slider-items
+                width: 580px
+                height: 200px
+
+        #slider-2
             &, .muui-slider-items
                 width: 580px
                 height: 200px
@@ -20,4 +34,10 @@ block js
         require [
             'muui/slider/index'
         ], (Slider) ->
-            window.s = new Slider()
+            new Slider(el: '#slider-1')
+
+            new Slider(
+                el: '#slider-2'
+                unslider:
+                    arrows: false
+            )

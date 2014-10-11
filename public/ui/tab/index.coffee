@@ -9,7 +9,7 @@ define [
                 change: ($item, $target) ->
 
         get_opts: (options) ->
-            $.extend({}, super(), Tab.defaults, options)
+            $.extend(true, {}, super(), Tab.defaults, options)
 
         init_events: ->
             item_cls = 'muui-tab-item'
