@@ -1,0 +1,12 @@
+extends ../core/base
+
+block content
+    | Dialog
+
+block js
+    :coffee
+        require [
+            'muui/dialog/index'
+        ], (Dialog) ->
+            console.log Dialog
+
