@@ -17,10 +17,13 @@ block content
 block css
     :stylus
         #slider
-            .muui-slider-items
+            .muui-slider
                 width: 580px
                 height: 200px
-                overflow: hidden
+            .muui-slider-item
+                &, img
+                    float: left
+                    display: inline
 
 block js
     :coffee

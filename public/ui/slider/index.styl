@@ -37,7 +37,7 @@ muui-slider-ctrl-bg()
     .arrows
         size(100%, $slider_arrows_height)
         absolute(left top 50%)
-        //display: none
+        display: none
         margin-top: - ($slider_arrows_height / 2)
         .arrow
             relative()
@@ -69,8 +69,8 @@ muui-slider-ctrl-bg()
 
 .muui-slider
     relative()
-    height: auto !important
-    overflow: hidden
+    &, .muui-slider-items
+        overflow: hidden
     .muui-slider-item
         float-left()
     .arrows
