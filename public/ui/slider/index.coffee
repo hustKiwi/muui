@@ -5,7 +5,7 @@ define [
     class Slider extends MuUI
         @defaults:
             el: '.muui-slider'
-            unslider:
+            unslider_options:
                 items: '.muui-slider-items'
                 item: '.muui-slider-item'
                 speed: 300
@@ -16,7 +16,7 @@ define [
             $.extend(true, {}, super(), Slider.defaults, options)
 
         after_render: ->
-            @unslider = @$el.unslider(@opts.unslider).data('unslider')
+            @unslider = @$el.unslider(@opts.unslider_options).data('unslider')
 
         init_events: ->
             { $el, opts, unslider } = @

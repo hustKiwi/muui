@@ -60,27 +60,8 @@ define [
                 $(@).removeClass('on')
             .on 'click', ".#{item_cls}", handles.redirect
 
-        render: (args) ->
-            { opts } = @
-            {
-                render_fn, tmpl
-            } = opts
-            @$el = $el = $(opts.el)
-
-            def = $.Deferred()
-
-            do (r = @build(args)) =>
-                return def.resolve(r) unless r.pager.length
-
-                if _.isString(tmpl)
-                    tmpl = _.template(tmpl)
-
-                $tmpl = $(tmpl(r))
-                $el[render_fn]($tmpl)
-                if render_fn is 'replaceWith'
-                    @$el = $tmpl
-
-            def.promise()
+        render: (data) ->
+            super @build(data)
 
         build: (data) ->
             _.defaults data, {

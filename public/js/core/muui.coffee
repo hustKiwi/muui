@@ -30,32 +30,35 @@ define [
                 opts.after_render([ args ])
                 @init_events()
 
-        render: ->
+        render: (data) ->
+            self = @
             { $el, opts } = @
-            {
-                render_fn, tmpl
-                datasource, data_filter
-            } = opts
+            { tmpl, render_fn, datasource, data_filter } = opts
 
             def = $.Deferred()
 
-            if tmpl
-                require([
-                    "text!#{tmpl}.html"
-                ], (tmpl) =>
-                    render_tmpl = (r) =>
-                        $tmpl = $(_.template(tmpl)(r))
-                        $el[render_fn]($tmpl)
-                        if render_fn is 'replaceWith'
-                            @$el = $tmpl
-                        def.resolve(r, $tmpl)
+            render_tmpl = (tmpl) ->
+                render = (data) ->
+                    $tmpl = $(tmpl(_.isEmpty(data) and {} or data))
+                    $el[render_fn]($tmpl)
+                    if render_fn is 'replaceWith'
+                        self.$el = $tmpl
+                    def.resolve(data, $tmpl)
 
-                    if datasource
-                        utils.api(datasource).done (r) ->
-                            render_tmpl data_filter(r)
-                    else
-                        render_tmpl(opts.data or {})
-                )
+                if datasource
+                    utils.api(datasource).done (data) ->
+                        render data_filter(data)
+                else
+                    render _.isEmpty(data) and opts.data or data
+
+            if tmpl
+                if utils.is_template(tmpl)
+                    render_tmpl tmpl
+                else
+                    require [
+                        "text!#{tmpl}.html"
+                    ], (tmpl) ->
+                        render_tmpl _.template(tmpl)
             else
                 def.resolve()
 
