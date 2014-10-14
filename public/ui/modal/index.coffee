@@ -3,18 +3,18 @@ define [
     'bootstrap/modal'
     'bootstrap/transition'
 ], (MuUI) ->
-    class Dialog extends MuUI
+    class Modal extends MuUI
         @defaults:
-            el: '.muui-dialog'
-            tmpl: 'muui/dialog/index'
+            el: '.muui-modal'
+            tmpl: 'muui/modal/index'
             render_fn: 'html'
             modal:
                 backdrop: 'static'
 
         get_opts: (options) ->
-            $.extend(true, {}, super(), Dialog.defaults, options)
+            $.extend(true, {}, super(), Modal.defaults, options)
 
         after_render: ->
             @$el.modal(@opts.modal)
 
-    Dialog
+    Modal

@@ -5,11 +5,12 @@ block head
     link(rel="stylesheet", href="/st/bower/bootstrap/dist/css/bootstrap-theme.css")
 
 block content
-    .muui-dialog.modal.fade
+    .muui-modal.modal.fade
 
 block js
     :coffee
         require [
-            'muui/dialog/index'
-        ], (Dialog) ->
-            new Dialog()
+            'muui/modal/index'
+        ], (Modal) ->
+            console.log Modal
+            new Modal()
