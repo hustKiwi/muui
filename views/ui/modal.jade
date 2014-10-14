@@ -1,18 +1,17 @@
 extends ../core/base
 
 block head
-    // link(rel="stylesheet", href="/st/bower/bootstrap/dist/css/bootstrap.css")
-    // link(rel="stylesheet", href="/st/bower/bootstrap/dist/css/bootstrap-theme.css")
+    link(rel="stylesheet", href="/st/ui/btn/index.css")
 
 block content
-    .muui-modal.modal.fade
+    .show-modal.muui-btn.muui-btn-primary 显示弹窗
 
 block js
     :coffee
         require [
             'muui/modal/index'
         ], (Modal) ->
-            new Modal({
+            modal = new Modal({
                 data:
                     title: '弹窗的标题'
                     body: '''
@@ -21,3 +20,5 @@ block js
                         <p>第二段测试内容</p>
                     '''
             })
+            $('.show-modal').click ->
+                modal.show()

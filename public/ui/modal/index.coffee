@@ -10,6 +10,7 @@ define [
     class Modal extends MuUI
         @defaults:
             el: '.muui-modal'
+            container: '<div class="muui-modal fade"></div>'
             tmpl: _.template('''
                 <div class="muui-modal-dialog modal-dialog">
                     <div class="muui-modal-header">
@@ -17,16 +18,16 @@ define [
                             <h3><%= title %></h3>
                         <% } %>
                         <% if (btns.close) { %>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <span class="close" data-dismiss="modal" aria-hidden="true">×</span>
                         <% } %>
                     </div>
                     <div class="muui-modal-body"><%= body %></div>
                     <div class="muui-modal-footer">
                         <% if (btns.submit) { %>
-                            <button class="btn btn-primary submit" data-dismiss="modal" aria-hidden="true">提交</button>
+                            <button class="muui-btn muui-btn-primary submit" data-dismiss="modal" aria-hidden="true">提交
                         <% } %>
                         <% if (btns.cancel) { %>
-                            <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+                            <button class="muui-btn" data-dismiss="modal" aria-hidden="true">取消</button>
                         <% } %>
                         <%= footer %>
                     </div>
@@ -57,10 +58,23 @@ define [
                     marginLeft: @_calc_left()
                 }
 
+        before_render: ->
+            unless @$el.length
+                @$el = $(@opts.container).appendTo('body')
+
         after_render: ->
             @$el.modal(@opts.modal_options)
             @modal = @$el.data('bs.modal')
             @modal.$backdrop.addClass('muui-modal-backdrop')
+
+        show: ->
+            @$el.modal('show')
+
+        hide: ->
+            @$el.modal('hide')
+
+        toggle: ->
+            @$el.modal('toggle')
 
         _calc_top: ->
             offset_top = @opts.offset_top

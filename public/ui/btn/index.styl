@@ -1,0 +1,127 @@
+// https://github.com/twbs/bootstrap/blob/master/less/variables.less
+$btn_default_color = $black
+$btn_default_bg = $white
+$btn_default_border = $light_grey
+
+$btn_primary_color = $white
+$btn_primary_bg = $brand_primary
+$btn_primary_border = darken($brand_primary, 5%)
+
+$btn_success_color = $white
+$btn_success_bg = $brand_success
+$btn_success_border = darken($btn_success_bg, 5%)
+
+$btn_info_color = $white
+$btn_info_bg = $brand_info
+$btn_info_border = darken($btn_info_bg, 5%)
+
+$btn_warning_color = $white
+$btn_warning_bg = $brand_warning
+$btn_warning_border = darken($btn_warning_bg, 5%)
+
+$btn_danger_color = $white
+$btn_danger_bg = $brand_danger
+$btn_danger_border = darken($btn_danger_bg, 5%)
+
+$btn_link_disabled_color = #777
+
+// https://github.com/twbs/bootstrap/blob/master/less/buttons.less
+btn-size($padding_vertical, $padding_horizontal,
+    $font_size = $font_size_base, $line_height = $line_height_base,
+    $border_radius = 0)
+    padding: $padding_vertical $padding_horizontal
+    font-size: $font_size
+    line-height: $line_height
+    border-radius: $border_radius
+
+btn-variant($color, $bg, $border)
+    color: $color
+    background-color: $bg
+    border-color: $border
+
+    &:hover, &:focus, &.focus, &:active, &.active, .open > .dropdown-toggle &
+        color: $color
+        border-color: darken($border, 12%)
+        background-color: darken($bg, 10%)
+
+    &:active, &.active, .open > .dropdown-toggle &
+        background-image: none
+
+    &.disabled, &[disabled], fieldset[disabled] &
+        &, &:hover, &:focus, &.focus, &:active, &.active
+            border-color: $border
+            background-color: $bg
+
+    .badge
+        color: $bg
+        background-color: $color
+
+.muui-btn
+    inline-block()
+    user-select(none)
+    btn-size(6px, 12px)
+    margin-bottom: 0
+    text-align: center
+    vertical-align: middle
+    touch-action: manipulation
+    border: 1px solid transparent
+    cursor: pointer
+    background-image: none
+    white-space: nowrap
+
+    &, &:active, &:active
+        &:focus, &:focus
+            tab-focus()
+
+    &:hover, &:focus, &.focus
+        color: $btn_default_color
+        text-decoration: none
+
+    &:active, &.active
+        box-shadow(inset 0 3px 5px rgba(0, 0, 0, .125))
+        outline: 0
+        background-image: none
+
+    &.disabled, &[disabled], fieldset[disabled] &
+        opacity(.65)
+        box-shadow(none)
+        cursor: not-allowed
+        pointer-events: none
+
+.muui-btn-default
+    btn-variant($btn_default_color, $btn_default_bg, $btn_default_border)
+
+.muui-btn-primary
+    btn-variant($btn_primary_color, $btn_primary_bg, $btn_primary_border)
+
+.muui-btn-success
+    btn-variant($btn_success_color, $btn_success_bg, $btn_success_border)
+
+.muui-btn-info
+    btn-variant($btn_info_color, $btn_info_bg, $btn_info_border)
+
+.muui-btn-warning
+    btn-variant($btn_warning_color, $btn_warning_bg, $btn_warning_border)
+
+.muui-btn-danger
+    btn-variant($btn_danger_color, $btn_danger_bg, $btn_danger_border)
+
+.muui-btn-lg
+    btn-size(10px, 16px, 18px, 1.33)
+
+.muui-btn-sm
+    btn-size(5px, 10px, 12px, 1.5)
+
+.muui-btn-xs
+    btn-size(1px, 5px, 12px, 1.5)
+
+.muui-btn-block
+    display: block
+    width: 100%
+
+.muui-btn-block + .muui-btn-block
+    margin-top: 5px
+
+input[type="submit"], input[type="reset"], input[type="button"]
+    &.muui-btn-block
+        width: 100%
