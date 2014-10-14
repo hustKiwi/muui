@@ -1,12 +1,15 @@
 extends ../core/base
 
+block head
+    link(rel="stylesheet", href="/st/bower/bootstrap/dist/css/bootstrap.css")
+    link(rel="stylesheet", href="/st/bower/bootstrap/dist/css/bootstrap-theme.css")
+
 block content
-    | Dialog
+    .muui-dialog.modal.fade
 
 block js
     :coffee
         require [
             'muui/dialog/index'
         ], (Dialog) ->
-            console.log Dialog
-
+            new Dialog()
