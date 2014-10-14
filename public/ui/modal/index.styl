@@ -1,4 +1,38 @@
 .muui-modal
-    relative()
-    .modal-dialog
-        absolute(top 50% left 50%)
+    fixed(top 50% left 50%)
+    _position: absolute
+    zoom: 1
+    display: none
+    z-index: 1001
+    background: $lighter_grey
+    overflow: hidden
+    padding: 5px
+    .muui-modal-header, .muui-modal-body, .muui-modal-footer
+        min-width(350px)
+        padding: 0 20px
+        background: $white
+    .muui-modal-header
+        relative()
+        padding-top: 15px
+        h3
+            title(14px)
+        .close
+            size(11px)
+            hide-text()
+            absolute(top 15px right 15px)
+            border: none
+            cursor: pointer
+            background: url('/st/ui/modal/cross.png') no-repeat
+    .muui-modal-body
+        padding: 15px 20px
+    .muui-modal-footer
+        text-align: center
+        padding-bottom: 25px
+
+.muui-modal-backdrop
+    size(100%)
+    opacity(.6)
+    fixed(top 0 left 0)
+    _position: absolute
+    z-index: 1000
+    background: $white

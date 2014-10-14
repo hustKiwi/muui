@@ -15,7 +15,11 @@ run_server = (opts) ->
     kit.monitor_app {
         bin: 'coffee'
         args: ['./server.coffee', port, st, open]
-        watch_list: ['./server.coffee', './Cakefile']
+        watch_list: [
+            './server.coffee'
+            './kit/**/*.coffee'
+            './public/css/core/*.styl'
+        ]
     }
 
 ##
