@@ -26,9 +26,9 @@ define [
             opts.before_render()
 
             @render(opts.render_args).done (args...) =>
+                @init_events()
                 @after_render([ args ])
                 opts.after_render([ args ])
-                @init_events()
 
         render: (data) ->
             self = @

@@ -12,5 +12,12 @@ block js
         require [
             'muui/modal/index'
         ], (Modal) ->
-            console.log Modal
-            new Modal()
+            new Modal({
+                data:
+                    title: '弹窗的标题'
+                    body: '''
+                        <h3>弹窗的内容</h3>
+                        <p>第一段测试内容</p>
+                        <p>第二段测试内容</p>
+                    '''
+            })

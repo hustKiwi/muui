@@ -6,7 +6,7 @@ define [
     class Pager extends MuUI
         @defaults:
             el: '.muui-pager'
-            tmpl: _.template("""
+            tmpl: _.template('''
                 <% var path = args.path; %>
                 <div class="muui-pager">
                 <% _.each(pager, function(item) { %>
@@ -43,7 +43,7 @@ define [
                     <% } %>
                 <% }); %>
                 </div>
-            """)
+            ''')
             handles:
                 redirect: (e) ->
 
