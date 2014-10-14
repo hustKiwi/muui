@@ -1,6 +1,8 @@
 define [
     'core/utils'
 ], (utils) ->
+    $html = $('html')
+
     class MuUI
         @defaults:
             el: ''
@@ -33,6 +35,12 @@ define [
         render: (data) ->
             self = @
             { $el, opts } = @
+
+            # 检查之前的$el是否还存在
+            # Ajax时$el可能被从页面移除，例如对Pager的使用
+            unless $html.has($el).length
+                @$el = $el = $(opts.el)
+
             { tmpl, render_fn, datasource, data_filter } = opts
 
             def = $.Deferred()
