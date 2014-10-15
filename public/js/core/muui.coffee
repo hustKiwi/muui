@@ -29,6 +29,7 @@ define [
 
             @before_render()
             opts.before_render()
+            @trigger('before_render')
 
             @render(opts.render_args).done (args...) =>
                 @init_events()
