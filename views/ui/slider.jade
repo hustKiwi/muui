@@ -30,4 +30,7 @@ block js
         require [
             'muui/slider/index'
         ], (Slider) ->
-            new Slider()
+            new Slider({
+                unslider_options:
+                    arrows: false
+            })

@@ -10,6 +10,7 @@ define [
                 item: '.muui-slider-item'
                 speed: 300
                 dots: true
+                arrows: true
                 autoplay: false
 
         get_opts: (options) ->
@@ -19,27 +20,28 @@ define [
             @unslider = @$el.unslider(@opts.unslider_options).data('unslider')
 
         init_events: ->
-            { $el, opts, unslider } = @
+            $el = @$el
 
             $wrap = $el.parents('.muui-slider-wrap')
             if $wrap.length
                 $el = $wrap
 
-            $el.on 'mouseenter', ->
-                $arrows.fadeIn()
-            .on 'mouseleave', ->
-                $arrows.fadeOut()
+            @once 'after_render', =>
+                unslider = @unslider
+                $arrows = $wrap.find('.arrows')
 
-            $arrows = $wrap.find('.arrows')
-            $arrows.on 'mouseenter', '.arrow', ->
-                $(@).addClass('on')
-            .on 'mouseleave', '.arrow', ->
-                $(@).removeClass('on')
+                $el.on 'mouseenter', ->
+                    $arrows.fadeIn()
+                .on 'mouseleave', ->
+                    $arrows.fadeOut()
 
-            unless opts.unslider.arrows
-                $arrows.on 'click', '.prev', ->
+                $arrows.on 'mouseenter', '.arrow', ->
+                    $(@).addClass('on')
+                .on 'mouseleave', '.arrow', ->
+                    $(@).removeClass('on')
+                .on 'click', '.prev', ->
                     unslider.prev()
-                $arrows.on 'click', '.next', ->
+                .on 'click', '.next', ->
                     unslider.next()
 
     Slider

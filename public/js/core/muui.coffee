@@ -18,6 +18,9 @@ define [
             MuUI.defaults
 
         constructor: (options) ->
+            # jQuery EventeMitter:
+            # http://james.padolsey.com/javascript/jquery-eventemitter/
+            @_jq = $({})
             @opts = opts = @get_opts(options)
 
             unless opts.el
@@ -31,6 +34,7 @@ define [
                 @init_events()
                 @after_render([ args ])
                 opts.after_render([ args ])
+                @trigger('after_render', [ args ])
 
         render: (data) ->
             self = @
@@ -71,6 +75,22 @@ define [
                 def.resolve()
 
             def.promise()
+
+        on: (args...) ->
+            @_jq.on.apply(@_jq, args)
+            @
+
+        off: (args...) ->
+            @_jq.off.apply(@_jq, args)
+            @
+
+        once: (args...) ->
+            @_jq.one.apply(@_jq, args)
+            @
+
+        trigger: (args...) ->
+            @_jq.trigger.apply(@_jq, args)
+            @
 
         ###
         # 以下方法暴露给子类覆盖
