@@ -22,11 +22,11 @@ muui-slider-ctrl-bg()
         &, img
             float: left
             display: inline
-    .dots
-        absolute(right 10px bottom 10px)
+    .bullets
+        absolute(right 25px bottom 10px)
         padding: 5px 0
         overflow: hidden
-        .dot
+        .bullet
             size(6px)
             relative()
             hide-text()
@@ -43,7 +43,7 @@ muui-slider-ctrl-bg()
         &:after
             border-radius(5px)
             muui-slider-ctrl-bg()
-    .arrows
+    .buttons
         size(100%, $slider_arrows_height)
         absolute(left top 50%)
         display: none
