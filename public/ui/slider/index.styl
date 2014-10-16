@@ -9,10 +9,19 @@ muui-slider-ctrl-bg()
     z-index: 1
     background: $black
 
-.muui-slider-wrap
+.muui-slider
     relative()
     inline-block()
     padding: 0 ($slider_arrows_weight / 2)
+    .viewport
+        relative()
+        overflow: hidden
+    .overview
+        absolute(top 0)
+    .muui-slider-item
+        &, img
+            float: left
+            display: inline
     .dots
         absolute(right 10px bottom 10px)
         padding: 5px 0
@@ -66,14 +75,3 @@ muui-slider-ctrl-bg()
                 z-index: 2
                 content: ''
                 background: url('/st/ui/slider/arrow_left.png') no-repeat
-
-.muui-slider
-    relative()
-    &, .muui-slider-items
-        overflow: hidden
-    .muui-slider-item
-        float-left()
-    .arrows
-        @extend .muui-slider-wrap .arrows
-    .dots
-        @extend .muui-slider-wrap .dots

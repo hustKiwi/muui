@@ -1,34 +1,26 @@
 define [
     'core/muui'
-    'bower/unslider/src/unslider'
+    'bower/tinycarousel/lib/jquery.tinycarousel'
 ], (MuUI) ->
     class Slider extends MuUI
         @defaults:
             el: '.muui-slider'
-            unslider_options:
-                items: '.muui-slider-items'
-                item: '.muui-slider-item'
-                speed: 300
-                dots: true
-                arrows: true
-                autoplay: false
+            tinycarousel_options:
+                interval: false
+                animationTime: 300
 
         get_opts: (options) ->
             $.extend(true, {}, super(), Slider.defaults, options)
 
         after_render: ->
-            @unslider = @$el.unslider(@opts.unslider_options).data('unslider')
+            @tinycarousel = @$el.tinycarousel(@opts.tinycarousel_options).data('plugin_tinycarousel')
 
         init_events: ->
             $el = @$el
 
-            $wrap = $el.parents('.muui-slider-wrap')
-            if $wrap.length
-                $el = $wrap
-
             @once 'after_render', =>
-                unslider = @unslider
-                $arrows = $wrap.find('.arrows')
+                tinycarousel = @tinycarousel
+                $arrows = $el.find('.arrows')
 
                 $el.on 'mouseenter', ->
                     $arrows.fadeIn()
@@ -39,9 +31,5 @@ define [
                     $(@).addClass('on')
                 .on 'mouseleave', '.arrow', ->
                     $(@).removeClass('on')
-                .on 'click', '.prev', ->
-                    unslider.prev()
-                .on 'click', '.next', ->
-                    unslider.next()
 
     Slider

@@ -1,25 +1,23 @@
 extends ../core/base
 
-mixin slider()
-    .muui-slider
-        ul.muui-slider-items
-            each page in [1, 2, 3, 4, 5]
-                li.muui-slider-item(class="#{page === 1 && 'on' || ''}")
-                    a(href="javascript:;")
-                        img(alt="#{page}" src="/st/img/slider/#{page}.jpg")
-
 block content
-    #slider.muui-slider-wrap
-        +slider('slider')
+    #slider.muui-slider
+        .viewport
+            ul.overview
+                each page in [1, 2, 3, 4, 5]
+                    li.muui-slider-item(class="#{page === 1 && 'on' || ''}")
+                        a(href="javascript:;")
+                            img(alt="#{page}" src="/st/img/slider/#{page}.jpg")
         .arrows
             .arrow.prev
             .arrow.next
 block css
     :stylus
         #slider
-            .muui-slider
+            .viewport
                 width: 580px
-                height: 200px
+                &, .overview
+                    height: 200px
             .muui-slider-item
                 &, img
                     float: left
@@ -30,7 +28,4 @@ block js
         require [
             'muui/slider/index'
         ], (Slider) ->
-            new Slider({
-                unslider_options:
-                    arrows: false
-            })
+            new Slider()

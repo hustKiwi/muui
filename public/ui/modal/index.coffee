@@ -63,8 +63,7 @@ define [
                 @$el = $(@opts.container).appendTo('body')
 
         after_render: ->
-            @$el.modal(@opts.modal_options)
-            @modal = @$el.data('bs.modal')
+            @modal = @$el.modal(@opts.modal_options).data('bs.modal')
             @modal.$backdrop.addClass('muui-modal-backdrop')
 
         show: ->
