@@ -1,0 +1,14 @@
+extends ../core/base
+
+block content
+    | Tooltip
+
+block css
+    :stylus
+
+block js
+    :coffee
+        require [
+            'muui/tooltip/index'
+        ], (Tooltip) ->
+            console.log Tooltip
