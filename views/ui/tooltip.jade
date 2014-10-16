@@ -1,14 +1,42 @@
 extends ../core/base
 
 block content
-    | Tooltip
+    a.show-tooltip(title="测试Tooltip" data-placement="left" href="javascript:;")
+        | 左侧显示Tooltip
+
+    a.show-tooltip(title="测试Tooltip" href="javascript:;")
+        | 上面显示Tooltip
+
+    a.show-tooltip(title="测试Tooltip" data-placement="bottom" href="javascript:;")
+        | 下面显示Tooltip
+
+    a.show-tooltip(title="测试Tooltip" data-placement="right" href="javascript:;")
+        | 右侧显示Tooltip
 
 block css
     :stylus
+        .show-tooltip
+            display: inline-block
+            *display: inline
+            zoom: 1
+            height: 30px
+            line-height: 30px
+            padding: 0 10px
+            margin-right: 15px
+            color: #333
+            text-decoration: none
+            border: 1px solid #e6e6e6
+            background: #fff
+            &:hover
+                color: #fff
+                background: #327ccb
+                border-color: #299de7
 
 block js
     :coffee
         require [
             'muui/tooltip/index'
         ], (Tooltip) ->
-            console.log Tooltip
+            new Tooltip({
+                el: '.show-tooltip'
+            })

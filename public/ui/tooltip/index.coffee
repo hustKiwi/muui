@@ -1,14 +1,28 @@
 define [
     'core/muui'
-    'bootstrap/modal'
+    'bootstrap/tooltip'
 ], (MuUI) ->
     class Tooltip extends MuUI
         @defaults:
-            el: '.muui-tooltip'
+            tooltip_options:
+                template: '<div class="muui-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
 
         get_opts: (options) ->
             $.extend(true, {}, super(), Tooltip.defaults, options)
 
-        init_events: ->
+        after_render: ->
+            @tooltip = @$el.tooltip(@opts.tooltip_options).data('bs.tooltip')
+
+        show: ->
+            @$el.modal('show')
+
+        hide: ->
+            @$el.modal('hide')
+
+        toggle: ->
+            @$el.modal('toggle')
+
+        destroy: ->
+            @$el.modal('destroy')
 
     Tooltip

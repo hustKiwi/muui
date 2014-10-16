@@ -30,6 +30,20 @@ define [
         get_opts: (options) ->
             $.extend(true, {}, super(), Slider.defaults, options)
 
+        init_events: ->
+            $el = @$el
+            $buttons = $el.find('.buttons')
+
+            $el.on 'mouseenter', ->
+                $buttons.fadeIn()
+            .on 'mouseleave', ->
+                $buttons.fadeOut()
+
+            $buttons.on 'mouseenter', '.arrow', ->
+                $(@).addClass('on')
+            .on 'mouseleave', '.arrow', ->
+                $(@).removeClass('on')
+
         before_render: ->
             { $el, opts, opts: { tinycarousel_options } } = @
             @$items = $items = $el.find('.' + opts.item_cls)
@@ -45,19 +59,5 @@ define [
 
         after_render: ->
             @tinycarousel = @$el.tinycarousel(@opts.tinycarousel_options).data('plugin_tinycarousel')
-
-        init_events: ->
-            $el = @$el
-            $buttons = $el.find('.buttons')
-
-            $el.on 'mouseenter', ->
-                $buttons.fadeIn()
-            .on 'mouseleave', ->
-                $buttons.fadeOut()
-
-            $buttons.on 'mouseenter', '.arrow', ->
-                $(@).addClass('on')
-            .on 'mouseleave', '.arrow', ->
-                $(@).removeClass('on')
 
     Slider
