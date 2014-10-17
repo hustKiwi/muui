@@ -77,20 +77,20 @@ define [
 
             def.promise()
 
-        on: ->
-            @_jq.on.call(@_jq, arguments)
+        on: (args...) ->
+            @_jq.on.apply(@_jq, args)
             @
 
-        off: ->
-            @_jq.off.apply(@_jq, arguments)
+        off: (args...) ->
+            @_jq.off.apply(@_jq, args)
             @
 
-        once: ->
-            @_jq.one.apply(@_jq, arguments)
+        once: (args...) ->
+            @_jq.one.apply(@_jq, args)
             @
 
-        trigger: ->
-            @_jq.trigger.apply(@_jq, arguments)
+        trigger: (args...) ->
+            @_jq.trigger.apply(@_jq, args)
             @
 
         ###
