@@ -17,7 +17,7 @@ define( ->
                 type: 'GET'
                 dataType: 'jsonp'
                 handleError: (r) ->
-                    console?.error(r)
+                    console?.error?(r)
 
             if _.isObject(url)
                 options = data

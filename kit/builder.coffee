@@ -14,6 +14,7 @@ class Builder
         cwd_path = process.cwd()
         @src_path = "#{cwd_path}/public"
         @dist_path = "#{cwd_path}/dist"
+        @js_temp_path = "#{cwd_path}/js_temp"
         @ui_path = 'ui'
         @js_path = 'js'
         @css_path = 'css'
@@ -33,9 +34,15 @@ class Builder
             renderer.file_handlers['.js'] = compiler.js_handler
 
             Promise.all [
-                self.batch_compile 'coffee', 'js', self.js_path
-                self.batch_compile 'styl', 'css', self.css_path, 'core/**/*.styl'
-                self.batch_compile 'coffee', 'js', self.ui_path
+                self.batch_compile 'coffee', 'js', self.js_path, {
+                    dist_path: self.js_temp_path
+                }
+                self.batch_compile 'styl', 'css', self.css_path, {
+                    exclude: 'core/**/*.styl'
+                }
+                self.batch_compile 'coffee', 'js', self.ui_path, {
+                    dist_path: self.js_temp_path
+                }
                 self.batch_compile 'styl', 'css', self.ui_path
                 self.batch_compile 'html', 'html', self.ui_path
             ]
@@ -44,12 +51,20 @@ class Builder
         .done ->
             kit.log '>> Build done.'.green
 
-    batch_compile: (ext_src, ext_bin, src_dir, exclude = null) ->
+    batch_compile: (ext_src, ext_bin, src_dir, options = {}) ->
         self = @
+        defaults =
+            exclude: ''
+            src_path: self.src_path
+            dist_path: self.dist_path
+
+        opts = _.defaults options, defaults
+        exclude = opts.exclude
+
         new Promise (resolve, reject) ->
             args = [
                 {
-                    cwd: self.src_path
+                    cwd: opts.src_path
                 },
                 "#{src_dir}/**/*.#{ext_src}"
             ]
@@ -68,8 +83,8 @@ class Builder
             kit.log "\n\n>> Begin to compile #{paths.length} #{ext_src} files in #{src_dir} directory.".yellow
 
             Promise.all paths.map (path) ->
-                src_path = kit.path.join self.src_path, path
-                dist_path = kit.path.join(self.dist_path, path)
+                src_path = kit.path.join(opts.src_path, path)
+                dist_path = kit.path.join(opts.dist_path, path)
                     .replace new RegExp("\\.#{ext_src}$"), ".#{ext_bin}"
 
                 kit.log '>> Compile: '.cyan + src_path + ' -> '.grey + dist_path
