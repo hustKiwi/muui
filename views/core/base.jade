@@ -30,17 +30,6 @@ html
         include ./footer
         if ui_name
             script(src="/st/bower/requirejs/require.js")
-            script
-                :coffee
-                    require.config
-                        deps: ['jquery', 'lodash']
-                        baseUrl: '/st/js'
-                        paths:
-                            muui: '/st/ui'
-                            bower: '/st/bower'
-                            bootstrap: '/st/bower/bootstrap/js'
-                            text: '/st/bower/requirejs-text/text'
-                            jquery: '/st/bower/jquery/dist/jquery.min'
-                            lodash: '/st/bower/lodash/dist/lodash.min'
+            script(src="/st/js/core/cfg.js")
             script
                 block js

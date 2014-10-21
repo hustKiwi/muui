@@ -1,0 +1,1 @@
+require.config({deps:["zepto","lodash"],baseUrl:"/st/js",paths:{muui:"/st/ui",bower:"../../bower_components",text:"../../bower_components/requirejs-text/text",zepto:"../../bower_components/zeptojs/dist/zepto.min",lodash:"../../bower_components/lodash/dist/lodash.min"}});

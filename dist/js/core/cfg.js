@@ -1,0 +1,1 @@
+require.config({deps:["jquery","lodash"],baseUrl:"/st/js",paths:{muui:"../ui",bower:"../../bower_components",bootstrap:"../../bower_components/bootstrap/js",text:"../../bower_components/requirejs-text/text",jquery:"../../bower_components/jquery/dist/jquery.min",lodash:"../../bower_components/lodash/dist/lodash.min"}});
