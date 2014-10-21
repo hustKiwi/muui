@@ -52,7 +52,10 @@ class Builder
         .then (options) ->
             self.compress_client_js options
         .then ->
-            kit.remove self.js_temp_path
+            Promise.all [
+                kit.remove self.js_temp_path
+                kit.remove kit.path.join(self.dist_path, 'build.txt')
+            ]
         .then ->
             kit.log '>> Build done.'.green
         .catch (err) ->
@@ -84,12 +87,6 @@ class Builder
             keepBuildDir: true
             optimize: 'none'
             optimizeCss: 'none'
-            modules: [
-                {
-                    name: 'muui/tab/index'
-                    exclude: ['jquery', 'lodash']
-                }
-            ]
 
         if process.env.NODE_ENV is 'production'
             _.extend options, {
@@ -116,7 +113,7 @@ class Builder
 
         new Promise (resolve, reject) ->
             requirejs.optimize(options, (r) ->
-                kit.log ">> Compile client js done.".green
+                kit.log r
                 resolve r
             , (err) ->
                 reject err
