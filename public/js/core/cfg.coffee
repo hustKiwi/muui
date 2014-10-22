@@ -2,7 +2,7 @@ require.config
     deps: ['jquery', 'lodash']
     baseUrl: '/st/js'
     paths:
-        muui: '../ui'
+        muui: '/st/ui'
         bower: '/st/bower'
         bootstrap: '/st/bower/bootstrap/js'
         text: '/st/bower/requirejs-text/text'

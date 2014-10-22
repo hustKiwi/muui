@@ -5,9 +5,16 @@ expand = require 'glob-expand'
 
 {
     kit,
-    renderer,
-    kit: { Promise, _ }
+    renderer
 } = nobone(renderer: {})
+
+{
+    _,
+    Promise,
+    log,
+    remove,
+    path: { join, relative }
+} = kit
 
 class Builder
     constructor: ->
@@ -20,7 +27,7 @@ class Builder
         @css_path = 'css'
 
     build: ->
-        kit.log '>> Build start.'.cyan
+        log '>> Build start.'.cyan
 
         self = @
         compiler = require './compiler'
@@ -28,9 +35,9 @@ class Builder
         renderer.file_handlers['.css'] = compiler.css_handler
         renderer.file_handlers['.js'] = compiler.js_handler
 
-        kit.remove self.dist_path
+        remove self.dist_path
         .then ->
-            kit.log '>> Clean dist.'.cyan
+            log '>> Clean dist.'.cyan
         .then ->
             Promise.all [
                 self.batch_compile 'coffee', 'js', self.js_path, {
@@ -52,41 +59,41 @@ class Builder
         .then (options) ->
             self.compress_client_js options
         .then ->
-            Promise.all [
-                kit.remove self.js_temp_path
-                kit.remove kit.path.join(self.dist_path, 'build.txt')
-            ]
+            Promise.all _.map [
+                self.js_temp_path
+                join(self.dist_path, 'build.txt')
+                join(self.dist_path, 'js', 'core', 'build_cfg.js')
+            ], (path) ->
+                remove path
+                log ">> Remove: #{path}".blue
         .then ->
-            kit.log '>> Build done.'.green
+            log '>> Build done.'.green
         .catch (err) ->
             kit.err err.stack.red
 
     fix_requirejs_main_cfg: ->
-        kit.glob(
-            kit.path.join(@js_temp_path, 'js', 'core', '*cfg.js')
-        ).then (paths) ->
-            Promise.all paths.map (path) ->
-                kit.readFile(path, 'utf8').then (code) ->
-                    code = code.replace(/\/st\/bower/g, '../../bower_components')
-                    kit.outputFile(path, code)
+        path = join(@js_temp_path, 'js', 'core', 'cfg.js')
+        kit.readFile(path, 'utf8').then (code) ->
+            code = code.replace(/\/st\/ui/, '../ui').replace(/\/st\/bower/g, '../../bower_components')
+            kit.outputFile(path.replace(/cfg\.js$/, 'build_cfg.js'), code)
 
     build_optimize_options: ->
         self = @
-        relative = kit.path.relative
 
         appDir = @js_temp_path
-        baseUrl = kit.path.join appDir, 'js'
-        dir = kit.path.join @dist_path
-        mainConfigFile = kit.path.join baseUrl, 'core', 'cfg.js'
+        baseUrl = join appDir, 'js'
+        dir = join @dist_path
+        mainConfigFile = join baseUrl, 'core', 'build_cfg.js'
 
         options =
-            appDir: @js_temp_path
-            baseUrl: kit.path.join appDir, 'js'
-            dir: kit.path.join @dist_path
-            mainConfigFile: kit.path.join baseUrl, 'core', 'cfg.js'
+            appDir: appDir
+            baseUrl: baseUrl
+            dir: dir
+            mainConfigFile: mainConfigFile
             keepBuildDir: true
             optimize: 'none'
             optimizeCss: 'none'
+            fileExclusionRegExp: /^\./
 
         if process.env.NODE_ENV is 'production'
             _.extend options, {
@@ -94,9 +101,8 @@ class Builder
                 optimizeCss: 'standard'
             }
 
-        kit.glob(
-            kit.path.join(@js_temp_path, 'ui', '**', '*.js')
-        ).then (paths) ->
+        kit.glob join(@js_temp_path, 'ui', '**', '*.js')
+        .then (paths) ->
             options.modules = _.map paths, (path) ->
                 {
                     name: 'mu' + relative(self.js_temp_path, path).slice(0, -3)
@@ -107,13 +113,13 @@ class Builder
             Promise.resolve options
 
     compress_client_js: (options) ->
-        kit.log ">> Compile client js with requirejs ...".cyan
+        log ">> Compile client js with requirejs ...".cyan
 
         requirejs = kit.require 'requirejs'
 
         new Promise (resolve, reject) ->
             requirejs.optimize(options, (r) ->
-                kit.log r
+                log r
                 resolve r
             , (err) ->
                 reject err
@@ -146,18 +152,19 @@ class Builder
                 args.push "!#{src_dir}/#{exclude}"
 
         Promise.resolve(expand.apply(null, args)).then (paths) ->
-            kit.log "\n\n>> Begin to compile #{paths.length} #{ext_src} files in #{src_dir} directory.".yellow
+            log "\n\n>> Begin to compile #{paths.length} #{ext_src} files in #{src_dir} directory.".yellow
 
-            Promise.all paths.map (path) ->
-                src_path = kit.path.join(opts.src_path, path)
-                dist_path = kit.path.join(opts.dist_path, path)
+            Promise.all _.map(paths, (path) ->
+                src_path = join(opts.src_path, path)
+                dist_path = join(opts.dist_path, path)
                     .replace new RegExp("\\.#{ext_src}$"), ".#{ext_bin}"
 
-                kit.log '>> Compile: '.cyan + src_path + ' -> '.grey + dist_path
+                log '>> Compile: '.cyan + src_path + ' -> '.grey + dist_path
 
                 renderer.render(src_path, ".#{ext_bin}").then (code) ->
                     kit.outputFile(dist_path, code) if code
+            )
         .then ->
-            kit.log ">> All #{ext_src} in #{src_dir} directory has been compiled.".cyan
+            log ">> All #{ext_src} in #{src_dir} directory has been compiled.".cyan
 
 module.exports = new Builder
