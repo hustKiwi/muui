@@ -61,8 +61,8 @@ class Builder
         .then ->
             Promise.all _.map [
                 self.js_temp_path
-                join(self.dist_path, 'build.txt')
-                join(self.dist_path, 'js', 'core', 'build_cfg.js')
+                join self.dist_path, 'build.txt'
+                join self.dist_path, 'js', 'core', 'build_cfg.js'
             ], (path) ->
                 remove path
                 log ">> Remove: #{path}".blue
