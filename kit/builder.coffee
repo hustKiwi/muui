@@ -1,7 +1,9 @@
 process.env.NODE_ENV = 'production'
 
+gulp = require 'gulp'
 nobone = require 'nobone'
 expand = require 'glob-expand'
+gulp_uglify = require 'gulp-uglify'
 
 {
     kit,
@@ -61,9 +63,11 @@ class Builder
         .then ->
             self.clean_useless()
         .then ->
-            log '>> Build done.'.green
+            self.copy_files()
         .catch (err) ->
             kit.err err.stack.red
+        .done ->
+            log '>> Build done.'.green
 
     batch_compile: (ext_src, ext_bin, src_dir, options = {}) ->
         self = @
@@ -136,7 +140,6 @@ class Builder
                 optimize: 'uglify2'
                 optimizeCss: 'standard'
             }
-
         kit.glob join(@js_temp_path, 'ui', '**', '*.js')
         .then (paths) ->
             options.modules = _.map paths, (path) ->
@@ -154,21 +157,46 @@ class Builder
         requirejs = kit.require 'requirejs'
 
         new Promise (resolve, reject) ->
-            requirejs.optimize(options, (r) ->
+            requirejs.optimize options, (r) ->
                 log r
                 resolve r
             , (err) ->
                 reject err
-            )
 
     clean_useless: ->
         Promise.all _.map [
             @js_temp_path
             join @dist_path, 'build.txt'
-            join @dist_path, 'js', 'build_cfg.js'
+            join @dist_path, 'js'
             join @dist_path, 'ui', 'core'
         ], (path) ->
             remove path
             log ">> Remove: #{path}".blue
+
+    copy_files: ->
+        log ">> Copy files.".cyan
+
+        self = @
+
+        files = [
+            join(@src_path, 'img', '**', '*')
+            join(@src_path, 'ui', '**', '*.+(png|jpg)')
+        ]
+
+        if process.env.NODE_ENV is 'production'
+            gulp.src(join @src_path, 'js', '*init.js')
+                .pipe(gulp_uglify())
+                .pipe(gulp.dest join(@dist_path, 'js'))
+        else
+            files.push join(@src_path, 'js', '*+(init.js)')
+
+        kit.glob(files).then (paths) ->
+            Promise.all(_.map paths, (path) ->
+                path = relative self.src_path, path
+                from = join self.src_path, path
+                to = join self.dist_path, path
+                kit.copy(from, to).then ->
+                    log '>> Copy: '.cyan + from + ' -> '.green + to
+            )
 
 module.exports = new Builder
