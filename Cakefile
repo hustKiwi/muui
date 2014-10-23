@@ -1,5 +1,11 @@
 process.env.NODE_ENV ?= 'development'
 
+gulp = require 'gulp'
+gulp_if = require 'gulp-if'
+gulp_coffee = require 'gulp-coffee'
+gulp_concat = require 'gulp-concat'
+gulp_uglify = require 'gulp-uglify'
+
 {
     kit,
     kit: { Promise, _ }
@@ -45,6 +51,30 @@ task 'setup', 'Setup project', ->
 task 'build', 'Build project.', ->
     builder = require './kit/builder'
     builder.build()
+
+task 'init', 'Create init files for client.', ->
+    init_files = [
+        'bower_components/lodash/dist/lodash.min.js'
+        'bower_components/requirejs/require.js'
+    ]
+
+    for item in ['', 'webapp_']
+        dest_file = "#{item}init.js"
+
+        if item is 'webapp_'
+            init_files.unshift 'bower_components/jquery/dist/jquery.min.js'
+        else
+            init_files.unshift 'bower_components/zeptojs/dist/zepto.min.js'
+
+        gulp.src(init_files.concat "public/js/#{item}cfg.coffee")
+            .pipe(gulp_if /[.]coffee$/, gulp_coffee())
+            .pipe(gulp_uglify())
+            .pipe(gulp_concat "#{dest_file}")
+            .pipe(gulp.dest 'public/js')
+
+        kit.log ">> Create: ".cyan + "public/js/#{dest_file}"
+
+    kit.log ">> Create init files done.".green
 
 task 'dev', 'Run project on Development mode.', (opts) ->
     run_server(opts)
