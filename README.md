@@ -6,7 +6,7 @@ npm install
 之后通过执`cake`可以查看所有可供运行的`task`。
 
 # 开发
-(nobone)[https://github.com/ysmood/nobone] 为MuUI提供了基础的开发预览环境，
+[nobone](https://github.com/ysmood/nobone) 为MuUI提供了基础的开发预览环境，
 在server启动的状态下，会根据配置去render对应的`jade`, `stylus`和`coffee`等源码，
 并自动刷新浏览器。启动开发调试环境，需执行：
 ```shell
