@@ -6,11 +6,13 @@
   ],
   "private": true,
   "ignore": [
+    "*.*",
     "**/.*",
+    "kit",
+    "views",
+    "public",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ],
   "devDependencies": {
     "jquery": "~2.1.1",
