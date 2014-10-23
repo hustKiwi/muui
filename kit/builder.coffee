@@ -130,9 +130,6 @@ class Builder
             optimize: 'none'
             optimizeCss: 'none'
             fileExclusionRegExp: /^\./
-            paths:
-                jquery: '../../bower_components/jquery/dist/jquery.min'
-                zepto: '../../bower_components/zeptojs/dist/zepto.min'
 
         if process.env.NODE_ENV is 'production'
             _.extend options, {
