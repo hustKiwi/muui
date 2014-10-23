@@ -8,6 +8,7 @@
   "ignore": [
     "*.*",
     "**/.*",
+    "Cakefile"
     "kit",
     "views",
     "public",
