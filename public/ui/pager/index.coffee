@@ -1,9 +1,9 @@
 define [
-    'core/muui'
-], (MuUI) ->
+    'muui/core/base'
+], (Base) ->
     { ceil, floor } = Math
 
-    class Pager extends MuUI
+    class Pager extends Base
         @defaults:
             el: '.muui-pager'
             tmpl: _.template('''

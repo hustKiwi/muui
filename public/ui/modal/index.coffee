@@ -1,13 +1,13 @@
 define [
-    'core/muui'
-    'core/utils'
+    'muui/core/base'
+    'muui/core/utils'
     'bootstrap/modal'
     'bootstrap/transition'
-], (MuUI, utils) ->
+], (Base, utils) ->
     $win = $(window)
     $doc = $(document)
 
-    class Modal extends MuUI
+    class Modal extends Base
         @defaults:
             el: '.muui-modal'
             container: '<div class="muui-modal fade"></div>'

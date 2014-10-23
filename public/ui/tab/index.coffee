@@ -1,7 +1,7 @@
 define [
-    'core/muui'
-], (MuUI) ->
-    class Tab extends MuUI
+    'muui/core/base'
+], (Base) ->
+    class Tab extends Base
         @defaults:
             el: '.muui-tab'
             tmpl: 'muui/tab/index'

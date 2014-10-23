@@ -29,7 +29,9 @@ html
                 block content
         include ./footer
         if ui_name
+            script(src="/st/bower/jquery/dist/jquery.min.js")
+            script(src="/st/bower/lodash/dist/lodash.min.js")
             script(src="/st/bower/requirejs/require.js")
-            script(src="/st/js/core/cfg.js")
+            script(src="/st/js/cfg.js")
             script
                 block js

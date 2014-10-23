@@ -18,17 +18,10 @@ html
         #content
             block content
         include ./footer
-        script(src="/st/bower/requirejs/require.js")
-        script
-            :coffee
-                require.config
-                    deps: ['zepto', 'lodash']
-                    baseUrl: '/st/js'
-                    paths:
-                        muui: '/st/ui'
-                        bower: '/st/bower'
-                        text: '/st/bower/requirejs-text/text'
-                        zepto: '/st/bower/zeptojs/dist/zepto.min'
-                        lodash: '/st/bower/lodash/dist/lodash.min'
-        script
-            block js
+        if ui_name
+            script(src="/st/bower/zeptojs/dist/zepto.min.js")
+            script(src="/st/bower/lodash/dist/lodash.min.js")
+            script(src="/st/bower/requirejs/require.js")
+            script(src="/st/js/webapp_cfg.js")
+            script
+                block js

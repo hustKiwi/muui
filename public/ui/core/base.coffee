@@ -1,5 +1,5 @@
 define [
-    'core/utils'
+    'muui/core/utils'
 ], (utils) ->
     $html = $('html')
 

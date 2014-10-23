@@ -1,8 +1,8 @@
 define [
-    'core/muui'
+    'muui/core/base'
     'bower/tinycarousel/lib/jquery.tinycarousel'
-], (MuUI) ->
-    class Slider extends MuUI
+], (Base) ->
+    class Slider extends Base
         @defaults:
             el: '.muui-slider'
             item_cls: 'muui-slider-item'

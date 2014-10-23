@@ -59,78 +59,18 @@ class Builder
         .then (options) ->
             self.compress_client_js options
         .then ->
-            Promise.all _.map [
-                self.js_temp_path
-                join self.dist_path, 'build.txt'
-                join self.dist_path, 'js', 'core', 'build_cfg.js'
-            ], (path) ->
-                remove path
-                log ">> Remove: #{path}".blue
+            self.clean_useless()
         .then ->
             log '>> Build done.'.green
         .catch (err) ->
             kit.err err.stack.red
 
-    fix_requirejs_main_cfg: ->
-        path = join(@js_temp_path, 'js', 'core', 'cfg.js')
-        kit.readFile(path, 'utf8').then (code) ->
-            code = code.replace(/\/st\/ui/, '../ui').replace(/\/st\/bower/g, '../../bower_components')
-            kit.outputFile(path.replace(/cfg\.js$/, 'build_cfg.js'), code)
-
-    build_optimize_options: ->
-        self = @
-
-        appDir = @js_temp_path
-        baseUrl = join appDir, 'js'
-        dir = join @dist_path
-        mainConfigFile = join baseUrl, 'core', 'build_cfg.js'
-
-        options =
-            appDir: appDir
-            baseUrl: baseUrl
-            dir: dir
-            mainConfigFile: mainConfigFile
-            keepBuildDir: true
-            optimize: 'none'
-            optimizeCss: 'none'
-            fileExclusionRegExp: /^\./
-
-        if process.env.NODE_ENV is 'production'
-            _.extend options, {
-                optimize: 'uglify2'
-                optimizeCss: 'standard'
-            }
-
-        kit.glob join(@js_temp_path, 'ui', '**', '*.js')
-        .then (paths) ->
-            options.modules = _.map paths, (path) ->
-                {
-                    name: 'mu' + relative(self.js_temp_path, path).slice(0, -3)
-                    exclude: ['jquery', 'lodash']
-                }
-
-            # ref: https://github.com/jrburke/r.js/blob/master/build/example.build.js
-            Promise.resolve options
-
-    compress_client_js: (options) ->
-        log ">> Compile client js with requirejs ...".cyan
-
-        requirejs = kit.require 'requirejs'
-
-        new Promise (resolve, reject) ->
-            requirejs.optimize(options, (r) ->
-                log r
-                resolve r
-            , (err) ->
-                reject err
-            )
-
     batch_compile: (ext_src, ext_bin, src_dir, options = {}) ->
         self = @
         defaults =
             exclude: ''
-            src_path: self.src_path
-            dist_path: self.dist_path
+            src_path: @src_path
+            dist_path: @dist_path
 
         opts = _.defaults options, defaults
         exclude = opts.exclude
@@ -166,5 +106,72 @@ class Builder
             )
         .then ->
             log ">> All #{ext_src} in #{src_dir} directory has been compiled.".cyan
+
+    fix_requirejs_main_cfg: ->
+        path = join(@js_temp_path, 'js', 'cfg.js')
+        kit.readFile(path, 'utf8').then (code) ->
+            code = code.replace(/\/st\/ui/, '../ui').replace(/\/st\/bower/g, '../../bower_components')
+            kit.outputFile(path.replace(/cfg\.js$/, 'build_cfg.js'), code)
+
+    build_optimize_options: ->
+        self = @
+
+        appDir = @js_temp_path
+        baseUrl = join appDir, 'js'
+        dir = join @dist_path
+        mainConfigFile = join baseUrl, 'build_cfg.js'
+
+        options =
+            appDir: appDir
+            baseUrl: baseUrl
+            dir: dir
+            mainConfigFile: mainConfigFile
+            keepBuildDir: true
+            optimize: 'none'
+            optimizeCss: 'none'
+            fileExclusionRegExp: /^\./
+            paths:
+                jquery: '../../bower_components/jquery/dist/jquery.min'
+                zepto: '../../bower_components/zeptojs/dist/zepto.min'
+
+        if process.env.NODE_ENV is 'production'
+            _.extend options, {
+                optimize: 'uglify2'
+                optimizeCss: 'standard'
+            }
+
+        kit.glob join(@js_temp_path, 'ui', '**', '*.js')
+        .then (paths) ->
+            options.modules = _.map paths, (path) ->
+                {
+                    name: 'mu' + relative(self.js_temp_path, path).slice(0, -3)
+                    exclude: ['jquery']
+                }
+
+            # ref: https://github.com/jrburke/r.js/blob/master/build/example.build.js
+            Promise.resolve options
+
+    compress_client_js: (options) ->
+        log ">> Compile client js with requirejs ...".cyan
+
+        requirejs = kit.require 'requirejs'
+
+        new Promise (resolve, reject) ->
+            requirejs.optimize(options, (r) ->
+                log r
+                resolve r
+            , (err) ->
+                reject err
+            )
+
+    clean_useless: ->
+        Promise.all _.map [
+            @js_temp_path
+            join @dist_path, 'build.txt'
+            join @dist_path, 'js', 'build_cfg.js'
+            join @dist_path, 'ui', 'core'
+        ], (path) ->
+            remove path
+            log ">> Remove: #{path}".blue
 
 module.exports = new Builder
