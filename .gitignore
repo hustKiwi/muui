@@ -3,6 +3,7 @@
 *.swp
 *.swo
 .sass-cache
+.nobone
 node_modules
 bower_components
 *.js
