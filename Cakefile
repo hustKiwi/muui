@@ -52,7 +52,7 @@ task 'build', 'Build project.', ->
     builder.build()
 
 task 'init', 'Create init files for client.', ->
-    init_files = [
+    files = [
         'bower_components/lodash/dist/lodash.js'
         'bower_components/requirejs/require.js'
     ]
@@ -61,11 +61,11 @@ task 'init', 'Create init files for client.', ->
         dest_file = "#{item}init.js"
 
         if item is 'webapp_'
-            init_files.unshift 'bower_components/zeptojs/dist/zepto.js'
+            files.unshift 'bower_components/zeptojs/dist/zepto.js'
         else
-            init_files.unshift 'bower_components/jquery/dist/jquery.js'
+            files.unshift 'bower_components/jquery/dist/jquery.js'
 
-        gulp.src(init_files.concat "public/js/#{item}cfg.coffee")
+        gulp.src(files.concat "public/js/#{item}cfg.coffee")
             .pipe(gulp_if /[.]coffee$/, gulp_coffee())
             .pipe(gulp_concat "#{dest_file}")
             .pipe(gulp.dest 'public/js')
