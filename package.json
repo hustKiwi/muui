@@ -1,10 +1,12 @@
 {
   "name": "MuUI",
   "version": "0.0.1",
-  "authors": [
-    "https://github.com/hustKiwi"
-  ],
   "private": true,
+  "authors": "https://github.com/hustKiwi",
+  "repository": {
+    "type": "git",
+    "url": "http://bd.ysmood.org/music-fe/muui.git"
+  },
   "scripts": {
     "install": "cake setup"
   },

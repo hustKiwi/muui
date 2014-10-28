@@ -1,8 +1,7 @@
 # Customized
-.idea
 *.swp
 *.swo
-.sass-cache
+.idea
 .nobone
 node_modules
 bower_components
