@@ -45,6 +45,7 @@ serve_files = (port, st, open) ->
             }
     .done ->
         service.use '/st/bower', renderer.static('./bower_components')
+        service.use '/st/ui/lib', renderer.static('./bower_components')
         service.use '/st', renderer.static(st)
 
         # https://github.com/strongloop/express/blob/master/examples/error-pages/index.js

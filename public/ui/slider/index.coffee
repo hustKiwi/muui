@@ -1,6 +1,6 @@
 define [
     'muui/core/base'
-    'bower/tinycarousel/lib/jquery.tinycarousel'
+    'muui/lib/tinycarousel/lib/jquery.tinycarousel'
 ], (Base) ->
     class Slider extends Base
         @defaults:

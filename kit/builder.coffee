@@ -26,6 +26,7 @@ class Builder
         @ui_path = 'ui'
         @js_path = 'js'
         @css_path = 'css'
+        @bower_path = "#{root_path}/bower_components"
 
     build: ->
         log '>> Build start.'.cyan
@@ -120,6 +121,10 @@ class Builder
             join(@src_path, 'ui', '**', '*.+(png|jpg)')
         ]
 
+        bower_files = [
+            join(@bower_path, '**', '*.js')
+        ]
+
         if process.env.NODE_ENV is 'production'
             gulp.src(join @src_path, 'js', '*init.js')
                 .pipe(gulp_uglify())
@@ -134,6 +139,17 @@ class Builder
                 to = join self.dist_path, path
                 kit.copy(from, to).then ->
                     log '>> Copy: '.cyan + from.replace(root_path, '') + ' -> '.grey + to.replace(root_path, '')
+            )
+
+        kit.glob(bower_files).then (paths) ->
+            Promise.all(_.map paths, (path) ->
+                if path.indexOf("/node_modules/") isnt -1 or path.indexOf("/test/") isnt -1
+                else
+                    path = relative self.bower_path, path
+                    from = join self.bower_path, path
+                    to = join self.dist_path, 'ui', 'lib', path
+                    kit.copy(from, to).then ->
+                        log '>> Copy: '.cyan + from.replace(root_path, '') + ' -> '.grey + to.replace(root_path, '')
             )
 
 module.exports = new Builder
