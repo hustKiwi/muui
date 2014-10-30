@@ -122,7 +122,8 @@ class Builder
         ]
 
         bower_files = [
-            join(@bower_path, '**', '*.js')
+            join(@bower_path, 'tinycarousel', '**', '*.js')
+            join(@bower_path, 'bootstrap', '**', '*.js')
         ]
 
         if process.env.NODE_ENV is 'production'
@@ -143,13 +144,11 @@ class Builder
 
         kit.glob(bower_files).then (paths) ->
             Promise.all(_.map paths, (path) ->
-                if path.indexOf("/node_modules/") isnt -1 or path.indexOf("/test/") isnt -1
-                else
-                    path = relative self.bower_path, path
-                    from = join self.bower_path, path
-                    to = join self.dist_path, 'ui', 'lib', path
-                    kit.copy(from, to).then ->
-                        log '>> Copy: '.cyan + from.replace(root_path, '') + ' -> '.grey + to.replace(root_path, '')
+                path = relative self.bower_path, path
+                from = join self.bower_path, path
+                to = join self.dist_path, 'ui', 'lib', path
+                kit.copy(from, to).then ->
+                    log '>> Copy: '.cyan + from.replace(root_path, '') + ' -> '.grey + to.replace(root_path, '')
             )
 
 module.exports = new Builder
