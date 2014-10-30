@@ -1,8 +1,8 @@
 define [
     'muui/core/base'
     'muui/core/utils'
-    'bootstrap/modal'
-    'bootstrap/transition'
+    'muui/lib/bootstrap/modal'
+    'muui/lib/bootstrap/transition'
 ], (Base, utils) ->
     $win = $(window)
     $doc = $(document)
