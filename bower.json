@@ -21,7 +21,7 @@
     "requirejs": "~2.1.15",
     "zeptojs": "~1.1.4",
     "requirejs-text": "~2.0.12",
-    "tinycarousel": "git@github.com:wieringen/tinycarousel.git#master",
+    "tinycarousel": "git@github.com:rochappy/tinycarousel.git#master",
     "bootstrap": "~3.2.0"
   }
 }

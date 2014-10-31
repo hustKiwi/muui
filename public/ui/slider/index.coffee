@@ -21,10 +21,11 @@ define [
                 <% } %>
                 </ol>
             '''
+
             tinycarousel_options:
                 buttons: true
                 bullets: true
-                interval: false
+                interval: true
                 animationTime: 300
 
         get_opts: (options) ->
@@ -56,6 +57,13 @@ define [
                     cur: tinycarousel_options.start
                     total: $items.length
                 }))
+
+            if tinycarousel_options.interval
+                $el.on 'mouseenter', ->
+                    console.log 1
+                    $el.tinycarousel 'stop'
+                .on 'mouseleave', ->
+                    console.log 2
 
         after_render: ->
             @tinycarousel = @$el.tinycarousel(@opts.tinycarousel_options).data('plugin_tinycarousel')
