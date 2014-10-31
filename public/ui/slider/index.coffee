@@ -58,13 +58,6 @@ define [
                     total: $items.length
                 }))
 
-            if tinycarousel_options.interval
-                $el.on 'mouseenter', ->
-                    console.log 1
-                    $el.tinycarousel 'stop'
-                .on 'mouseleave', ->
-                    console.log 2
-
         after_render: ->
             @tinycarousel = @$el.tinycarousel(@opts.tinycarousel_options).data('plugin_tinycarousel')
 
