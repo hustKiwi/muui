@@ -28,7 +28,7 @@ define [
             @$el = $(opts.el)
 
             @before_render()
-            opts.before_render()
+            opts.before_render.apply(@)
             @trigger('before_render')
 
             @render(opts.render_args).done (args...) =>
