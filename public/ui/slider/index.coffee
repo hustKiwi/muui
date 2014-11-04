@@ -19,7 +19,7 @@ define [
                 <% } %>
                 </ol>
             '''
-
+            buttons_hover: true
             tinycarousel_options:
                 buttons: true
                 bullets: true
@@ -30,13 +30,14 @@ define [
             $.extend(true, {}, super(), Slider.defaults, options)
 
         init_events: ->
-            $el = @$el
+            { $el, opts } = @
             $arrow = $el.find('.arrow')
 
-            $el.on 'mouseenter', ->
-                $arrow.fadeIn()
-            .on 'mouseleave', ->
-                $arrow.fadeOut()
+            if opts.buttons_hover
+                $el.on 'mouseenter', ->
+                    $arrow.fadeIn()
+                .on 'mouseleave', ->
+                    $arrow.fadeOut()
 
             $el.on 'mouseenter', '.arrow', ->
                 $(@).addClass('on')
