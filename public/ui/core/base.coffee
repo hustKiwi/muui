@@ -34,7 +34,7 @@ define [
             @render(opts.render_args).done (args...) =>
                 @init_events()
                 @after_render([ args ])
-                opts.after_render([ args ])
+                opts.after_render.apply(@, args)
                 @trigger('after_render', [ args ])
 
         render: (data) ->
