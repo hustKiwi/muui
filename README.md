@@ -24,4 +24,4 @@ cake -s ./dist dev
 ```shell
 cake build
 ```
-上述命令会将`public`下的对应的源码编译移到`dist`目录。
+上述命令会将`public`下的对应的源码编译到`dist`目录。
