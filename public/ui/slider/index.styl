@@ -44,34 +44,37 @@ muui-slider-ctrl-bg()
             border-radius(5px)
             muui-slider-ctrl-bg()
     .buttons
-        size(100%, $slider_arrows_height)
+        /*size(100%, $slider_arrows_height)
         absolute(left top 50%)
         display: none
+        */
+    .arrow
+        absolute(top 50%)
         margin-top: - ($slider_arrows_height / 2)
-        .arrow
-            relative()
-            hide-text()
-            size($slider_arrows_weight, 100%)
-            cursor: pointer
-            &.prev
-                float-left()
-            &.next
-                float-right()
-                &:before
-                    background: url('/st/ui/slider/arrow_right.png') no-repeat
-            &.on
-                &:before
-                    opacity(1)
-            &:after
-                border-radius(4px)
-                muui-slider-ctrl-bg()
+        display: none
+        hide-text()
+        size($slider_arrows_weight, $slider_arrows_height)
+        cursor: pointer
+        &.prev
+            margin-left: -10px
+        &.next
+            right: 0
+            margin-left: - 10px
             &:before
-                opacity(.5)
-                inline-block()
-                size(13px, 21px)
-                absolute(left 50% top 50%)
-                margin-left: -6.5px
-                margin-top: -10.5px
-                z-index: 2
-                content: ''
-                background: url('/st/ui/slider/arrow_left.png') no-repeat
+                background: url('/st/ui/slider/arrow_right.png') no-repeat
+        &.on
+            &:before
+                opacity(1)
+        &:after
+            border-radius(4px)
+            muui-slider-ctrl-bg()
+        &:before
+            opacity(.5)
+            inline-block()
+            size(13px, 21px)
+            absolute(left 50% top 50%)
+            margin-left: -6.5px
+            margin-top: -10.5px
+            z-index: 2
+            content: ''
+            background: url('/st/ui/slider/arrow_left.png') no-repeat

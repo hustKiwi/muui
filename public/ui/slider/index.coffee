@@ -7,10 +7,8 @@ define [
             el: '.muui-slider'
             item_cls: 'muui-slider-item'
             buttons_tmpl: '''
-                <ul class="buttons">
-                    <li class="arrow prev"></li>
-                    <li class="arrow next"></li>
-                </ul>
+                    <a href="#" class="arrow prev"></a>
+                    <a href="#" class="arrow next"></a>
             '''
             bullets_tmpl: '''
                 <ol class="bullets">
@@ -33,14 +31,14 @@ define [
 
         init_events: ->
             $el = @$el
-            $buttons = $el.find('.buttons')
+            $arrow = $el.find('.arrow')
 
             $el.on 'mouseenter', ->
-                $buttons.fadeIn()
+                $arrow.fadeIn()
             .on 'mouseleave', ->
-                $buttons.fadeOut()
+                $arrow.fadeOut()
 
-            $buttons.on 'mouseenter', '.arrow', ->
+            $el.on 'mouseenter', '.arrow', ->
                 $(@).addClass('on')
             .on 'mouseleave', '.arrow', ->
                 $(@).removeClass('on')
