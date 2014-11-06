@@ -1,8 +1,8 @@
 define [
     'muui/core/base'
     'muui/core/utils'
-    'muui/lib/bootstrap/modal'
-    'muui/lib/bootstrap/transition'
+    'muui/lib/bootstrap/js/modal'
+    'muui/lib/bootstrap/js/transition'
 ], (Base, utils) ->
     $win = $(window)
     $doc = $(document)
@@ -62,12 +62,10 @@ define [
             unless @$el.length
                 @$el = $(@opts.container).appendTo('body')
 
-        after_render: ->
-            @modal = @$el.modal(@opts.modal_options).data('bs.modal')
-            @modal.$backdrop.addClass('muui-modal-backdrop')
-
         show: ->
-            @$el.modal('show')
+            modal_opt = $.extend(true, {}, @opts.modal_options, {show: true})
+            @modal = @$el.modal(modal_opt).data('bs.modal')
+            @modal.$backdrop.addClass('muui-modal-backdrop')
 
         hide: ->
             @$el.modal('hide')
