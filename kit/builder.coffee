@@ -111,7 +111,7 @@ class Builder
             log ">> Remove: #{path.replace(root_path, '')}".blue
 
     copy_files: ->
-        log ">> Copy files.".cyan
+        log '>> Copy files.'.cyan
 
         self = @
         root_path = @root_path
