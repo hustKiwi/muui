@@ -7,8 +7,18 @@ gulp_concat = require 'gulp-concat'
 
 {
     kit,
-    kit: { Promise, _ }
+    kit: {
+        _,
+        log,
+        spawn,
+        Promise,
+        path: {
+            join
+        }
+    }
 } = require 'nobone'
+
+node_bin = join 'node_modules', '.bin'
 
 run_server = (opts) ->
     { port, st, open } = _.defaults opts, {
@@ -70,26 +80,26 @@ task 'init', 'Create init files for client.', ->
             .pipe(gulp_concat "#{dest_file}")
             .pipe(gulp.dest 'public/js')
 
-        kit.log ">> Create: ".cyan + "public/js/#{dest_file}"
+        log ">> Create: ".cyan + "public/js/#{dest_file}"
 
-    kit.log ">> Create init files done.".green
+    log ">> Create init files done.".green
 
 task 'dev', 'Run project on Development mode.', (opts) ->
     run_server(opts)
 
 task 'coffeelint', 'Lint all coffee files.', (opts) ->
     expand = kit.require 'glob-expand'
-    cwd = process.cwd()
+    coffeelint_bin = join node_bin, 'coffeelint'
 
     lint = (path) ->
-        args = ['-f', "#{cwd}/coffeelint.json", "#{cwd}/#{path}"]
+        args = ['-f', 'coffeelint.json', path]
         if opts.quite
             args.unshift('-q')
-        kit.spawn "#{cwd}/node_modules/.bin/coffeelint", args
+        spawn coffeelint_bin, args
 
     Promise.resolve(expand(
-        '**/*.coffee',
-        '!node_modules/**/*.coffee',
-        '!bower_components/**/*.coffee'
+        join('**', '*.coffee'),
+        join('!node_modules', '**', '*.coffee'),
+        join('!bower_components', '**', '*.coffee')
     )).then (file_list) ->
         Promise.map file_list, lint
