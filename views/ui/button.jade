@@ -1,0 +1,45 @@
+extends ../core/base
+
+block head
+    link(rel="stylesheet", href="/st/ui/btn/index.css")
+
+block content
+
+    a.muui-btn.muui-btn-primary.loading( href="http://www.baidu.com")
+        | loading
+    a.muui-btn.muui-btn-primary.loading(data-loading-text="loading settings" href="http://music.baidu.com")
+        | loading2
+
+    a.muui-btn.muui-btn-primary.complete(data-complete-text="finished!" href="http://y.baidu.com")
+        | complete
+
+block css
+    :stylus
+        .muui-btn
+            margin-right: 10px
+            &.disabled
+                pointer-events: auto
+
+block js
+    :coffee
+        require [
+            'muui/button/index'
+        ], (Button) ->
+            button = new Button()
+
+            $('.loading').on 'click', ->
+                $this = $(this)
+                $this.button('loading')
+
+                setTimeout (->
+                    $this.button('reset')
+                    return
+                ), 5000
+
+                return false
+
+            $('.complete').on 'click', ->
+                $this = $(this)
+                $this.button('complete')
+
+                return false

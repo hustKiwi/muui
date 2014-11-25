@@ -57,11 +57,12 @@ serve_files = (port, st, open) ->
 
         service.listen port, ->
             kit.log 'Start at port: '.cyan + port
-            if open is 'true'
+            if open
                 kit.open "http://127.0.0.1:#{port}/tab"
 
 class Server
     constructor: ([ port, st, open ]) ->
+        open = open is 'true'
         serve_fake_datasource().then ->
             serve_files(port, st, open)
 
