@@ -27,7 +27,7 @@ run_server = (opts) ->
         open: false
     }
 
-    kit.monitor_app {
+    kit.monitorApp {
         bin: 'coffee'
         args: ['./server.coffee', port, st, open]
         watch_list: [
