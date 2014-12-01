@@ -35,8 +35,8 @@ class Builder
         start_time = Date.now()
         compiler = require './compiler'
 
-        renderer.file_handlers['.css'] = compiler.css_handler
-        renderer.file_handlers['.js'] = compiler.js_handler
+        renderer.fileHandlers['.css'] = compiler.css_handler
+        renderer.fileHandlers['.js'] = compiler.js_handler
 
         remove self.dist_path
         .then ->
