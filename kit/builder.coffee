@@ -120,7 +120,7 @@ class Builder
             join(@src_path, 'ui', '**', '*.+(png|jpg)')
         ]
 
-        if process.env.NODE_ENV is 'production'
+        if kit.isProduction()
             gulp.src(join @src_path, 'js', '*init.js')
                 .pipe(gulp_uglify())
                 .pipe(gulp.dest join(@dist_path, 'js'))

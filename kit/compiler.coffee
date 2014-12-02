@@ -34,7 +34,7 @@ module.exports =
             new Promise (resolve, reject) ->
                 stylus(str)
                     .set 'filename', path
-                    .set 'compress', process.env.NODE_ENV is 'production'
+                    .set 'compress', kit.isProduction()
                     .set 'paths', [css_path, bower_path]
                     .set 'cache', false
                     .set 'include css', true
@@ -49,7 +49,7 @@ module.exports =
 
     js_handler:
         extSrc: ['.js', '.coffee']
-        compiler: (str, path, data = {}) ->
+        compiler: (str, path) ->
             if @ext is '.js'
                 return str
 
@@ -63,14 +63,14 @@ module.exports =
                 ]
 
             coffee = kit.require 'coffee-script'
-            code = coffee.compile str, _.defaults(data, {
+            code = coffee.compile str, {
                 bare: true
-                compress: process.env.NODE_ENV == 'production'
-                compress_opts: { fromString: true }
-            })
+            }
 
-            if data.compress
+            if kit.isProduction()
                 ug = kit.require 'uglify-js'
-                ug.minify(code, data.compress_opts).code
+                ug.minify(code, {
+                    fromString: true
+                }).code
             else
                 code
