@@ -14,17 +14,17 @@ views_path = path.join(cwd_path, './views')
 
 module.exports =
     html_handler:
-        ext_src: ['.html', '.jade']
+        extSrc: ['.html', '.jade']
         compiler: (str, path, data) ->
             if @ext is '.html'
                 return str
-            renderer.file_handlers['.html'].compiler
+            renderer.fileHandlers['.html'].compiler
                 .apply(@, [str, path, data])
 
     css_handler:
-        ext_src: ['.styl']
-        dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
-        dependency_roots: [css_path]
+        extSrc: ['.styl']
+        dependencyReg: /@(?:import|require)\s+([^\r\n]+)/
+        dependencyRoots: [css_path]
         compiler: (str, path) ->
             nib = kit.require 'nib'
             stylus = kit.require 'stylus'
@@ -48,7 +48,7 @@ module.exports =
                             resolve(css)
 
     js_handler:
-        ext_src: ['.js', '.coffee']
+        extSrc: ['.js', '.coffee']
         compiler: (str, path, data = {}) ->
             if @ext is '.js'
                 return str

@@ -15,9 +15,9 @@ serve_fake_datasource = ->
 serve_files = (port, st, open) ->
     compiler = require './kit/compiler'
 
-    renderer.file_handlers['.html'] = compiler.html_handler
-    renderer.file_handlers['.css'] = compiler.css_handler
-    renderer.file_handlers['.js'] = compiler.js_handler
+    renderer.fileHandlers['.html'] = compiler.html_handler
+    renderer.fileHandlers['.css'] = compiler.css_handler
+    renderer.fileHandlers['.js'] = compiler.js_handler
 
     render_jade = (route, path, data = {}) ->
         service.get route, (req, res) ->
