@@ -12,7 +12,8 @@ define [
             $.extend(true, {}, super(), Tooltip.defaults, options)
 
         after_render: ->
-            @tooltip = @$el.tooltip(@opts.tooltip_options).data('bs.tooltip')
+            @tooltip = tooltip = @$el.tooltip(@opts.tooltip_options).data('bs.tooltip')
+            @$tip = tooltip.tip()
 
         show: ->
             @$el.modal('show')
