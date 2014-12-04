@@ -1,10 +1,22 @@
 global-reset()
 
+*
+    &, &:before, &:after
+        box-sizing(border-box)
+
+html, body
+    height: 100%
+
+#header, #content, #footer
+    relative()
+    overflow: hidden
+
 #header
     border-bottom(#28a1c5)
+    line-vertical-middle($header_height)
     background: #5bc0de
     h1
-        line-vertical-middle(50px)
+        line-vertical-middle($header_height)
         color: $white
         font-size: 24px
         font-weight: bold
@@ -19,12 +31,19 @@ global-reset()
             margin-left: 5px
 
 #content
-    min-height: 490px
-    margin: 50px auto
+    min-height(100%)
+    padding-top: 60px
+    margin-bottom: - $content_bottom
+    // 页脚沉底：http://notidea.com/html-css/footer-always-bottom.html
+    &:after
+        display: block
+        content: ''
+        height: $content_bottom
 
 #footer
     border-top($lighter_grey)
-    line-vertical-middle(60px)
+    line-vertical-middle($footer_height)
+    margin-top: $footer_margin_top
     background: $dark_white
 
 *

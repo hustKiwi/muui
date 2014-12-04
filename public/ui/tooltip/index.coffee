@@ -1,6 +1,6 @@
 define [
     'muui/core/base'
-    'muui/lib/bootstrap/js/tooltip'
+    'muui/lib/bootstrap/tooltip'
 ], (Base) ->
     class Tooltip extends Base
         @defaults:
