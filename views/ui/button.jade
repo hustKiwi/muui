@@ -28,18 +28,13 @@ block js
             button = new Button()
 
             $('.loading').on 'click', ->
-                $this = $(this)
+                $this = $(@)
                 $this.button('loading')
-
-                setTimeout (->
+                setTimeout( ->
                     $this.button('reset')
-                    return
-                ), 5000
-
-                return false
+                , 5000)
+                false
 
             $('.complete').on 'click', ->
-                $this = $(this)
-                $this.button('complete')
-
-                return false
+                $(@).button('complete')
+                false
