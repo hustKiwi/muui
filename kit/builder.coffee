@@ -15,17 +15,16 @@ gulp_uglify = require 'gulp-uglify'
     Promise,
     log,
     remove,
-    path: { join, relative }
+    path: { join, relative, sep }
 } = kit
 
 class Builder
     constructor: ->
         @root_path = root_path = process.cwd()
-        @src_path = "#{root_path}/public"
-        @dist_path = "#{root_path}/dist"
-        @ui_path = 'ui'
-        @js_path = 'js'
-        @css_path = 'css'
+        @src_path = join root_path, 'public'
+        @dist_path = join root_path, 'dist'
+        @bower_path = join root_path, 'bower_components'
+        @nobone_path = join root_path, '.nobone'
 
     build: ->
         log '>> Build start.'.cyan
@@ -37,18 +36,20 @@ class Builder
         renderer.fileHandlers['.css'] = compiler.css_handler
         renderer.fileHandlers['.js'] = compiler.js_handler
 
-        remove self.dist_path
-        .then ->
+        Promise.all([
+            remove self.dist_path
+            remove self.nobone_path
+        ]).then ->
             log '>> Clean dist.'.cyan
         .then ->
             Promise.all [
-                self.batch_compile 'coffee', 'js', self.js_path
-                self.batch_compile 'styl', 'css', self.css_path, {
+                self.batch_compile 'coffee', 'js', 'js'
+                self.batch_compile 'styl', 'css', 'css', {
                     exclude: 'core/**/*.styl'
                 }
-                self.batch_compile 'coffee', 'js', self.ui_path
-                self.batch_compile 'styl', 'css', self.ui_path
-                self.batch_compile 'html', 'html', self.ui_path
+                self.batch_compile 'coffee', 'js', 'ui'
+                self.batch_compile 'styl', 'css', 'ui'
+                self.batch_compile 'html', 'html', 'ui'
             ]
         .then ->
             self.clean_useless()
@@ -113,27 +114,42 @@ class Builder
         log '>> Copy files.'.cyan
 
         self = @
-        root_path = @root_path
+        { root_path, src_path, dist_path, bower_path } = @
+
+        copy = (from, to, filter) ->
+            kit.copy(from, to, filter).then ->
+                log '>> Copy: '.cyan + from.replace(root_path, '') + ' -> '.grey + to.replace(root_path, '')
 
         files = [
-            join(@src_path, 'img', '**', '*')
-            join(@src_path, 'ui', '**', '*.+(png|jpg)')
+            join(src_path, 'img', '**', '*')
+            join(src_path, 'ui', '**', '*.+(png|jpg)')
+        ]
+
+        bower_files = [
+            join(bower_path, 'tinycarousel', 'lib', '*.js')
+            join(bower_path, 'bootstrap', 'js', '*.js')
         ]
 
         if kit.isProduction()
-            gulp.src(join @src_path, 'js', '*init.js')
+            gulp.src(join src_path, 'js', '*init.js')
                 .pipe(gulp_uglify())
-                .pipe(gulp.dest join(@dist_path, 'js'))
+                .pipe(gulp.dest join(dist_path, 'js'))
         else
-            files.push join(@src_path, 'js', '*+(init.js)')
+            files.push join(src_path, 'js', '*+(init.js)')
 
         kit.glob(files).then (paths) ->
             Promise.all(_.map paths, (path) ->
-                path = relative self.src_path, path
-                from = join self.src_path, path
-                to = join self.dist_path, path
-                kit.copy(from, to).then ->
-                    log '>> Copy: '.cyan + from.replace(root_path, '') + ' -> '.grey + to.replace(root_path, '')
+                path = relative src_path, path
+                copy join(src_path, path), join(dist_path, path)
+            )
+
+        kit.glob(bower_files).then (paths) ->
+            Promise.all(_.map paths, (path) ->
+                path = relative bower_path, path
+                items = path.split(sep)
+                to_path = [items[0], items[items.length - 1]].join(sep)
+                copy join(bower_path, path), join(dist_path, 'ui', 'lib', to_path), (src) ->
+                    not /\.min\.js$/.test(src)
             )
 
 module.exports = new Builder
