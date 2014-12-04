@@ -85,6 +85,7 @@ task 'init', 'Create init files for client.', ->
     log ">> Create init files done.".green
 
 task 'dev', 'Run project on Development mode.', (opts) ->
+    invoke 'init'
     run_server(opts)
 
 task 'coffeelint', 'Lint all coffee files.', (opts) ->

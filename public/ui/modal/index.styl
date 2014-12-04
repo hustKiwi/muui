@@ -6,7 +6,7 @@
     z-index: 1001
     background: $lighter_grey
     overflow: hidden
-    padding: 5px
+    padding: 5px !important
     .muui-modal-header, .muui-modal-body, .muui-modal-footer
         min-width(350px)
         padding: 0 20px
@@ -31,9 +31,10 @@
             margin-right: 10px
 
 .muui-modal-backdrop
-    size(100%)
     opacity(.6)
     fixed(top 0 left 0)
+    width: 100% !important
+    height: 100% !important
     _position: absolute
     z-index: 1000
     background: $white
