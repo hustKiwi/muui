@@ -4,6 +4,7 @@ define [
 ], (Base) ->
     class Tooltip extends Base
         @defaults:
+            el: '.muui-tooltip'
             tooltip_options:
                 template: '<div class="muui-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
 
