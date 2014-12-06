@@ -10,7 +10,7 @@ define [
     class Modal extends Base
         @defaults:
             el: '.muui-modal'
-            container: '<div class="muui-modal fade"></div>'
+            container: '<div class="muui-modal fade" tabindex="-1"></div>'
             tmpl: _.template('''
                 <div class="muui-modal-stick"></div>
                 <div class="muui-modal-dialog modal-dialog">
@@ -52,6 +52,8 @@ define [
         init_events: ->
             @$el.on 'click', '.muui-modal-footer .muui-btn', ->
                 $(@).blur()
+            @$el.on 'keydown.dismiss.bs.modal', (e) ->
+                console.log(e.which)
 
         before_render: ->
             unless @$el.length
