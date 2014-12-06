@@ -1,16 +1,18 @@
+body.modal-open
+    overflow: hidden
+
 .muui-modal
     fixed(top 50% left 50%)
     _position: absolute
     zoom: 1
     display: none
     z-index: 1001
-    background: $lighter_grey
-    overflow: hidden
-    padding: 5px !important
+
     .muui-modal-header, .muui-modal-body, .muui-modal-footer
         min-width(350px)
         padding: 0 20px
         background: $white
+
     .muui-modal-header
         relative()
         padding-top: 15px
@@ -22,19 +24,27 @@
             absolute(top 15px right 15px)
             cursor: pointer
             background: transparent url('/st/ui/modal/cross.png') no-repeat 3px 3px
+
     .muui-modal-body
         padding: 15px 20px
+
     .muui-modal-footer
         text-align: center
         padding-bottom: 25px
         .submit
             margin-right: 10px
 
-.muui-modal-backdrop
-    opacity(.6)
-    fixed(top 0 left 0)
-    width: 100% !important
-    height: 100% !important
-    _position: absolute
-    z-index: 1000
-    background: $white
+    .modal-dialog
+        relative()
+        z-index: 1001
+        overflow: hidden
+        padding: 5px
+        background: $lighter_grey
+
+    .modal-backdrop
+        opacity(.6)
+        fixed(top 0 left 0)
+        width: 100% !important
+        height: 100% !important
+        _position: absolute
+        background: $white
