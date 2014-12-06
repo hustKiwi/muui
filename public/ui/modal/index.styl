@@ -2,11 +2,21 @@ body.modal-open
     overflow: hidden
 
 .muui-modal
-    fixed(top 50% left 50%)
-    _position: absolute
-    zoom: 1
-    display: none
+    fixed(top left)
+    size(100%, 100%)
+    text-align: center
+    overflow-x: hidden
+    overflow-y: auto
     z-index: 1001
+
+    .muui-modal-stick
+        size(1px, 100%)
+        margin-right: -.31em
+        overflow: hidden
+
+    .muui-modal-stick, .muui-modal-dialog
+        inline-block()
+        vertical-align: middle
 
     .muui-modal-header, .muui-modal-body, .muui-modal-footer
         min-width(350px)
