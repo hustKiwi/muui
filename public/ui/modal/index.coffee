@@ -13,7 +13,7 @@ define [
             container: '<div class="muui-modal fade" tabindex="-1"></div>'
             tmpl: _.template('''
                 <div class="muui-modal-stick"></div>
-                <div class="muui-modal-dialog modal-dialog">
+                <div class="<%- class && class + ' ' || '' %>muui-modal-dialog modal-dialog">
                     <div class="muui-modal-header">
                         <% if (title) { %>
                             <h3><%= title %></h3>
@@ -36,6 +36,7 @@ define [
             ''')
             data:
                 title: ''
+                class: ''
                 btns:
                     close: true
                     submit: true
