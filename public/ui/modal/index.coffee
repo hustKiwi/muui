@@ -10,7 +10,7 @@ define [
     class Modal extends Base
         @defaults:
             el: '.muui-modal'
-            container: '<div class="muui-modal fade" tabindex="-1"></div>'
+            container: '<div class="muui-modal fade" tabindex="-1" style="display: none;"></div>'
             tmpl: _.template('''
                 <div class="muui-modal-stick"></div>
                 <div class="<%- cls && cls + ' ' || '' %>muui-modal-dialog modal-dialog">
@@ -45,6 +45,7 @@ define [
                 footer: ''
             render_fn: 'html'
             modal_options:
+                show: false
                 backdrop: 'static'
 
         get_opts: (options) ->
