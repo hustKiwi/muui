@@ -70,3 +70,47 @@ border-bottom()
 
 border-left()
     -border-vendor(left, arguments)
+
+arrow-top(width, color)
+    size(0)
+    border-left: width solid transparent
+    border-right: width solid transparent
+    border-bottom: width solid color
+
+arrow-right(width, color)
+    size(0)
+    border-top: width solid transparent
+    border-bottom: width solid transparent
+    border-left: width solid color
+
+arrow-bottom(width, color)
+    size(0)
+    border-left: width solid transparent
+    border-right: width solid transparent
+    border-top: width solid color
+
+arrow-left(width, color)
+    size(0)
+    border-top: width solid transparent
+    border-bottom: width solid transparent
+    border-right: width solid color
+
+// WebKit-style focus: https://github.com/twbs/bootstrap/blob/master/less/mixins/tab-focus.less
+tab-focus()
+    outline: thin dotted
+    outline: 5px auto -webkit-focus-ring-color
+    outline-offset: -2px
+
+placeholder($color = #999)
+    &.placeholder
+        color: $color
+    &::-moz-placeholder
+        color: $color
+        opacity: 1
+    &:-ms-input-placeholder
+        color: $color
+    &::-webkit-input-placeholder
+        color: $color
+
+filter()
+    vendor('filter', arguments, only: webkit moz official)

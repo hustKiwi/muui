@@ -7,6 +7,11 @@ $pager_disabled_color = #ccc
     // 参考: http://css-tricks.com/fighting-the-space-between-inline-block-elements/
     font-size: 0
     -webkit-text-size-adjust: none
+    text-align: center
+    &.text-left
+        text-align: left
+    &.text-right
+        text-align: right
     .muui-pager-ellipse
         inline-block()
         line-vertical-middle(24px)
@@ -18,12 +23,14 @@ $pager_disabled_color = #ccc
         border($pager_border_color)
         padding: 0 8px
         text-decoration: none
+        background: $white
         &.on
             background: $pager_border_color
         &.cur
             cursor: text
             border: none
             color: $black
+            background: transparent
     .muui-pager-prev, .muui-pager-next
         relative()
         &:after
