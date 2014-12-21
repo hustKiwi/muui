@@ -1,6 +1,7 @@
 define [
     'muui/core/base'
     'muui/lib/bootstrap/tooltip'
+    'muui/lib/bootstrap/transition'
 ], (Base) ->
     class Tooltip extends Base
         @defaults:
@@ -11,9 +12,8 @@ define [
         get_opts: (options) ->
             $.extend(true, {}, super(), Tooltip.defaults, options)
 
-        after_render: ->
-            @tooltip = tooltip = @$el.tooltip(@opts.tooltip_options).data('bs.tooltip')
-            @$tip = tooltip.tip()
+        before_render: ->
+            @$el.tooltip(@opts.tooltip_options).data('bs.tooltip')
 
         show: ->
             @$el.modal('show')
