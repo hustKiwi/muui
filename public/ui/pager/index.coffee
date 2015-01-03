@@ -65,10 +65,10 @@ define [
 
         render: (data) ->
             data = @build(data)
-            super data and {
+            super(data and data or {
                 args:
                     none: true
-            }
+            })
 
         build: (data) ->
             _.defaults data, {
