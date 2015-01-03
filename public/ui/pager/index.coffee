@@ -74,8 +74,8 @@ define [
             { cur, total, size, length } = data
 
             page_num = ceil(total / size)
-            length = page_num if page_num < length
             length = 2 if length < 7
+            length = page_num if page_num < length
 
             cur = 1 unless 1 <= (cur = ~~cur) <= page_num
 

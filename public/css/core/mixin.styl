@@ -3,7 +3,7 @@ title($font = 16px, $color = $black)
     font-size: $font
     font-weight: bold
 
-center-block($width = $$page_width)
+center-block($width = $page_width)
     display: block
     margin-left: auto
     margin-right: auto
@@ -71,29 +71,29 @@ border-bottom()
 border-left()
     -border-vendor(left, arguments)
 
-arrow-top(width, color)
+arrow-top($width, $color)
     size(0)
-    border-left: width solid transparent
-    border-right: width solid transparent
-    border-bottom: width solid color
+    border-left: $width solid transparent
+    border-right: $width solid transparent
+    border-bottom: $width solid $color
 
-arrow-right(width, color)
+arrow-right($width, $color)
     size(0)
-    border-top: width solid transparent
-    border-bottom: width solid transparent
-    border-left: width solid color
+    border-top: $width solid transparent
+    border-bottom: $width solid transparent
+    border-left: $width solid $color
 
-arrow-bottom(width, color)
+arrow-bottom($width, $color)
     size(0)
-    border-left: width solid transparent
-    border-right: width solid transparent
-    border-top: width solid color
+    border-left: $width solid transparent
+    border-right: $width solid transparent
+    border-top: $width solid $color
 
-arrow-left(width, color)
+arrow-left($width, $color)
     size(0)
-    border-top: width solid transparent
-    border-bottom: width solid transparent
-    border-right: width solid color
+    border-top: $width solid transparent
+    border-bottom: $width solid transparent
+    border-right: $width solid $color
 
 // WebKit-style focus: https://github.com/twbs/bootstrap/blob/master/less/mixins/tab-focus.less
 tab-focus()
@@ -114,3 +114,7 @@ placeholder($color = #999)
 
 filter()
     vendor('filter', arguments, only: webkit moz official)
+
+pngfix($icon)
+    _background-image: none
+    _filter: unquote('progid:DXImageTransform.Microsoft.AlphaImageLoader(src=' + $img_path + $icon + '.png, sizingMethod=crop)')
