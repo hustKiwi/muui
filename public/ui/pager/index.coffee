@@ -84,8 +84,10 @@ define [
                 return null
 
             page_num = ceil(total / size)
-            length = 2 if length < 7
-            length = page_num if page_num < length
+            need_filter = false
+            if page_num < length
+                length = page_num
+                need_filter = true
 
             cur = 1 unless 1 <= (cur = ~~cur) <= page_num
 
@@ -124,6 +126,10 @@ define [
 
             r.unshift(has_prev and 'prev' or 'prev_disabled')
             r.push(has_next and 'next' or 'next_disabled')
+
+            if need_filter
+                r = _.filter r, (item) ->
+                    item isnt '...'
 
             {
                 args: _.extend data, {
