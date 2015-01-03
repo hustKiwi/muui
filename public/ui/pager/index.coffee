@@ -7,42 +7,45 @@ define [
         @defaults:
             el: '.muui-pager'
             tmpl: _.template('''
-                <% var path = args.path; %>
-                <div class="muui-pager">
-                <% _.each(pager, function(item) { %>
-                    <% if (item === 'prev') { %>
-                        <a class="muui-pager-prev muui-pager-item"
-                            data-page="<%- args.prev %>"
-                            href="<%- path.replace(/{page}/g, args.prev) %>">
-                            <%- args.prev_lable %>
-                        </a>
-                    <% } else if (item === 'prev_disabled') { %>
-                        <span class="muui-pager-prev muui-pager-disabled muui-pager-item">
-                            <%- args.prev_lable %>
-                        </span>
-                    <% } else if (item === 'next') { %>
-                        <a class="muui-pager-next muui-pager-item"
-                            data-page="<%- args.next %>"
-                            href="<%- path.replace(/{page}/g, args.next) %>">
-                            <%- args.next_lable %>
-                        </a>
-                    <% } else if (item === 'next_disabled') { %>
-                        <span class="muui-pager-next muui-pager-disabled muui-pager-item">
-                            <%- args.next_lable %>
-                        </span>
-                    <% } else if (item === 'cur') { %>
-                        <span class="muui-pager-item cur"><%- args.cur %></span>
-                    <% } else if (item === '...') { %>
-                        <span class="muui-pager-ellipse">...</span>
-                    <% } else { %>
-                        <a class="muui-pager-item"
-                            data-page="<%- item %>"
-                            href="<%- path.replace(/{page}/g, item) %>">
-                            <%- item %>
-                        </a>
-                    <% } %>
-                <% }); %>
-                </div>
+                <% if (args.none) { %>
+                <% } else { %>
+                    <% var path = args.path; %>
+                    <div class="muui-pager">
+                    <% _.each(pager, function(item) { %>
+                        <% if (item === 'prev') { %>
+                            <a class="muui-pager-prev muui-pager-item"
+                                data-page="<%- args.prev %>"
+                                href="<%- path.replace(/{page}/g, args.prev) %>">
+                                <%- args.prev_lable %>
+                            </a>
+                        <% } else if (item === 'prev_disabled') { %>
+                            <span class="muui-pager-prev muui-pager-disabled muui-pager-item">
+                                <%- args.prev_lable %>
+                            </span>
+                        <% } else if (item === 'next') { %>
+                            <a class="muui-pager-next muui-pager-item"
+                                data-page="<%- args.next %>"
+                                href="<%- path.replace(/{page}/g, args.next) %>">
+                                <%- args.next_lable %>
+                            </a>
+                        <% } else if (item === 'next_disabled') { %>
+                            <span class="muui-pager-next muui-pager-disabled muui-pager-item">
+                                <%- args.next_lable %>
+                            </span>
+                        <% } else if (item === 'cur') { %>
+                            <span class="muui-pager-item cur"><%- args.cur %></span>
+                        <% } else if (item === '...') { %>
+                            <span class="muui-pager-ellipse">...</span>
+                        <% } else { %>
+                            <a class="muui-pager-item"
+                                data-page="<%- item %>"
+                                href="<%- path.replace(/{page}/g, item) %>">
+                                <%- item %>
+                            </a>
+                        <% } %>
+                    <% }); %>
+                    </div>
+                <% } %>
             ''')
             handles:
                 redirect: (e) ->
@@ -61,7 +64,11 @@ define [
             .on 'click', ".#{item_cls}", handles.redirect
 
         render: (data) ->
-            super @build(data)
+            data = @build(data)
+            super data and {
+                args:
+                    none: true
+            }
 
         build: (data) ->
             _.defaults data, {
@@ -72,6 +79,9 @@ define [
                 next_lable: '下一页'
             }
             { cur, total, size, length } = data
+
+            if total <= size
+                return null
 
             page_num = ceil(total / size)
             length = 2 if length < 7
@@ -96,7 +106,7 @@ define [
                 r = [(cur - offset)..(cur + length - 1 - offset)]
 
             if r.length is 1
-                return []
+                return null
             else if length isnt 2
                 if r[0] isnt 1
                     r[0] = 1
