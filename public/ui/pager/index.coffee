@@ -84,10 +84,10 @@ define [
                 return null
 
             page_num = ceil(total / size)
-            need_filter = false
+            can_fill = false
             if page_num < length
                 length = page_num
-                need_filter = true
+                can_fill = true
 
             cur = 1 unless 1 <= (cur = ~~cur) <= page_num
 
@@ -99,17 +99,20 @@ define [
                 has_next = true
                 data.next = cur + 1
 
-            offset = floor((length - 1) / 2)
-            if cur - offset < 1
-                r = [1..length]
-            else if cur + offset > page_num - 2
-                r = [(page_num - length)..page_num]
+            if can_fill
+                r = [1..page_num]
             else
-                r = [(cur - offset)..(cur + length - 1 - offset)]
+                offset = floor((length - 1) / 2)
+                if cur - offset < 1
+                    r = [1..length]
+                else if cur + offset > page_num - 2
+                    r = [(page_num - length)..page_num]
+                else
+                    r = [(cur - offset)..(cur + length - 1 - offset)]
 
             if r.length is 1
                 return null
-            else if length isnt 2
+            else
                 if r[0] isnt 1
                     r[0] = 1
                     if r[1] isnt cur
@@ -121,15 +124,9 @@ define [
                     r[l - 2] = '...'
 
                 r[_.indexOf(r, cur)] = 'cur'
-            else
-                r.length = 0
 
             r.unshift(has_prev and 'prev' or 'prev_disabled')
             r.push(has_next and 'next' or 'next_disabled')
-
-            if need_filter
-                r = _.filter r, (item) ->
-                    item isnt '...'
 
             {
                 args: _.extend data, {
