@@ -72,7 +72,7 @@ define [
 
         build: (data) ->
             _.defaults data, {
-                path: ''
+                path: '?page={page}'
                 size: 10
                 length: 7
                 prev_lable: '上一页'
@@ -129,7 +129,7 @@ define [
             r.push(has_next and 'next' or 'next_disabled')
 
             {
-                args: _.extend data, {
+                args: _.merge data, {
                     cur: cur
                     total: total
                     size: size
