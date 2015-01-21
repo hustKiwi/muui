@@ -10,7 +10,7 @@ define [
                 template: '<div class="muui-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
 
         get_opts: (options) ->
-            $.extend(true, {}, super(), Tooltip.defaults, options)
+            $.extend(true, super(), Tooltip.defaults, options)
 
         before_render: ->
             @$el.tooltip(@opts.tooltip_options).data('bs.tooltip')

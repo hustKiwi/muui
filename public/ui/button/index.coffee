@@ -1,6 +1,6 @@
 define [
     'muui/core/base'
-    'muui/lib/bootstrap/js/button'
+    'muui/lib/bootstrap/button'
 ], (Base) ->
     class Button extends Base
         @defaults:
@@ -9,8 +9,9 @@ define [
                 loadingText: 'loading...'
 
         get_opts: (options) ->
-            $.extend(true, {}, super(), Button.defaults, options)
+            $.extend(true, super(), Button.defaults, options)
 
         after_render: ->
             @$el.button(@opts.tooltip_options)
+
     Button
