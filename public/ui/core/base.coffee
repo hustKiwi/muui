@@ -15,7 +15,7 @@ define [
             after_render: ->
 
         get_opts: ->
-            _.clone(MuUI.defaults)
+            MuUI.defaults
 
         constructor: (options) ->
             # jQuery EventeMitter:

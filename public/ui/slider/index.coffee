@@ -27,7 +27,7 @@ define [
                 animationTime: 300
 
         get_opts: (options) ->
-            _.merge(super(), _.clone(Slider.defaults), options)
+            $.extend(true, {}, super(), Slider.defaults, options)
 
         init_events: ->
             $el = @$el

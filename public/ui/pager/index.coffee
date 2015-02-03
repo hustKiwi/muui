@@ -51,7 +51,7 @@ define [
                 redirect: (e) ->
 
         get_opts: (options) ->
-            _.merge(super(), _.clone(Pager.defaults), options)
+            $.extend(true, {}, super(), Pager.defaults, options)
 
         init_events: ->
             item_cls = 'muui-pager-item'
