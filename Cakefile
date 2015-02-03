@@ -53,7 +53,7 @@ option '-s', '--st [st]', 'Static directory.'
 ##
 # Tasks
 ##
-task 'setup', 'Setup project', ->
+task 'setup', 'Setup project.', ->
     setup = require './kit/setup'
     setup.start()
 

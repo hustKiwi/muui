@@ -49,7 +49,7 @@ define [
                 backdrop: 'static'
 
         get_opts: (options) ->
-            $.extend(true, super(), Modal.defaults, options)
+            _.merge(super(), _.clone(Modal.defaults), options)
 
         init_events: ->
             @$el.on 'click', '.muui-modal-footer .muui-btn', ->

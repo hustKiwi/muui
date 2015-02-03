@@ -9,7 +9,7 @@ define [
                 loadingText: 'loading...'
 
         get_opts: (options) ->
-            $.extend(true, super(), Button.defaults, options)
+            _.merge(super(), _.clone(Button.defaults), options)
 
         after_render: ->
             @$el.button(@opts.tooltip_options)
