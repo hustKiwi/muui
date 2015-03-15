@@ -20,8 +20,7 @@ muui-slider-ctrl-bg()
         absolute(top 0)
     .muui-slider-item
         &, img
-            float: left
-            display: inline
+            float-left()
     .bullets
         absolute(right 25px bottom 10px)
         padding: 5px 0
@@ -41,8 +40,8 @@ muui-slider-ctrl-bg()
                 background: $light_blue
                 width: 15px
         &:after
-            border-radius(5px)
             muui-slider-ctrl-bg()
+            border-radius: 5px
     .arrow
         hide-text()
         absolute(top 50%)
@@ -54,7 +53,7 @@ muui-slider-ctrl-bg()
             margin-left: -10px
         &.next
             right: 0
-            margin-left: - 10px
+            margin-left: -10px
             &:before
                 background: url('/st/ui/slider/arrow_right.png') no-repeat
         &.on

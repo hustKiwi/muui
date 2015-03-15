@@ -3,6 +3,8 @@ nobone = require 'nobone'
 { kit, service, renderer } = nobone()
 { Promise, _ } = kit
 
+kit.require 'colors'
+
 serve_fake_datasource = ->
     kit.glob './kit/datasource/*.coffee'
     .then (paths) ->

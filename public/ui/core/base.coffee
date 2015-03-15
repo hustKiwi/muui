@@ -13,6 +13,7 @@ define [
                 r
             before_render: ->
             after_render: ->
+            init_events: ->
 
         get_opts: ->
             MuUI.defaults
@@ -32,10 +33,11 @@ define [
             @trigger('before_render')
 
             @render(opts.render_args).done (args...) =>
-                @init_events()
                 @after_render([ args ])
                 opts.after_render.apply(@, args)
                 @trigger('after_render', [ args ])
+                @init_events()
+                opts.init_events.apply(@)
 
         render: (data) ->
             self = @

@@ -30,13 +30,15 @@ define [
             $.extend(true, {}, super(), Slider.defaults, options)
 
         init_events: ->
-            $el = @$el
+            { $el, tinycarousel } = @
             $arrow = $el.find('.arrow')
 
             $el.on 'mouseenter', ->
                 $arrow.fadeIn()
+                tinycarousel.stop()
             .on 'mouseleave', ->
                 $arrow.fadeOut()
+                tinycarousel.start()
 
             $el.on 'mouseenter', '.arrow', ->
                 $(@).addClass('on')
