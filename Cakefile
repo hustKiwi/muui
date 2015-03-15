@@ -20,6 +20,8 @@ gulp_concat = require 'gulp-concat'
 
 node_bin = join 'node_modules', '.bin'
 
+kit.require 'colors'
+
 run_server = (opts) ->
     { port, st, open } = _.defaults opts, {
         port: 8078
@@ -89,7 +91,7 @@ task 'dev', 'Run project on Development mode.', (opts) ->
     run_server(opts)
 
 task 'coffeelint', 'Lint all coffee files.', (opts) ->
-    expand = kit.require 'glob-expand'
+    expand = require 'glob-expand'
     coffeelint_bin = join node_bin, 'coffeelint'
 
     lint = (path) ->

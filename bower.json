@@ -16,12 +16,12 @@
     "bower_components"
   ],
   "devDependencies": {
-    "jquery": "~2.1.1",
-    "lodash": "~2.4.1",
-    "requirejs": "~2.1.15",
-    "zeptojs": "~1.1.4",
-    "requirejs-text": "~2.0.12",
-    "bootstrap": "~3.3.1",
-    "tinycarousel": "git@github.com:rochappy/tinycarousel.git#master"
+    "jquery": "2.1.3",
+    "lodash": "2.4.1",
+    "requirejs": "2.1.16",
+    "zeptojs": "1.1.4",
+    "requirejs-text": "2.0.14",
+    "bootstrap": "3.3.2",
+    "tinycarousel": "https://github.com/wieringen/tinycarousel.git#2.1.8"
   }
 }

@@ -26,8 +26,8 @@ module.exports =
         dependencyReg: /@(?:import|require)\s+([^\r\n]+)/
         dependencyRoots: [css_path]
         compiler: (str, path) ->
-            nib = kit.require 'nib'
-            stylus = kit.require 'stylus'
+            nib = require 'nib'
+            stylus = require 'stylus'
 
             path = kit.path.join(cwd_path, path)
 
@@ -54,7 +54,7 @@ module.exports =
                 return str
 
             # Lint
-            coffeelint = kit.require 'coffeelint'
+            coffeelint = require 'coffeelint'
             lint_results = coffeelint.lint str, coffeelint_config
             if lint_results.length > 0
                 kit.err 'Coffeelint Error:'.red
@@ -62,13 +62,13 @@ module.exports =
                     '-f', "#{cwd_path}/coffeelint.json", "#{cwd_path}/#{path}"
                 ]
 
-            coffee = kit.require 'coffee-script'
+            coffee = require 'coffee-script'
             code = coffee.compile str, {
                 bare: true
             }
 
             if kit.isProduction()
-                ug = kit.require 'uglify-js'
+                ug = require 'uglify-js'
                 ug.minify(code, {
                     fromString: true
                 }).code
