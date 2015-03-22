@@ -24,7 +24,7 @@ define [
                 buttons: true
                 bullets: true
                 interval: true
-                animationTime: 300
+                animationTime: 500
 
         get_opts: (options) ->
             $.extend(true, {}, super(), Slider.defaults, options)
