@@ -53,7 +53,7 @@ define [
                 $el.append $(opts.buttons_tmpl)
 
             if tinycarousel_options.bullets
-                $el.append $(_.template(opts.bullets_tmpl, {
+                $el.append $(_.template(opts.bullets_tmpl)({
                     cur: tinycarousel_options.start
                     total: $items.length
                 }))
