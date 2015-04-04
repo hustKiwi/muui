@@ -65,7 +65,7 @@ task 'build', 'Build project.', ->
 
 task 'init', 'Create init files for client.', ->
     files = [
-        'bower_components/lodash/dist/lodash.js'
+        'bower_components/lodash/lodash.js'
         'bower_components/requirejs/require.js'
     ]
 

@@ -17,11 +17,11 @@
   ],
   "devDependencies": {
     "jquery": "2.1.3",
-    "lodash": "2.4.1",
-    "requirejs": "2.1.16",
-    "zeptojs": "1.1.4",
+    "lodash": "3.6.0",
+    "requirejs": "2.1.17",
+    "zeptojs": "1.1.6",
     "requirejs-text": "2.0.14",
-    "bootstrap": "3.3.2",
+    "bootstrap": "3.3.4",
     "tinycarousel": "https://github.com/wieringen/tinycarousel.git#2.1.8"
   }
 }
