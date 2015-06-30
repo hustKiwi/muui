@@ -62,6 +62,12 @@ define [
                 $(@).removeClass('on')
             .on 'click', "a.#{item_cls}", handles.redirect
 
+        before_render: ->
+            @el.addClass('loading')
+
+        after_render: ->
+            @el.removeClass('loading')
+
         render: (data) ->
             data = @build(data)
             super(data and data or {
