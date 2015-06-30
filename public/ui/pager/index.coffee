@@ -6,11 +6,11 @@ define [
     class Pager extends Base
         @defaults:
             el: '.muui-pager'
+            render_fn: 'html'
             tmpl: _.template('''
                 <% if (args.none) { %>
                 <% } else { %>
                     <% var path = args.path; %>
-                    <div class="muui-pager">
                     <% _.each(pager, function(item) { %>
                         <% if (item === 'prev') { %>
                             <a class="muui-pager-prev muui-pager-item"
@@ -44,11 +44,10 @@ define [
                             </a>
                         <% } %>
                     <% }); %>
-                    </div>
                 <% } %>
             ''')
             handles:
-                redirect: (e) ->
+                redirect: ->
 
         get_opts: (options) ->
             $.extend(true, {}, super(), Pager.defaults, options)
