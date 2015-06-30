@@ -11,10 +11,7 @@ gulp_uglify = require 'gulp-uglify'
 } = nobone(renderer: {})
 
 {
-    _,
-    Promise,
-    log,
-    remove,
+    _, Promise, log, remove,
     path: { join, relative, sep }
 } = kit
 
@@ -55,10 +52,10 @@ class Builder
             self.clean_useless()
         .then ->
             self.copy_files()
+        .then ->
+            log '>> Build done. Takes '.green + "#{(Date.now() - start_time) / 1000}".yellow + ' seconds.'.green
         .catch (err) ->
             kit.err err.stack.red
-        .done ->
-            log '>> Build done. Takes '.green + "#{(Date.now() - start_time) / 1000}".yellow + ' seconds.'.green
 
     batch_compile: (ext_src, ext_bin, src_dir, options = {}) ->
         self = @

@@ -8,10 +8,7 @@ gulp_concat = require 'gulp-concat'
 {
     kit,
     kit: {
-        _,
-        log,
-        spawn,
-        Promise,
+        _, log, spawn, Promise,
         path: {
             join
         }
@@ -91,18 +88,13 @@ task 'dev', 'Run project on Development mode.', (opts) ->
     run_server(opts)
 
 task 'coffeelint', 'Lint all coffee files.', (opts) ->
-    expand = require 'glob-expand'
-    coffeelint_bin = join node_bin, 'coffeelint'
+    kit.require 'drives'
 
-    lint = (path) ->
-        args = ['-f', 'coffeelint.json', path]
-        if opts.quite
-            args.unshift('-q')
-        spawn coffeelint_bin, args
-
-    Promise.resolve(expand(
-        join('**', '*.coffee'),
-        join('!node_modules', '**', '*.coffee'),
-        join('!bower_components', '**', '*.coffee')
-    )).then (file_list) ->
-        Promise.map file_list, lint
+    kit.warp [
+        '*.coffee'
+        '{kit,public}/**/*.coffee'
+    ]
+    .load kit.drives.auto 'lint'
+    .load (f) ->
+        f.set null
+    .run()
