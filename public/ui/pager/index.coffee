@@ -61,7 +61,7 @@ define [
                 $(@).addClass('on')
             .on 'mouseleave', "a.#{item_cls}", ->
                 $(@).removeClass('on')
-            .on 'click', ".#{item_cls}", handles.redirect
+            .on 'click', "a.#{item_cls}", handles.redirect
 
         render: (data) ->
             data = @build(data)
