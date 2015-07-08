@@ -16,21 +16,21 @@ define [
                             <a class="muui-pager-prev muui-pager-item"
                                 data-page="<%- args.prev %>"
                                 href="<%- path.replace(/{page}/g, args.prev) %>">
-                                <%- args.prev_lable %>
+                                <%- args.prev_label %>
                             </a>
                         <% } else if (item === 'prev_disabled') { %>
                             <span class="muui-pager-prev muui-pager-disabled muui-pager-item">
-                                <%- args.prev_lable %>
+                                <%- args.prev_label %>
                             </span>
                         <% } else if (item === 'next') { %>
                             <a class="muui-pager-next muui-pager-item"
                                 data-page="<%- args.next %>"
                                 href="<%- path.replace(/{page}/g, args.next) %>">
-                                <%- args.next_lable %>
+                                <%- args.next_label %>
                             </a>
                         <% } else if (item === 'next_disabled') { %>
                             <span class="muui-pager-next muui-pager-disabled muui-pager-item">
-                                <%- args.next_lable %>
+                                <%- args.next_label %>
                             </span>
                         <% } else if (item === 'cur') { %>
                             <span class="muui-pager-item cur"><%- args.cur %></span>
@@ -80,8 +80,8 @@ define [
                 path: '?page={page}'
                 size: 10
                 length: 7
-                prev_lable: '上一页'
-                next_lable: '下一页'
+                prev_label: '上一页'
+                next_label: '下一页'
             }
             { cur, total, size, length } = data
 
