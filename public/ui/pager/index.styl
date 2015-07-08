@@ -1,8 +1,10 @@
 $pager_color = $blue
+$pager_height = 24px
 $pager_border_color = #e7ecf0
 $pager_disabled_color = #ccc
 
 .muui-pager
+    clearfix()
     // HACK: 去除inline-block元素的间隙
     // 参考: http://css-tricks.com/fighting-the-space-between-inline-block-elements/
     font-size: 0
@@ -10,16 +12,19 @@ $pager_disabled_color = #ccc
     text-align: center
     &.text-left
         text-align: left
+        .muui-pager-item, .muui-pager-ellipse
+            float-left()
     &.text-right
         text-align: right
-    .muui-pager-ellipse
+        .muui-pager-item, .muui-pager-ellipse
+            float-right()
+    .muui-pager-item, .muui-pager-ellipse
         inline-block()
-        line-vertical-middle(24px)
+        line-vertical-middle($pager_height)
         font-size: 14px
         color: $pager_color
         margin-right: 5px
     .muui-pager-item
-        @extend .muui-pager .muui-pager-ellipse
         border($pager_border_color)
         padding: 0 8px
         text-decoration: none
@@ -35,8 +40,8 @@ $pager_disabled_color = #ccc
         relative()
         &:after
             absolute(top 50%)
-            height: 24px
-            margin-top: -12px
+            line-vertical-middle($pager_height)
+            margin-top: - $pager_height / 2
         &.muui-pager-disabled
             color: $pager_disabled_color
     .muui-pager-prev
