@@ -13,18 +13,18 @@ define [
             $.extend(true, {}, super(), Tooltip.defaults, options)
 
         before_render: ->
-            @$el.tooltip(@opts.tooltip_options).data('bs.tooltip')
+            @$el.tooltip(@opts.tooltip_options)
 
         show: ->
-            @$el.modal('show')
+            @$el.tooltip('show')
 
         hide: ->
-            @$el.modal('hide')
+            @$el.tooltip('hide')
 
         toggle: ->
-            @$el.modal('toggle')
+            @$el.tooltip('toggle')
 
         destroy: ->
-            @$el.modal('destroy')
+            @$el.tooltip('destroy')
 
     Tooltip
