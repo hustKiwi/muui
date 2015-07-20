@@ -10,14 +10,12 @@ $pager_disabled_color = #ccc
     font-size: 0
     -webkit-text-size-adjust: none
     text-align: center
-    &.text-left
+    &.text-left, &.text-right
         text-align: left
         .muui-pager-item, .muui-pager-ellipse
             float-left()
     &.text-right
         text-align: right
-        .muui-pager-item, .muui-pager-ellipse
-            float-right()
     .muui-pager-item, .muui-pager-ellipse
         inline-block()
         line-vertical-middle($pager_height)
