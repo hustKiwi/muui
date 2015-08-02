@@ -45,7 +45,7 @@ serve_files = (port, st, open) ->
             render_jade "/#{name}", p, {
                 ui_name: name
             }
-    .done ->
+    .then ->
         service.use '/st/bower', renderer.static('./bower_components')
         service.use '/st', renderer.static(st)
 

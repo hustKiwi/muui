@@ -4,6 +4,7 @@ gulp = require 'gulp'
 nobone = require 'nobone'
 expand = require 'glob-expand'
 gulp_uglify = require 'gulp-uglify'
+yaku_utils = require 'yaku/lib/utils'
 
 {
     kit,
@@ -55,7 +56,7 @@ class Builder
         .then ->
             log '>> Build done. Takes '.green + "#{(Date.now() - start_time) / 1000}".yellow + ' seconds.'.green
         .catch (err) ->
-            kit.err err.stack.red
+            kit.err err
 
     batch_compile: (ext_src, ext_bin, src_dir, options = {}) ->
         self = @
@@ -99,13 +100,20 @@ class Builder
             )
 
     clean_useless: ->
-        root_path = @root_path
-        Promise.all _.map [
-            join @dist_path, 'build.txt'
-            join @dist_path, 'js'
-        ], (path) ->
-            remove path
-            log ">> Remove: #{path.replace(root_path, '')}".blue
+        { root_path, dist_path } = @
+
+        files = [
+            'build.txt'
+        ]
+
+        yaku_utils.async ->
+            f = files.pop()
+            if f
+                f = join(dist_path, f)
+                remove(f).then ->
+                    log ">> Remove: #{f.replace(root_path, '')}".blue
+            else
+                yaku_utils.end
 
     copy_files: ->
         log '>> Copy files.'.cyan
@@ -135,18 +143,31 @@ class Builder
             files.push join(src_path, 'js', '*+(init.js)')
 
         kit.glob(files).then (paths) ->
-            Promise.all(_.map paths, (path) ->
-                path = relative src_path, path
-                copy join(src_path, path), join(dist_path, path)
-            )
+            yaku_utils.async ->
+                path = paths.pop()
+                if path
+                    from = path
+                    to = join(dist_path, relative(src_path, path))
+                    copy(from, to, {
+                        isForce: true
+                    })
+                else
+                    yaku_utils.end
+            .catch (err) ->
+                kit.err err
 
         kit.glob(bower_files).then (paths) ->
-            Promise.all(_.map paths, (path) ->
-                path = relative bower_path, path
-                items = path.split(sep)
-                to_path = [items[0], items[items.length - 1]].join(sep)
-                copy join(bower_path, path), join(dist_path, 'ui', 'lib', to_path), (src) ->
-                    not /\.min\.js$/.test(src)
-            )
+            yaku_utils.async ->
+                path = paths.pop()
+                if path
+                    path = relative bower_path, path
+                    items = path.split(sep)
+                    to_path = [items[0], items[items.length - 1]].join(sep)
+                    copy join(bower_path, path), join(dist_path, 'ui', 'lib', to_path), (src) ->
+                        not /\.min\.js$/.test(src)
+                else
+                    yaku_utils.end
+            .catch (err) ->
+                kit.err err
 
 module.exports = new Builder
