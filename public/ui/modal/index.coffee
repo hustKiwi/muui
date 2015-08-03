@@ -46,7 +46,7 @@ define [
             render_fn: 'html'
             modal_options:
                 show: false
-                backdrop: 'static'
+                backdrop: true
 
         get_opts: (options) ->
             $.extend(true, {}, super(), Modal.defaults, options)
