@@ -54,8 +54,6 @@ define [
         init_events: ->
             @$el.on 'click', '.muui-modal-footer .muui-btn', ->
                 $(@).blur()
-            @$el.on 'keydown.dismiss.bs.modal', (e) ->
-                console.log(e.which)
 
         before_render: ->
             unless @$el.length
