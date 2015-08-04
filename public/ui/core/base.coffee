@@ -4,7 +4,7 @@ define [
     class MuUI
         @defaults:
             el: ''
-            datasource: ''
+            data_source: ''
             render_args: {}
             render_fn: 'replaceWith'
             data_filter: (r) ->
@@ -37,13 +37,13 @@ define [
                 @init_events()
                 opts.init_events.apply(@)
 
-        render: (data) ->
+        render: (render_args) ->
             self = @
             def = $.Deferred()
 
             {
                 $el, opts,
-                opts: { tmpl, render_fn, datasource, data_filter }
+                opts: { tmpl, render_fn, data_source, data_filter }
             } = @
 
             render_tmpl = (tmpl) ->
@@ -54,11 +54,11 @@ define [
                         self.$el = $tmpl
                     def.resolve(data, $tmpl)
 
-                if datasource
-                    utils.api(datasource).done (data) ->
+                if data_source
+                    utils.api(data_source).done (data) ->
                         render data_filter(data)
                 else
-                    render _.isEmpty(data) and opts.data or data
+                    render render_args
 
             if tmpl
                 if utils.is_template(tmpl)

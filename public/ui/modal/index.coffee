@@ -34,7 +34,7 @@ define [
                     </div>
                 </div>
             ''')
-            data:
+            render_args:
                 title: ''
                 cls: ''
                 btns:
@@ -70,5 +70,9 @@ define [
 
         toggle: ->
             @$el.modal('toggle')
+
+    for item in ['header', 'body', 'footer']
+        Modal::[item] = (html) ->
+            @$el.find(".muui-modal-#{item}").html(html)
 
     Modal
