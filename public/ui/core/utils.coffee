@@ -36,10 +36,11 @@ define( ->
                 success: (r) ->
                     def.resolve(r)
 
-            # 调用错误很少见, 可以不做处理
+                # 调用错误很少见, 可以不做处理
                 error: ->
-                    def.reject()
-                    opts.handleError('ajax error')
+                    msg = 'ajax error'
+                    def.reject(msg)
+                    opts.handleError(msg)
 
             def.promise()
 
