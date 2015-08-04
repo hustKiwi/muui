@@ -72,7 +72,7 @@ define [
             @$el.modal('toggle')
 
     for item in ['header', 'body', 'footer']
-        Modal::[item] = (html) ->
+        Modal::["set_modal_#{item}"] = (html) ->
             @$el.find(".muui-modal-#{item}").html(html)
 
     Modal
