@@ -34,7 +34,7 @@ define [
                     </div>
                 </div>
             ''')
-            render_args:
+            renderArgs:
                 title: ''
                 cls: ''
                 btns:
@@ -43,24 +43,24 @@ define [
                     cancel: true
                 body: ''
                 footer: ''
-            render_fn: 'html'
-            modal_options:
+            renderFn: 'html'
+            modalOptions:
                 show: false
                 backdrop: true
 
-        get_opts: (options) ->
+        getOpts: (options) ->
             $.extend(true, {}, super(), Modal.defaults, options)
 
-        init_events: ->
+        initEvents: ->
             @$el.on 'click', '.muui-modal-footer .muui-btn', ->
                 $(@).blur()
 
-        before_render: ->
+        beforeRender: ->
             unless @$el.length
                 @$el = $(@opts.container).appendTo($body)
 
-        after_render: ->
-            @modal = @$el.modal(@opts.modal_options).data('bs.modal')
+        afterRender: ->
+            @modal = @$el.modal(@opts.modalOptions).data('bs.modal')
 
         show: ->
             @$el.modal('show')
@@ -73,7 +73,7 @@ define [
 
     for item in ['header', 'body', 'footer']
         do (item) ->
-            Modal::["set_modal_#{item}"] = (html) ->
+            Modal::["setModal#{item}"] = (html) ->
                 @$el.find(".muui-modal-#{item}").html(html)
 
     Modal

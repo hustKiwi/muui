@@ -4,70 +4,71 @@ define [
     class MuUI
         @defaults:
             el: ''
-            data_source: ''
-            render_args: {}
-            render_fn: 'replaceWith'
-            data_filter: (r) ->
+            dataSource: ''
+            renderArgs: {}
+            renderFn: 'replaceWith'
+            dataFilter: (r) ->
                 r
-            before_render: ->
-            after_render: ->
-            init_events: ->
+            beforeRender: ->
+            afterRender: ->
+            initEvents: ->
 
-        get_opts: ->
+        getOpts: ->
             MuUI.defaults
 
         constructor: (options) ->
             # jQuery EventeMitter:
             # http://james.padolsey.com/javascript/jquery-eventemitter/
             @_jq = $({})
-            @opts = opts = @get_opts(options)
+            @opts = opts = @getOpts(options)
 
             unless opts.el
                 throw new Error 'el cannot be empty.'
             @$el = $(opts.el)
 
-            @before_render()
-            opts.before_render.apply(@)
-            @trigger('before_render')
+            @beforeRender()
+            opts.beforeRender.apply(@)
+            @trigger('beforeRender')
 
-            @render(opts.render_args).done (args...) =>
-                @after_render([ args ])
-                opts.after_render.apply(@, args)
-                @trigger('after_render', [ args ])
-                @init_events()
-                opts.init_events.apply(@)
+            @render(opts.renderArgs).done (args...) =>
+                @afterRender([ args ])
+                opts.afterRender.apply(@, args)
+                @trigger('afterRender', [ args ])
+                @initEvents()
+                opts.initEvents.apply(@)
 
-        render: (render_args) ->
+        render: (renderArgs) ->
             self = @
             def = $.Deferred()
 
             {
-                $el, opts,
-                opts: { tmpl, render_fn, data_source, data_filter }
+                $el, opts, opts: {
+                    tmpl, renderFn, dataSource, dataFilter
+                }
             } = @
 
-            render_tmpl = (tmpl) ->
+            renderTmpl = (tmpl) ->
                 render = (data) ->
                     $tmpl = $(tmpl(_.isEmpty(data) and {} or data))
-                    $el[render_fn]($tmpl)
-                    if render_fn is 'replaceWith'
+                    $el[renderFn]($tmpl)
+                    if renderFn is 'replaceWith'
                         self.$el = $tmpl
                     def.resolve(data, $tmpl)
 
-                if data_source
-                    utils.api(data_source).done (data) ->
-                        render data_filter(data)
+                if dataSource
+                    utils.api(dataSource).done (data) ->
+                        render dataFilter(data)
                 else
-                    render render_args
+                    render renderArgs
 
             if tmpl
-                if utils.is_template(tmpl)
-                    render_tmpl tmpl
+                if utils.isTemplate(tmpl)
+                    renderTmpl tmpl
                 else
                     require [
                         "text!#{tmpl}.html"
                     ], (tmpl) ->
-                        render_tmpl _.template(tmpl)
+                        renderTmpl _.template(tmpl)
             else
                 def.resolve()
 
@@ -92,10 +93,10 @@ define [
         ###
         # 以下方法暴露给子类覆盖
         ###
-        init_events: ->
+        initEvents: ->
 
-        before_render: ->
+        beforeRender: ->
 
-        after_render: ->
+        afterRender: ->
 
     MuUI

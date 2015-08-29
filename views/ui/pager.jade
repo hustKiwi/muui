@@ -10,7 +10,7 @@ block content
     #tab-placeholder
     .muui-tab-panel.default-panel.on
         | 第#{page}页
-        .default-pager-placeholder
+        .default-pager-placeholder.muui-pager
     .muui-tab-panel.ajax-panel
         include ./include/ajax_pager.jade
 
@@ -37,7 +37,7 @@ block js
         ], (Tab, Pager) ->
             new Tab({
                 el: '#tab-placeholder'
-                data:
+                renderArgs:
                     cur: '.default-panel'
                     items: [
                         {
@@ -51,25 +51,23 @@ block js
                     ]
             })
 
-            render_args = {
+            renderArgs =
                 path: '/pager?page={page}'
                 cur: '#{page}'
                 total: 109
                 size: 10
                 length: 7
-                prev_lable: '上页'
-                next_lable: '下页'
-            }
-
+                prevLable: '上页'
+                nextLable: '下页'
 
             new Pager({
                 el: '.default-pager-placeholder'
-                render_args: render_args
+                renderArgs: renderArgs
             })
 
             pager = new Pager({
                 el: '.ajax-pager-placeholder'
-                render_args: render_args
+                renderArgs: renderArgs
                 handles:
                     redirect: (e) ->
                         e.preventDefault()
@@ -81,8 +79,8 @@ block js
                             pager.render(
                                 _.defaults({
                                     cur: page
-                                }, render_args)
+                                }, renderArgs)
                             ).done ->
-                                pager.init_events()
+                                pager.initEvents()
                         )
             })

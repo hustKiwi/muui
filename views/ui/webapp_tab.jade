@@ -1,7 +1,7 @@
 extends ../core/webapp_base
 
 append vars
-    - var ui_name = 'tab'
+    - var uiName = 'tab'
 
 block content
     #tab-placeholder
@@ -24,8 +24,8 @@ block js
         ], (WebAppTab) ->
             new WebAppTab({
                 el: '#tab-placeholder'
-                datasource: '/datasource/tab'
-                data_filter: (r) ->
+                dataSource: '/datasource/tab'
+                dataFilter: (r) ->
                     r.cur = '.rec-panel'
                     r.items = r.items.slice(0, 2)
                     r

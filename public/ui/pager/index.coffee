@@ -6,7 +6,7 @@ define [
     class Pager extends Base
         @defaults:
             el: '.muui-pager'
-            render_fn: 'html'
+            renderFn: 'html'
             tmpl: _.template('''
                 <% if (args.none) { %>
                 <% } else { %>
@@ -16,21 +16,21 @@ define [
                             <a class="muui-pager-prev muui-pager-item"
                                 data-page="<%- args.prev %>"
                                 href="<%- path.replace(/{page}/g, args.prev) %>">
-                                <%- args.prev_label %>
+                                <%- args.prevLabel %>
                             </a>
-                        <% } else if (item === 'prev_disabled') { %>
+                        <% } else if (item === 'prevDisabled') { %>
                             <span class="muui-pager-prev muui-pager-disabled muui-pager-item">
-                                <%- args.prev_label %>
+                                <%- args.prevLabel %>
                             </span>
                         <% } else if (item === 'next') { %>
                             <a class="muui-pager-next muui-pager-item"
                                 data-page="<%- args.next %>"
                                 href="<%- path.replace(/{page}/g, args.next) %>">
-                                <%- args.next_label %>
+                                <%- args.nextLabel %>
                             </a>
-                        <% } else if (item === 'next_disabled') { %>
+                        <% } else if (item === 'nextDisabled') { %>
                             <span class="muui-pager-next muui-pager-disabled muui-pager-item">
-                                <%- args.next_label %>
+                                <%- args.nextLabel %>
                             </span>
                         <% } else if (item === 'cur') { %>
                             <span class="muui-pager-item cur"><%- args.cur %></span>
@@ -49,23 +49,23 @@ define [
             handles:
                 redirect: ->
 
-        get_opts: (options) ->
+        getOpts: (options) ->
             $.extend(true, {}, super(), Pager.defaults, options)
 
-        init_events: ->
-            item_cls = 'muui-pager-item'
+        initEvents: ->
+            itemCls = 'muui-pager-item'
             handles = @opts.handles
 
-            @$el.on 'mouseenter', "a.#{item_cls}:not(.on, .cur)", ->
+            @$el.on 'mouseenter', "a.#{itemCls}:not(.on, .cur)", ->
                 $(@).addClass('on')
-            .on 'mouseleave', "a.#{item_cls}", ->
+            .on 'mouseleave', "a.#{itemCls}", ->
                 $(@).removeClass('on')
-            .on 'click', "a.#{item_cls}", handles.redirect
+            .on 'click', "a.#{itemCls}", handles.redirect
 
-        before_render: ->
+        beforeRender: ->
             @$el.addClass('loading')
 
-        after_render: ->
+        afterRender: ->
             @$el.removeClass('loading')
 
         render: (data) ->
@@ -80,38 +80,38 @@ define [
                 path: '?page={page}'
                 size: 10
                 length: 7
-                prev_label: '上一页'
-                next_label: '下一页'
+                prevLabel: '上一页'
+                nextLabel: '下一页'
             }
             { cur, total, size, length } = data
 
             if total <= size
                 return null
 
-            page_num = ceil(total / size)
-            can_fill = false
-            if page_num < length
-                length = page_num
-                can_fill = true
+            pageNum = ceil(total / size)
+            canFill = false
+            if pageNum < length
+                length = pageNum
+                canFill = true
 
-            cur = 1 unless 1 <= (cur = ~~cur) <= page_num
+            cur = 1 unless 1 <= (cur = ~~cur) <= pageNum
 
             if cur isnt 1
-                has_prev = true
+                hasPrev = true
                 data.prev = cur - 1
 
-            if cur isnt page_num
-                has_next = true
+            if cur isnt pageNum
+                hasNext = true
                 data.next = cur + 1
 
-            if can_fill
-                r = [1..page_num]
+            if canFill
+                r = [1..pageNum]
             else
                 offset = floor((length - 1) / 2)
                 if cur - offset < 1
                     r = [1..length]
-                else if cur + offset > page_num - 2
-                    r = [(page_num - length)..page_num]
+                else if cur + offset > pageNum - 2
+                    r = [(pageNum - length)..pageNum]
                 else
                     r = [(cur - offset)..(cur + length - 1 - offset)]
 
@@ -124,14 +124,14 @@ define [
                         r[1] = '...'
 
                 l = r.length
-                if r[l - 1] isnt page_num
-                    r[l - 1] = page_num
+                if r[l - 1] isnt pageNum
+                    r[l - 1] = pageNum
                     r[l - 2] = '...'
 
                 r[_.indexOf(r, cur)] = 'cur'
 
-            r.unshift(has_prev and 'prev' or 'prev_disabled')
-            r.push(has_next and 'next' or 'next_disabled')
+            r.unshift(hasPrev and 'prev' or 'prevDisabled')
+            r.push(hasNext and 'next' or 'nextDisabled')
 
             {
                 args: _.merge data, {

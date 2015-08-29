@@ -5,13 +5,13 @@ define [
     class Button extends Base
         @defaults:
             el: '.muui-btn'
-            button_options:
+            buttonOptions:
                 loadingText: 'loading...'
 
-        get_opts: (options) ->
+        getOpts: (options) ->
             $.extend(true, {}, super(), Button.defaults, options)
 
-        after_render: ->
-            @$el.button(@opts.tooltip_options)
+        afterRender: ->
+            @$el.button(@opts.tooltipOptions)
 
     Button

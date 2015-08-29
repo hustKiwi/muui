@@ -45,10 +45,10 @@ define( ->
             def.promise()
 
         # http://stackoverflow.com/questions/18410421/detect-instanceof-underscore-template
-        is_template: (tmpl) ->
+        isTemplate: (tmpl) ->
             _.isFunction(tmpl) and 'source' of tmpl
 
-        is_ie6: ->
+        isIe6: ->
             typeof document.body.style.maxHeight is 'undefined'
     }
 )

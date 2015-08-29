@@ -1,5 +1,5 @@
 nobone = require 'nobone'
-coffeelint_config = require '../coffeelint.json'
+coffeelintConfig = require '../coffeelint.json'
 
 {
     renderer,
@@ -7,13 +7,13 @@ coffeelint_config = require '../coffeelint.json'
     kit: { Promise, _, path }
 } = nobone()
 
-cwd_path = process.cwd()
-css_path = path.join(cwd_path, './public/css')
-bower_path = path.join(cwd_path, './bower_components')
-views_path = path.join(cwd_path, './views')
+cwdPath = process.cwd()
+cssPath = path.join(cwdPath, './public/css')
+bowerPath = path.join(cwdPath, './bower_components')
+viewsPath = path.join(cwdPath, './views')
 
 module.exports =
-    html_handler:
+    htmlHandler:
         extSrc: ['.html', '.jade']
         compiler: (str, path, data) ->
             if @ext is '.html'
@@ -21,21 +21,21 @@ module.exports =
             renderer.fileHandlers['.html'].compiler
                 .apply(@, [str, path, data])
 
-    css_handler:
+    cssHandler:
         extSrc: ['.styl']
         dependencyReg: /@(?:import|require)\s+([^\r\n]+)/
-        dependencyRoots: [css_path]
+        dependencyRoots: [cssPath]
         compiler: (str, path) ->
             nib = require 'nib'
             stylus = require 'stylus'
 
-            path = kit.path.join(cwd_path, path)
+            path = kit.path.join(cwdPath, path)
 
             new Promise (resolve, reject) ->
                 stylus(str)
                     .set 'filename', path
                     .set 'compress', kit.isProduction()
-                    .set 'paths', [css_path, bower_path]
+                    .set 'paths', [cssPath, bowerPath]
                     .set 'cache', false
                     .set 'include css', true
                     .use nib()
@@ -47,7 +47,7 @@ module.exports =
                         else
                             resolve(css)
 
-    js_handler:
+    jsHandler:
         extSrc: ['.js', '.coffee']
         compiler: (str, path) ->
             if @ext is '.js'
@@ -55,11 +55,11 @@ module.exports =
 
             # Lint
             coffeelint = require 'coffeelint'
-            lint_results = coffeelint.lint str, coffeelint_config
-            if lint_results.length > 0
+            lintResults = coffeelint.lint str, coffeelintConfig
+            if lintResults.length > 0
                 kit.err 'Coffeelint Error:'.red
-                kit.spawn "#{cwd_path}/node_modules/.bin/coffeelint", [
-                    '-f', "#{cwd_path}/coffeelint.json", "#{cwd_path}/#{path}"
+                kit.spawn "#{cwdPath}/node_modules/.bin/coffeelint", [
+                    '-f', "#{cwdPath}/coffeelint.json", "#{cwdPath}/#{path}"
                 ]
 
             coffee = require 'coffee-script'

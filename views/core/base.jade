@@ -5,15 +5,15 @@ html
     head
         title
             block title
-                if ui_name
-                    | MuUI - #{ui_name.capitalize()}
+                if uiName
+                    | MuUI - #{uiName.capitalize()}
                 else
                     | MuUI - 百度音乐UI组件库
         meta(charset="utf-8")
         meta(name="vieport" content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/st/css/layout.css")
-        if ui_name
-            link(rel="stylesheet", href="/st/ui/#{ui_name}/index.css")
+        if uiName
+            link(rel="stylesheet", href="/st/ui/#{uiName}/index.css")
         else
             link(rel="stylesheet", href="/st/css/index.css")
         <!--[if lt IE 9]>
@@ -28,7 +28,7 @@ html
             .center-wrap
                 block content
         include ./footer
-        if ui_name
+        if uiName
             script(src="/st/js/init.js")
             script
                 block js

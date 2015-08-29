@@ -5,12 +5,12 @@ define [
     class Slider extends Base
         @defaults:
             el: '.muui-slider'
-            item_cls: 'muui-slider-item'
-            buttons_tmpl: '''
+            itemCls: 'muui-slider-item'
+            buttonsTmpl: '''
                     <a href="#" class="arrow prev"></a>
                     <a href="#" class="arrow next"></a>
             '''
-            bullets_tmpl: '''
+            bulletsTmpl: '''
                 <ol class="bullets">
                 <% for (var i = 0; i < total; i++) { %>
                     <li class="bullet<%- i === cur ? ' active': '' %>" data-slide="<%- i %>">
@@ -20,16 +20,16 @@ define [
                 </ol>
             '''
 
-            tinycarousel_options:
+            tinycarouselOptions:
                 buttons: true
                 bullets: true
                 interval: true
                 animationTime: 500
 
-        get_opts: (options) ->
+        getOpts: (options) ->
             $.extend(true, {}, super(), Slider.defaults, options)
 
-        init_events: ->
+        initEvents: ->
             { $el, tinycarousel } = @
             $arrow = $el.find('.arrow')
 
@@ -45,20 +45,20 @@ define [
             .on 'mouseleave', '.arrow', ->
                 $(@).removeClass('on')
 
-        before_render: ->
-            { $el, opts, opts: { tinycarousel_options } } = @
-            @$items = $items = $el.find('.' + opts.item_cls)
+        beforeRender: ->
+            { $el, opts, opts: { tinycarouselOptions } } = @
+            @$items = $items = $el.find('.' + opts.itemCls)
 
-            if tinycarousel_options.buttons
-                $el.append $(opts.buttons_tmpl)
+            if tinycarouselOptions.buttons
+                $el.append $(opts.buttonsTmpl)
 
-            if tinycarousel_options.bullets
-                $el.append $(_.template(opts.bullets_tmpl)({
-                    cur: tinycarousel_options.start
+            if tinycarouselOptions.bullets
+                $el.append $(_.template(opts.bulletsTmpl)({
+                    cur: tinycarouselOptions.start
                     total: $items.length
                 }))
 
-        after_render: ->
-            @tinycarousel = @$el.tinycarousel(@opts.tinycarousel_options).data('plugin_tinycarousel')
+        afterRender: ->
+            @tinycarousel = @$el.tinycarousel(@opts.tinycarouselOptions).data('pluginTinycarousel')
 
     Slider

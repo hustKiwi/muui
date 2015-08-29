@@ -4,9 +4,9 @@
 
 class Setup
     start: ->
-        spawn join('node_modules', '.bin', 'bower'), ['install']
+        spawn join('nodeModules', '.bin', 'bower'), ['install']
         .then =>
-            @build_zepto()
+            @buildZepto()
         .catch (err) ->
             if err.message is 'canceled'
                 log '\n>> Canceled.'.red
@@ -14,21 +14,21 @@ class Setup
         .done ->
             log '>> Setup done.'.yellow
 
-    build_zepto: ->
-        zepto_path = join 'bower_components', 'zeptojs'
+    buildZepto: ->
+        zeptoPath = join 'bowerComponents', 'zeptojs'
         mods = 'zepto event ajax ie selector data callbacks deferred stack ios3'
 
         log '>> Install zepto dependencies.'.cyan
         spawn 'npm', ['install'], {
-            cwd: zepto_path
+            cwd: zeptoPath
         }
         .then ->
-            coffee_bin = join 'node_modules', '.bin', 'coffee'
+            coffeeBin = join 'nodeModules', '.bin', 'coffee'
 
             log '>> Build Zepto with: '.cyan + mods.green
 
-            spawn coffee_bin, ['make', 'dist'], {
-                cwd: zepto_path
+            spawn coffeeBin, ['make', 'dist'], {
+                cwd: zeptoPath
                 env: _.defaults(
                     { MODULES: mods }
                     process.env

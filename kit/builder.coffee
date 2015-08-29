@@ -3,8 +3,8 @@ process.env.NODE_ENV = 'production'
 gulp = require 'gulp'
 nobone = require 'nobone'
 expand = require 'glob-expand'
-gulp_uglify = require 'gulp-uglify'
-yaku_utils = require 'yaku/lib/utils'
+gulpUglify = require 'gulp-uglify'
+yakuUtils = require 'yaku/lib/utils'
 
 {
     kit,
@@ -18,155 +18,155 @@ yaku_utils = require 'yaku/lib/utils'
 
 class Builder
     constructor: ->
-        @root_path = root_path = process.cwd()
-        @src_path = join root_path, 'public'
-        @dist_path = join root_path, 'dist'
-        @bower_path = join root_path, 'bower_components'
-        @nobone_path = join root_path, '.nobone'
+        @rootPath = rootPath = process.cwd()
+        @srcPath = join rootPath, 'public'
+        @distPath = join rootPath, 'dist'
+        @bowerPath = join rootPath, 'bower_components'
+        @nobonePath = join rootPath, '.nobone'
 
     build: ->
         log '>> Build start.'.cyan
 
         self = @
-        start_time = Date.now()
+        startTime = Date.now()
         compiler = require './compiler'
 
-        renderer.fileHandlers['.css'] = compiler.css_handler
-        renderer.fileHandlers['.js'] = compiler.js_handler
+        renderer.fileHandlers['.css'] = compiler.cssHandler
+        renderer.fileHandlers['.js'] = compiler.jsHandler
 
         Promise.all([
-            remove self.dist_path
-            remove self.nobone_path
+            remove self.distPath
+            remove self.nobonePath
         ]).then ->
             log '>> Clean dist.'.cyan
         .then ->
             Promise.all [
-                self.batch_compile 'coffee', 'js', 'js'
-                self.batch_compile 'styl', 'css', 'css', {
+                self.batchCompile 'coffee', 'js', 'js'
+                self.batchCompile 'styl', 'css', 'css', {
                     exclude: 'core/**/*.styl'
                 }
-                self.batch_compile 'coffee', 'js', 'ui'
-                self.batch_compile 'styl', 'css', 'ui'
-                self.batch_compile 'html', 'html', 'ui'
+                self.batchCompile 'coffee', 'js', 'ui'
+                self.batchCompile 'styl', 'css', 'ui'
+                self.batchCompile 'html', 'html', 'ui'
             ]
         .then ->
-            self.clean_useless()
+            self.cleanUseless()
         .then ->
-            self.copy_files()
+            self.copyFiles()
         .then ->
-            log '>> Build done. Takes '.green + "#{(Date.now() - start_time) / 1000}".yellow + ' seconds.'.green
+            log '>> Build done. Takes '.green + "#{(Date.now() - startTime) / 1000}".yellow + ' seconds.'.green
         .catch (err) ->
             kit.err err
 
-    batch_compile: (ext_src, ext_bin, src_dir, options = {}) ->
+    batchCompile: (extSrc, extBin, srcDir, options = {}) ->
         self = @
         defaults =
             exclude: ''
-            src_path: @src_path
-            dist_path: @dist_path
+            srcPath: @srcPath
+            distPath: @distPath
 
         opts = _.defaults options, defaults
-        root_path = @root_path
+        rootPath = @rootPath
         exclude = opts.exclude
 
         args = [
             {
-                cwd: opts.src_path
+                cwd: opts.srcPath
             },
-            "#{src_dir}/**/*.#{ext_src}"
+            "#{srcDir}/**/*.#{extSrc}"
         ]
 
         if exclude
             if _.isArray exclude
                 args = args.concat(
                     _.map exclude, (item) ->
-                        "!#{src_dir}/#{item}"
+                        "!#{srcDir}/#{item}"
                 )
             else
-                args.push "!#{src_dir}/#{exclude}"
+                args.push "!#{srcDir}/#{exclude}"
 
         Promise.resolve(expand.apply(null, args)).then (paths) ->
-            log "\n\n>> Begin to compile #{paths.length} #{ext_src} files in #{src_dir} directory.".yellow
+            log "\n\n>> Begin to compile #{paths.length} #{extSrc} files in #{srcDir} directory.".yellow
 
             Promise.all(_.map paths, (path) ->
-                src_path = join(opts.src_path, path)
-                dist_path = join(opts.dist_path, path)
-                    .replace new RegExp("\\.#{ext_src}$"), ".#{ext_bin}"
+                srcPath = join(opts.srcPath, path)
+                distPath = join(opts.distPath, path)
+                    .replace new RegExp("\\.#{extSrc}$"), ".#{extBin}"
 
-                log '>> Compile: '.cyan + src_path.replace(root_path, '') + ' -> '.grey + dist_path.replace(root_path, '')
+                log '>> Compile: '.cyan + srcPath.replace(rootPath, '') + ' -> '.grey + distPath.replace(rootPath, '')
 
-                renderer.render(src_path, ".#{ext_bin}").then (code) ->
-                    kit.outputFile(dist_path, code) if code
+                renderer.render(srcPath, ".#{extBin}").then (code) ->
+                    kit.outputFile(distPath, code) if code
             )
 
-    clean_useless: ->
-        { root_path, dist_path } = @
+    cleanUseless: ->
+        { rootPath, distPath } = @
 
         files = [
             'build.txt'
         ]
 
-        yaku_utils.async ->
+        yakuUtils.async ->
             f = files.pop()
             if f
-                f = join(dist_path, f)
+                f = join(distPath, f)
                 remove(f).then ->
-                    log ">> Remove: #{f.replace(root_path, '')}".blue
+                    log ">> Remove: #{f.replace(rootPath, '')}".blue
             else
-                yaku_utils.end
+                yakuUtils.end
 
-    copy_files: ->
+    copyFiles: ->
         log '>> Copy files.'.cyan
 
         self = @
-        { root_path, src_path, dist_path, bower_path } = @
+        { rootPath, srcPath, distPath, bowerPath } = @
 
         copy = (from, to, filter) ->
             kit.copy(from, to, filter).then ->
-                log '>> Copy: '.cyan + from.replace(root_path, '') + ' -> '.grey + to.replace(root_path, '')
+                log '>> Copy: '.cyan + from.replace(rootPath, '') + ' -> '.grey + to.replace(rootPath, '')
 
         files = [
-            join(src_path, 'img', '**', '*')
-            join(src_path, 'ui', '**', '*.+(png|jpg)')
+            join(srcPath, 'img', '**', '*')
+            join(srcPath, 'ui', '**', '*.+(png|jpg)')
         ]
 
-        bower_files = [
-            join(bower_path, 'tinycarousel', 'lib', '*.js')
-            join(bower_path, 'bootstrap', 'js', '*.js')
+        bowerFiles = [
+            join(bowerPath, 'tinycarousel', 'lib', '*.js')
+            join(bowerPath, 'bootstrap', 'js', '*.js')
         ]
 
         if kit.isProduction()
-            gulp.src(join src_path, 'js', '*init.js')
-                .pipe(gulp_uglify())
-                .pipe(gulp.dest join(dist_path, 'js'))
+            gulp.src(join srcPath, 'js', '*init.js')
+                .pipe(gulpUglify())
+                .pipe(gulp.dest join(distPath, 'js'))
         else
-            files.push join(src_path, 'js', '*+(init.js)')
+            files.push join(srcPath, 'js', '*+(init.js)')
 
         kit.glob(files).then (paths) ->
-            yaku_utils.async ->
+            yakuUtils.async ->
                 path = paths.pop()
                 if path
                     from = path
-                    to = join(dist_path, relative(src_path, path))
+                    to = join(distPath, relative(srcPath, path))
                     copy(from, to, {
                         isForce: true
                     })
                 else
-                    yaku_utils.end
+                    yakuUtils.end
             .catch (err) ->
                 kit.err err
 
-        kit.glob(bower_files).then (paths) ->
-            yaku_utils.async ->
+        kit.glob(bowerFiles).then (paths) ->
+            yakuUtils.async ->
                 path = paths.pop()
                 if path
-                    path = relative bower_path, path
+                    path = relative bowerPath, path
                     items = path.split(sep)
-                    to_path = [items[0], items[items.length - 1]].join(sep)
-                    copy join(bower_path, path), join(dist_path, 'ui', 'lib', to_path), (src) ->
+                    toPath = [items[0], items[items.length - 1]].join(sep)
+                    copy join(bowerPath, path), join(distPath, 'ui', 'lib', toPath), (src) ->
                         not /\.min\.js$/.test(src)
                 else
-                    yaku_utils.end
+                    yakuUtils.end
             .catch (err) ->
                 kit.err err
 

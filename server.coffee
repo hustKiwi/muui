@@ -5,7 +5,7 @@ nobone = require 'nobone'
 
 kit.require 'colors'
 
-serve_fake_datasource = ->
+serveFakeDatasource = ->
     kit.glob './kit/datasource/*.coffee'
     .then (paths) ->
         Promise.all paths.map (p) ->
@@ -14,23 +14,23 @@ serve_fake_datasource = ->
             kit.log 'Fake datasource: '.cyan + url
             service.get url, require('./' + p)
 
-serve_files = (port, st, open) ->
+serveFiles = (port, st, open) ->
     compiler = require './kit/compiler'
 
-    renderer.fileHandlers['.html'] = compiler.html_handler
-    renderer.fileHandlers['.css'] = compiler.css_handler
-    renderer.fileHandlers['.js'] = compiler.js_handler
+    renderer.fileHandlers['.html'] = compiler.htmlHandler
+    renderer.fileHandlers['.css'] = compiler.cssHandler
+    renderer.fileHandlers['.js'] = compiler.jsHandler
 
-    render_jade = (route, path, data = {}) ->
+    renderJade = (route, path, data = {}) ->
         service.get route, (req, res) ->
-            renderer.render(path, '.html').then (tpl_fn) ->
+            renderer.render(path, '.html').then (tplFn) ->
                 try
-                    res.send tpl_fn _.extend(data, req.query)
+                    res.send tplFn _.extend(data, req.query)
                 catch err
                     kit.err err.stack.red
 
     Promise.resolve().then ->
-        render_jade '/', 'views/index.jade'
+        renderJade '/', 'views/index.jade'
     .then ->
         kit.glob 'views/ui/**/*.jade'
     .then (paths) ->
@@ -42,8 +42,8 @@ serve_files = (port, st, open) ->
 
             kit.log 'Create route: '.cyan + name
 
-            render_jade "/#{name}", p, {
-                ui_name: name
+            renderJade "/#{name}", p, {
+                uiName: name
             }
     .then ->
         service.use '/st/bower', renderer.static('./bower_components')
@@ -64,7 +64,7 @@ serve_files = (port, st, open) ->
 class Server
     constructor: ([ port, st, open ]) ->
         open = open is 'true'
-        serve_fake_datasource().then ->
-            serve_files(port, st, open)
+        serveFakeDatasource().then ->
+            serveFiles(port, st, open)
 
 new Server(process.argv[2..4])

@@ -6,14 +6,14 @@ define [
     class Tooltip extends Base
         @defaults:
             el: '.muui-show-tooltip'
-            tooltip_options:
+            tooltipOptions:
                 template: '<div class="muui-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
 
-        get_opts: (options) ->
+        getOpts: (options) ->
             $.extend(true, {}, super(), Tooltip.defaults, options)
 
-        before_render: ->
-            @$el.tooltip(@opts.tooltip_options)
+        beforeRender: ->
+            @$el.tooltip(@opts.tooltipOptions)
 
         show: ->
             @$el.tooltip('show')

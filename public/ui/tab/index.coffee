@@ -8,18 +8,18 @@ define [
             handles:
                 change: ($item, $target) ->
 
-        get_opts: (options) ->
+        getOpts: (options) ->
             $.extend(true, {}, super(), Tab.defaults, options)
 
-        init_events: ->
-            item_cls = 'muui-tab-item'
+        initEvents: ->
+            itemCls = 'muui-tab-item'
             handles = @opts.handles
 
-            @$el.on 'mouseenter', ".#{item_cls}:not(.on)", ->
+            @$el.on 'mouseenter', ".#{itemCls}:not(.on)", ->
                 $(@).addClass('hover')
-            .on 'mouseleave', ".#{item_cls}:not(.on)", ->
+            .on 'mouseleave', ".#{itemCls}:not(.on)", ->
                 $(@).removeClass('hover')
-            .on 'click', ".#{item_cls}:not(.on)", ->
+            .on 'click', ".#{itemCls}:not(.on)", ->
                 $this = $(@)
                 $target = $($this.data('target'))
 
