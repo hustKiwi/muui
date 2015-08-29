@@ -1,15 +1,15 @@
-define( ->
+define ->
     StrProto = String.prototype
 
-    unless _.isFunction(StrProto.startsWith)
+    unless _.isFunction StrProto.startsWith
         StrProto.startsWith = (str) ->
             @slice(0, str.length) is str
 
-    unless _.isFunction(StrProto.endsWith)
+    unless _.isFunction StrProto.endsWith
         StrProto.endsWith = (str) ->
             @slice(-str.length) is str
 
-    return {
+    {
         api: (url, data, options) ->
             def = $.Deferred()
 
@@ -47,8 +47,4 @@ define( ->
         # http://stackoverflow.com/questions/18410421/detect-instanceof-underscore-template
         isTemplate: (tmpl) ->
             _.isFunction(tmpl) and 'source' of tmpl
-
-        isIe6: ->
-            typeof document.body.style.maxHeight is 'undefined'
     }
-)
