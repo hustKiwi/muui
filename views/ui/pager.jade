@@ -12,7 +12,9 @@ block content
         | 第#{page}页
         .default-pager-placeholder.muui-pager
     .muui-tab-panel.ajax-panel
-        include ./include/ajax_pager.jade
+        .main
+            include ./include/ajax_pager.jade
+        .ajax-pager-placeholder.muui-pager
 
 block css
     :stylus
@@ -75,12 +77,9 @@ block js
                         page = $(this).data('page')
                         url = "/include/ajax_pager?page=#{page}"
 
-                        $('.ajax-panel').load(url, ->
-                            pager.render(
-                                _.defaults({
-                                    cur: page
-                                }, renderArgs)
-                            ).done ->
-                                pager.initEvents()
+                        $('.ajax-panel .main').load(url, ->
+                            pager.render _.defaults({
+                                cur: page
+                            }, renderArgs)
                         )
             })

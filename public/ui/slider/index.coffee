@@ -59,6 +59,6 @@ define [
                 }))
 
         afterRender: ->
-            @tinycarousel = @$el.tinycarousel(@opts.tinycarouselOptions).data('pluginTinycarousel')
+            @tinycarousel = @$el.tinycarousel(@opts.tinycarouselOptions).data('plugin_tinycarousel')
 
     Slider

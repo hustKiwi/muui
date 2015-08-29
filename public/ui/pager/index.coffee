@@ -8,8 +8,7 @@ define [
             el: '.muui-pager'
             renderFn: 'html'
             tmpl: _.template('''
-                <% if (args.none) { %>
-                <% } else { %>
+                <% if (!_.isEmpty(args)) { %>
                     <% var path = args.path; %>
                     <% _.each(pager, function(item) { %>
                         <% if (item === 'prev') { %>
@@ -69,11 +68,9 @@ define [
             @$el.removeClass('loading')
 
         render: (data) ->
-            data = @build(data)
-            super(data and data or {
-                args:
-                    none: true
-            })
+            super @build(data) or {
+                args: null
+            }
 
         build: (data) ->
             _.defaults data, {
