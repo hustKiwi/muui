@@ -26,7 +26,7 @@ define [
                     <div class="muui-modal-footer">
                         <% if (_.isEmpty(footer)) { %>
                             <% if (btns.submit) { %>
-                                <button class="muui-btn muui-btn-primary submit" data-dismiss="modal" aria-hidden="true">确定
+                                <button class="muui-btn muui-btn-primary submit" data-dismiss="modal" aria-hidden="true">确定</button>
                             <% } %>
                             <% if (btns.cancel) { %>
                                 <button class="muui-btn" data-dismiss="modal" aria-hidden="true">取消</button>
