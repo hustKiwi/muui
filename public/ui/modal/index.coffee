@@ -9,6 +9,7 @@ define [
 
     class Modal extends Base
         @defaults:
+            el: '.muui-modal'
             container: '<div class="muui-modal fade" tabindex="-1" style="display: none;"></div>'
             tmpl: _.template('''
                 <div class="muui-modal-stick"></div>
