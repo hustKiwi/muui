@@ -100,6 +100,10 @@ define [
                 $el.removeClass('muui-modal-loading')
             @
 
+        setTitle: (title) ->
+            @$el.find('.muui-modal-header h3').text(title)
+            @
+
     for item in ['header', 'footer']
         do (item) ->
             Modal::["setModal#{_.capitalize(item)}"] = (html) ->
