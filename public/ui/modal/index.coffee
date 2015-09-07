@@ -74,9 +74,7 @@ define [
                 @$el = $(@opts.container).appendTo($body)
 
         afterRender: ->
-            @modal = @$el.modal(@opts.modalOptions)
-                .removeClass('muui-modal-loading')
-                .data('bs.modal')
+            @modal = @$el.modal(@opts.modalOptions).data('bs.modal')
 
         show: ->
             @render(@opts.renderArgs).done =>
