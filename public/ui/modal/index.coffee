@@ -24,13 +24,16 @@ define [
                     </div>
                     <div class="muui-modal-body"><%= body %></div>
                     <div class="muui-modal-footer">
-                        <% if (btns.submit) { %>
-                            <button class="muui-btn muui-btn-primary submit" data-dismiss="modal" aria-hidden="true">确定
+                        <% if (_.isEmpty(footer)) { %>
+                            <% if (btns.submit) { %>
+                                <button class="muui-btn muui-btn-primary submit" data-dismiss="modal" aria-hidden="true">确定
+                            <% } %>
+                            <% if (btns.cancel) { %>
+                                <button class="muui-btn" data-dismiss="modal" aria-hidden="true">取消</button>
+                            <% } %>
+                        <% } else { %>
+                            <%= footer %>
                         <% } %>
-                        <% if (btns.cancel) { %>
-                            <button class="muui-btn" data-dismiss="modal" aria-hidden="true">取消</button>
-                        <% } %>
-                        <%= footer %>
                     </div>
                 </div>
             ''')
