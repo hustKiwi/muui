@@ -73,7 +73,7 @@ define [
 
     for item in ['header', 'body', 'footer']
         do (item) ->
-            Modal::["setModal#{item}"] = (html) ->
+            Modal::["setModal#{_.capitalize(item)}"] = (html) ->
                 @$el.find(".muui-modal-#{item}").html(html)
 
     Modal
