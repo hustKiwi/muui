@@ -99,6 +99,7 @@ define [
             @
 
         setTitle: (title) ->
+            @opts.renderArgs.title = title
             @$el.find('.muui-modal-header h3').text(title)
             @
 
