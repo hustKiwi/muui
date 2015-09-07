@@ -37,6 +37,14 @@ define [
                     </div>
                 </div>
             ''')
+            loadingTmpl: '''
+                <div class="loading-panel">
+                    <i class="ui-loading"></i>
+                    <p class="tip">
+                        正在加载，请稍候 ...
+                    </p>
+                </div>
+            '''
             renderArgs:
                 title: ''
                 cls: ''
@@ -81,9 +89,21 @@ define [
             @$el.modal('toggle')
             @
 
-    for item in ['header', 'body', 'footer']
+        loading: ->
+            @setModalBody(@opts.loadingTmpl)
+                .$el.addClass('muui-modal-loading')
+
+        setModalBody: (html) ->
+            { $el, opts } = @
+            $el.find('.muui-modal-body').html(html)
+            if html isnt opts.loadingTmpl
+                $el.removeClass('muui-modal-loading')
+            @
+
+    for item in ['header', 'footer']
         do (item) ->
             Modal::["setModal#{_.capitalize(item)}"] = (html) ->
                 @$el.find(".muui-modal-#{item}").html(html)
+                @
 
     Modal

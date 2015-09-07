@@ -11,7 +11,7 @@ block js
         require [
             'muui/modal/index'
         ], (Modal) ->
-            modal = new Modal({
+            window.modal = new Modal({
                 renderArgs:
                     title: '弹窗的标题'
                     body: '''
