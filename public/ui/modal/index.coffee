@@ -55,8 +55,11 @@ define [
             $.extend(true, {}, super(), Modal.defaults, options)
 
         initEvents: ->
-            @$el.on 'click', '.muui-modal-footer .muui-btn', ->
+            { $el } = @
+            $el.on 'click', '.muui-modal-footer .muui-btn', ->
                 $(@).blur()
+            .on 'hide.bs.modal', ->
+                $el.empty()
 
         beforeRender: ->
             unless @$el.length
@@ -66,13 +69,17 @@ define [
             @modal = @$el.modal(@opts.modalOptions).data('bs.modal')
 
         show: ->
-            @$el.modal('show')
+            @render(@opts.renderArgs).done =>
+                @$el.modal('show')
+            @
 
         hide: ->
             @$el.modal('hide')
+            @
 
         toggle: ->
             @$el.modal('toggle')
+            @
 
     for item in ['header', 'body', 'footer']
         do (item) ->

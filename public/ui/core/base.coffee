@@ -33,8 +33,7 @@ define [
             @render(opts.renderArgs).done (args...) =>
                 @afterRender([ args ])
                 opts.afterRender.apply(@, args)
-                @trigger('afterRender', [ args ])
-                @initEvents()
+                @trigger('afterRender', [ args ]).initEvents()
                 opts.initEvents.apply(@)
 
         render: (renderArgs) ->
