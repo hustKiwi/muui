@@ -9,7 +9,6 @@ define [
 
     class Modal extends Base
         @defaults:
-            el: '.muui-modal'
             container: '<div class="muui-modal fade" tabindex="-1" style="display: none;"></div>'
             tmpl: _.template('''
                 <div class="muui-modal-stick"></div>
@@ -74,7 +73,9 @@ define [
                 @$el = $(@opts.container).appendTo($body)
 
         afterRender: ->
-            @modal = @$el.modal(@opts.modalOptions).data('bs.modal')
+            @modal = @$el.modal(@opts.modalOptions)
+                .removeClass('muui-modal-loading')
+                .data('bs.modal')
 
         show: ->
             @render(@opts.renderArgs).done =>
