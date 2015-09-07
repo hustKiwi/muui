@@ -19,7 +19,7 @@ define [
                             <h3><%= title %></h3>
                         <% } %>
                         <% if (btns.close) { %>
-                            <span class="close" data-dismiss="modal" aria-hidden="true">×</span>
+                            <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:;">×</a>
                         <% } %>
                     </div>
                     <div class="muui-modal-body"><%= body %></div>
