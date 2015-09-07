@@ -15,9 +15,7 @@ define [
                 <div class="muui-modal-stick"></div>
                 <div class="<%- cls && cls + ' ' || '' %>muui-modal-dialog modal-dialog">
                     <div class="muui-modal-header">
-                        <% if (title) { %>
-                            <h3><%= title %></h3>
-                        <% } %>
+                        <h3><%= title %></h3>
                         <% if (btns.close) { %>
                             <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:;">×</a>
                         <% } %>
