@@ -76,20 +76,21 @@ define [
 
         show: ->
             @render(@opts.renderArgs).done =>
-                @$el.modal('show')
+                @modal.show()
             @
 
         hide: ->
-            @$el.modal('hide')
+            @modal.hide()
             @
 
         toggle: ->
-            @$el.modal('toggle')
+            @modal.toggle()
             @
 
         loading: ->
             @setModalBody(@opts.loadingTmpl)
                 .$el.addClass('muui-modal-loading')
+            @
 
         setModalBody: (html) ->
             { $el, opts } = @
