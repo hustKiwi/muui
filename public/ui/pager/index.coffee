@@ -73,13 +73,13 @@ define [
             }
 
         build: (data) ->
-            _.defaults data, {
+            data = _.extend {
                 path: '?page={page}'
                 size: 10
                 length: 7
                 prevLabel: '上一页'
                 nextLabel: '下一页'
-            }
+            }, data
             { cur, total, size, length } = data
 
             if total <= size
@@ -114,7 +114,7 @@ define [
 
             if r.length is 1
                 return null
-            else
+            else if not canFill
                 if r[0] isnt 1
                     r[0] = 1
                     if r[1] isnt cur
@@ -125,8 +125,7 @@ define [
                     r[l - 1] = pageNum
                     r[l - 2] = '...'
 
-                r[_.indexOf(r, cur)] = 'cur'
-
+            r[_.indexOf(r, cur)] = 'cur'
             r.unshift(hasPrev and 'prev' or 'prevDisabled')
             r.push(hasNext and 'next' or 'nextDisabled')
 
