@@ -68,10 +68,8 @@ define [
                 $el.empty()
 
         beforeRender: ->
-            { $el, opts } = @
-            unless $el.length
-                @$el = $(opts.container).appendTo($body)
-                @$dialog = @$el.find('.muui-modal-dialog')
+            unless @$el.length
+                @$el = $(@opts.container).appendTo($body)
 
         afterRender: ->
             @modal = @$el.modal(@opts.modalOptions).data('bs.modal')
