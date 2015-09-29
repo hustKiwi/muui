@@ -23,5 +23,8 @@
     "requirejs-text": "2.0.14",
     "bootstrap": "3.3.5",
     "tinycarousel": "https://github.com/wieringen/tinycarousel.git#2.1.8"
+  },
+  "dependencies": {
+    "eventEmitter": "~4.2.11"
   }
 }

@@ -1,6 +1,7 @@
 define [
     'muui/core/utils'
-], (utils) ->
+    'muui/lib/eventEmitter/eventEmitter'
+], (utils, EventEmitter) ->
     class MuUI
         @defaults:
             el: ''
@@ -17,9 +18,7 @@ define [
             MuUI.defaults
 
         constructor: (options) ->
-            # jQuery EventeMitter:
-            # http://james.padolsey.com/javascript/jquery-eventemitter/
-            @_jq = $({})
+            @_ee = new EventEmitter
             @opts = opts = @getOpts(options)
 
             unless opts.el
@@ -74,19 +73,19 @@ define [
             def.promise()
 
         on: (args...) ->
-            @_jq.on.apply(@_jq, args)
+            @_ee.on.apply(@_ee, args)
             @
 
         off: (args...) ->
-            @_jq.off.apply(@_jq, args)
+            @_ee.off.apply(@_ee, args)
             @
 
         once: (args...) ->
-            @_jq.one.apply(@_jq, args)
+            @_ee.one.apply(@_ee, args)
             @
 
         trigger: (args...) ->
-            @_jq.trigger.apply(@_jq, args)
+            @_ee.trigger.apply(@_ee, args)
             @
 
         ###

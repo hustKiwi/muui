@@ -7,3 +7,4 @@ require.config
         jquery: '/st/bower/jquery/dist/jquery'
         'muui/lib/bootstrap': '/st/bower/bootstrap/js'
         'muui/lib/tinycarousel': '/st/bower/tinycarousel/lib'
+        'muui/lib/eventEmitter': '/st/bower/eventEmitter'
