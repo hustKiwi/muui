@@ -85,7 +85,7 @@ define [
             @
 
         trigger: (args...) ->
-            @_ee.trigger.apply(@_ee, args)
+            @_ee.emit.apply(@_ee, args)
             @
 
         ###
