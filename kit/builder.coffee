@@ -131,7 +131,8 @@ class Builder
         ]
 
         bowerFiles = [
-            join(bowerPath, 'tinycarousel', 'lib', '*.js')
+            join(bowerPath, 'eventEmitter', 'eventEmitter.js')
+            join(bowerPath, 'tinycarousel', 'lib', 'jquery.tinycarousel.js')
             join(bowerPath, 'bootstrap', 'js', '*.js')
         ]
 
