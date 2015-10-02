@@ -15,16 +15,14 @@
     "node_modules",
     "bower_components"
   ],
-  "devDependencies": {
+  "dependencies": {
     "jquery": "2.1.4",
     "lodash": "~3.10.1",
     "requirejs": "~2.1.20",
     "zeptojs": "1.1.6",
     "requirejs-text": "2.0.14",
     "bootstrap": "3.3.5",
-    "tinycarousel": "https://github.com/wieringen/tinycarousel.git#2.1.8"
-  },
-  "dependencies": {
+    "tinycarousel": "https://github.com/wieringen/tinycarousel.git#2.1.8",
     "eventEmitter": "~4.2.11"
   }
 }
