@@ -138,5 +138,3 @@ define [
                 }
                 pager: r
             }
-
-    Pager

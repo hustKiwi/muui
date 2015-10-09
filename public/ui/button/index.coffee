@@ -13,5 +13,3 @@ define [
 
         afterRender: ->
             @$el.button(@opts.tooltipOptions)
-
-    Button

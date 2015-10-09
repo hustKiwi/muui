@@ -31,5 +31,3 @@ define [
                 handles.change($this, $target)
 
                 return false
-
-    Tab

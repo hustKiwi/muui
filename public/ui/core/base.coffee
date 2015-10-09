@@ -1,8 +1,8 @@
 define [
     'muui/core/utils'
-    'muui/lib/eventEmitter/eventEmitter'
+    'muui/core/event_emitter'
 ], (utils, EventEmitter) ->
-    class MuUI
+    class MuUI extends EventEmitter
         @defaults:
             el: ''
             dataSource: ''
@@ -18,7 +18,6 @@ define [
             MuUI.defaults
 
         constructor: (options) ->
-            @_ee = new EventEmitter
             @opts = opts = @getOpts(options)
 
             unless opts.el
@@ -72,22 +71,6 @@ define [
 
             def.promise()
 
-        on: (args...) ->
-            @_ee.on.apply(@_ee, args)
-            @
-
-        off: (args...) ->
-            @_ee.off.apply(@_ee, args)
-            @
-
-        once: (args...) ->
-            @_ee.one.apply(@_ee, args)
-            @
-
-        trigger: (args...) ->
-            @_ee.emit.apply(@_ee, args)
-            @
-
         ###
         # 以下方法暴露给子类覆盖
         ###
@@ -96,5 +79,3 @@ define [
         beforeRender: ->
 
         afterRender: ->
-
-    MuUI

@@ -26,5 +26,3 @@ define [
 
         destroy: ->
             @$el.off().tooltip('destroy')
-
-    Tooltip
