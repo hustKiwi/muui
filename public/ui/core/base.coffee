@@ -24,6 +24,7 @@ define [
                 throw new Error 'el cannot be empty.'
             @$el = $(opts.el)
 
+            super()
             @beforeRender()
             opts.beforeRender.apply(@)
             @trigger('beforeRender')
