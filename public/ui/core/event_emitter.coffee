@@ -6,7 +6,7 @@ define [
             @_ee = new _EventEmitter()
 
         on: ->
-            @_ee.on.apply(@_ee, arguments)
+            @_ee.addListeners.apply(@_ee, arguments)
             @
 
         off: ->
