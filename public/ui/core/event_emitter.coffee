@@ -5,10 +5,8 @@ define [
         constructor: ->
             @_ee = new _EventEmitter()
 
-        on: (args...) ->
-            if _.isFunction args[1]
-                args[1] = [args[1]]
-            @_ee.addListeners.apply(@_ee, args)
+        on: ->
+            @_ee.on.apply(@_ee, arguments)
             @
 
         off: ->
@@ -22,3 +20,6 @@ define [
         trigger: ->
             @_ee.emit.apply(@_ee, arguments)
             @
+
+        addListeners: ->
+            @_ee.addListeners.apply(@_ee, arguments)
