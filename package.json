@@ -1,14 +1,11 @@
 {
   "name": "muui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple interactive UI lib.",
   "authors": "https://github.com/hustKiwi",
   "repository": {
     "type": "git",
     "url": "https://github.com/hustKiwi/muui.git"
-  },
-  "scripts": {
-    "install": "cake setup"
   },
   "license": "MIT",
   "keywords": [
