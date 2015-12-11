@@ -1,14 +1,21 @@
 {
   "name": "MuUI",
   "version": "0.1.0",
-  "private": true,
+  "description": "A simple interactive UI lib.",
   "authors": "https://github.com/hustKiwi",
   "repository": {
     "type": "git",
-    "url": "http://bd.ysmood.org/music-fe/muui.git"
+    "url": "https://github.com/hustKiwi/muui.git"
   },
   "scripts": {
     "install": "cake setup"
+  },
+  "license": "MIT",
+  "keywords": [
+    "UI", "interactive"
+  ],
+  "bugs": {
+    "url": "https://github.com/hustKiwi/muui/issues"
   },
   "devDependencies": {
     "bower": "1.4.1",
