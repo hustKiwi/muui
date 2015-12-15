@@ -71,6 +71,22 @@ define(['muui/core/base', 'muui/lib/tinycarousel/jquery.tinycarousel'], function
       return this.tinycarousel = tinycarousel;
     };
 
+    Slider.prototype.prev = function() {
+      var ref, slideCurrent, slidesTotal, tinycarousel;
+      tinycarousel = this.tinycarousel, (ref = this.tinycarousel, slideCurrent = ref.slideCurrent, slidesTotal = ref.slidesTotal);
+      if (slideCurrent === 0) {
+        return tinycarousel.move(slidesTotal - 1);
+      } else {
+        return tinycarousel.move(slideCurrent - 1);
+      }
+    };
+
+    Slider.prototype.next = function() {
+      var tinycarousel;
+      tinycarousel = this.tinycarousel;
+      return tinycarousel.move((tinycarousel.slideCurrent + 1) % tinycarousel.slidesTotal);
+    };
+
     return Slider;
 
   })(Base);

@@ -63,3 +63,15 @@ define [
             for fn in _.functions(tinycarousel)
                 @[fn] = tinycarousel[fn]
             @tinycarousel = tinycarousel
+
+        prev: ->
+            { tinycarousel, tinycarousel: { slideCurrent, slidesTotal } } = @
+            if slideCurrent is 0
+                tinycarousel.move(slidesTotal - 1)
+            else
+                tinycarousel.move(slideCurrent- 1)
+
+        next: ->
+            { tinycarousel } = @
+            tinycarousel.move (tinycarousel.slideCurrent + 1) % tinycarousel.slidesTotal
+
