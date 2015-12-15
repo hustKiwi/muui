@@ -60,8 +60,13 @@ define [
 
         afterRender: ->
             tinycarousel = @$el.tinycarousel(@opts.tinycarouselOptions).data('plugin_tinycarousel')
+
+            tinycarousel.on 'move', ($cur, cur) =>
+                @trigger('move', $cur, cur)
+
             for fn in _.functions(tinycarousel)
                 @[fn] = tinycarousel[fn]
+
             @tinycarousel = tinycarousel
 
         prev: ->
