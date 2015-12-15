@@ -1,1 +1,70 @@
-var extend=function(t,e){function n(){this.constructor=t}for(var r in e)hasProp.call(e,r)&&(t[r]=e[r]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},hasProp={}.hasOwnProperty;define(["muui/core/base","muui/lib/tinycarousel/jquery.tinycarousel"],function(t){var e;return e=function(t){function e(){return e.__super__.constructor.apply(this,arguments)}return extend(e,t),e.defaults={el:".muui-slider",itemCls:"muui-slider-item",buttonsTmpl:'<a href="#" class="arrow prev"></a>\n<a href="#" class="arrow next"></a>',bulletsTmpl:'<ol class="bullets">\n<% for (var i = 0; i < total; i++) { %>\n    <li class="bullet<%- i === cur ? \' active\': \'\' %>" data-slide="<%- i %>">\n        <%- i + 1 %>\n    </li>\n<% } %>\n</ol>',tinycarouselOptions:{buttons:!0,bullets:!0,interval:!0,animationTime:500}},e.prototype.getOpts=function(t){return $.extend(!0,{},e.__super__.getOpts.call(this),e.defaults,t)},e.prototype.initEvents=function(){var t,e,n;return e=this.$el,n=this.tinycarousel,t=e.find(".arrow"),e.on("mouseenter",function(){return t.fadeIn(),n.stop()}).on("mouseleave",function(){return t.fadeOut(),n.start()}),e.on("mouseenter",".arrow",function(){return $(this).addClass("on")}).on("mouseleave",".arrow",function(){return $(this).removeClass("on")})},e.prototype.beforeRender=function(){var t,e,n,r,o;return t=this.$el,n=this.opts,r=this.opts,o=r.tinycarouselOptions,this.$items=e=t.find("."+n.itemCls),o.buttons&&t.append($(n.buttonsTmpl)),o.bullets?t.append($(_.template(n.bulletsTmpl)({cur:o.start,total:e.length}))):void 0},e.prototype.afterRender=function(){return this.tinycarousel=this.$el.tinycarousel(this.opts.tinycarouselOptions).data("plugin_tinycarousel")},e}(t)});
+var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+define(['muui/core/base', 'muui/lib/tinycarousel/jquery.tinycarousel'], function(Base) {
+  var Slider;
+  return Slider = (function(superClass) {
+    extend(Slider, superClass);
+
+    function Slider() {
+      return Slider.__super__.constructor.apply(this, arguments);
+    }
+
+    Slider.defaults = {
+      el: '.muui-slider',
+      itemCls: 'muui-slider-item',
+      buttonsTmpl: '<a href="#" class="arrow prev"></a>\n<a href="#" class="arrow next"></a>',
+      bulletsTmpl: '<ol class="bullets">\n<% for (var i = 0; i < total; i++) { %>\n    <li class="bullet<%- i === cur ? \' active\': \'\' %>" data-slide="<%- i %>">\n        <%- i + 1 %>\n    </li>\n<% } %>\n</ol>',
+      tinycarouselOptions: {
+        buttons: true,
+        bullets: true,
+        interval: true,
+        animationTime: 500
+      }
+    };
+
+    Slider.prototype.getOpts = function(options) {
+      return $.extend(true, {}, Slider.__super__.getOpts.call(this), Slider.defaults, options);
+    };
+
+    Slider.prototype.initEvents = function() {
+      var $arrow, $el, tinycarousel;
+      $el = this.$el, tinycarousel = this.tinycarousel;
+      $arrow = $el.find('.arrow');
+      $el.on('mouseenter', function() {
+        $arrow.fadeIn();
+        return tinycarousel.stop();
+      }).on('mouseleave', function() {
+        $arrow.fadeOut();
+        return tinycarousel.start();
+      });
+      return $el.on('mouseenter', '.arrow', function() {
+        return $(this).addClass('on');
+      }).on('mouseleave', '.arrow', function() {
+        return $(this).removeClass('on');
+      });
+    };
+
+    Slider.prototype.beforeRender = function() {
+      var $el, $items, opts, ref, tinycarouselOptions;
+      $el = this.$el, opts = this.opts, (ref = this.opts, tinycarouselOptions = ref.tinycarouselOptions);
+      this.$items = $items = $el.find('.' + opts.itemCls);
+      if (tinycarouselOptions.buttons) {
+        $el.append($(opts.buttonsTmpl));
+      }
+      if (tinycarouselOptions.bullets) {
+        return $el.append($(_.template(opts.bulletsTmpl)({
+          cur: tinycarouselOptions.start,
+          total: $items.length
+        })));
+      }
+    };
+
+    Slider.prototype.afterRender = function() {
+      return this.tinycarousel = this.$el.tinycarousel(this.opts.tinycarouselOptions).data('plugin_tinycarousel');
+    };
+
+    return Slider;
+
+  })(Base);
+});

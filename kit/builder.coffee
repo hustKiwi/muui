@@ -1,9 +1,5 @@
-process.env.NODE_ENV = 'production'
-
-gulp = require 'gulp'
 nobone = require 'nobone'
 expand = require 'glob-expand'
-gulpUglify = require 'gulp-uglify'
 yakuUtils = require 'yaku/lib/utils'
 
 {
@@ -136,12 +132,7 @@ class Builder
             join(bowerPath, 'bootstrap', 'js', '*.js')
         ]
 
-        if kit.isProduction()
-            gulp.src(join srcPath, 'js', '*init.js')
-                .pipe(gulpUglify())
-                .pipe(gulp.dest join(distPath, 'js'))
-        else
-            files.push join(srcPath, 'js', '*+(init.js)')
+        files.push join(srcPath, 'js', '*+(init.js)')
 
         kit.glob(files).then (paths) ->
             yakuUtils.async ->

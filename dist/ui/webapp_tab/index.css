@@ -1,1 +1,68 @@
-.muui-tab{display:-webkit-box;display:-moz-box;display:-webkit-flex;display:-ms-flexbox;display:box;display:flex;border-bottom:1px solid transparent;background:#fbfbfb;}.muui-tab .muui-tab-item{-webkit-box-flex:1;-moz-box-flex:1;-o-box-flex:1;box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;position:relative;height:43px;line-height:43px;text-align:center;font-size:16px;}.muui-tab .muui-tab-item.on:before,.muui-tab .muui-tab-item.on:after{width:0;height:0;position:absolute;left:50%;bottom:0;margin-left:-8px;content:'';display:block;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid transparent}.muui-tab .muui-tab-item.on:after{bottom:-1px}.muui-tab-panel{display:none !important;}.muui-tab-panel.on{display:block !important}.muui-tab{border-color:#e6e6e6;}.muui-tab .muui-tab-item{color:#999;background:#fbfbfb;}.muui-tab .muui-tab-item.on{color:#299de7;background:#fbfbfb;border-color:#fbfbfb;}.muui-tab .muui-tab-item.on:before{border-bottom-color:#e6e6e6}.muui-tab .muui-tab-item.on:after{border-bottom-color:#fbfbfb}.muui-tab .muui-tab-item.hover{background:#fbfbfb}
+.muui-tab {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  border-bottom: 1px solid transparent;
+  background: #fbfbfb;
+}
+.muui-tab .muui-tab-item {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: relative;
+  height: 43px;
+  line-height: 43px;
+  text-align: center;
+  font-size: 16px;
+}
+.muui-tab .muui-tab-item.on:before,
+.muui-tab .muui-tab-item.on:after {
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  margin-left: -8px;
+  content: '';
+  display: block;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+.muui-tab .muui-tab-item.on:after {
+  bottom: -1px;
+}
+.muui-tab-panel {
+  display: none !important;
+}
+.muui-tab-panel.on {
+  display: block !important;
+}
+.muui-tab {
+  border-color: #e6e6e6;
+}
+.muui-tab .muui-tab-item {
+  color: #999;
+  background: #fbfbfb;
+}
+.muui-tab .muui-tab-item.on {
+  color: #299de7;
+  background: #fbfbfb;
+  border-color: #fbfbfb;
+}
+.muui-tab .muui-tab-item.on:before {
+  border-bottom-color: #e6e6e6;
+}
+.muui-tab .muui-tab-item.on:after {
+  border-bottom-color: #fbfbfb;
+}
+.muui-tab .muui-tab-item.hover {
+  background: #fbfbfb;
+}

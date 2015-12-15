@@ -1,1 +1,16 @@
-var extend=function(t,r){function n(){this.constructor=t}for(var o in r)hasProp.call(r,o)&&(t[o]=r[o]);return n.prototype=r.prototype,t.prototype=new n,t.__super__=r.prototype,t},hasProp={}.hasOwnProperty;define(["muui/tab/index"],function(t){var r;return r=function(t){function r(){return r.__super__.constructor.apply(this,arguments)}return extend(r,t),r}(t)});
+var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+define(['muui/tab/index'], function(Tab) {
+  var WebAppTab;
+  return WebAppTab = (function(superClass) {
+    extend(WebAppTab, superClass);
+
+    function WebAppTab() {
+      return WebAppTab.__super__.constructor.apply(this, arguments);
+    }
+
+    return WebAppTab;
+
+  })(Tab);
+});
