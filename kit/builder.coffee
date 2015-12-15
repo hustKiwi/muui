@@ -148,10 +148,9 @@ class Builder
                     })
                 else
                     yakuUtils.end
-            .catch (err) ->
-                kit.err err
-
-        kit.glob(bowerFiles).then (paths) ->
+        .then ->
+            kit.glob(bowerFiles)
+        .then (paths) ->
             yakuUtils.async ->
                 path = paths.pop()
                 if path
@@ -162,7 +161,7 @@ class Builder
                         not /\.min\.js$/.test(src)
                 else
                     yakuUtils.end
-            .catch (err) ->
-                kit.err err
+        .catch (err) ->
+            kit.err err
 
 module.exports = new Builder

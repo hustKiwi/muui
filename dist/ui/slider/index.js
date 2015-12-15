@@ -61,7 +61,15 @@ define(['muui/core/base', 'muui/lib/tinycarousel/jquery.tinycarousel'], function
     };
 
     Slider.prototype.afterRender = function() {
-      return this.tinycarousel = this.$el.tinycarousel(this.opts.tinycarouselOptions).data('plugin_tinycarousel');
+      var fn, i, len, ref, results, tinycarousel;
+      tinycarousel = this.$el.tinycarousel(this.opts.tinycarouselOptions).data('plugin_tinycarousel');
+      ref = _.functions(tinycarousel);
+      results = [];
+      for (i = 0, len = ref.length; i < len; i++) {
+        fn = ref[i];
+        results.push(this[fn] = tinycarousel[fn].call(tinycarousel, arguments));
+      }
+      return results;
     };
 
     return Slider;

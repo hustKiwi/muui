@@ -59,4 +59,6 @@ define [
                 }))
 
         afterRender: ->
-            @tinycarousel = @$el.tinycarousel(@opts.tinycarouselOptions).data('plugin_tinycarousel')
+            tinycarousel = @$el.tinycarousel(@opts.tinycarouselOptions).data('plugin_tinycarousel')
+            for fn in _.functions(tinycarousel)
+                @[fn] = tinycarousel[fn].call(tinycarousel, arguments)
