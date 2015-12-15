@@ -1,5 +1,4 @@
 nobone = require 'nobone'
-expand = require 'glob-expand'
 yakuUtils = require 'yaku/lib/utils'
 
 {
@@ -81,19 +80,23 @@ class Builder
             else
                 args.push "!#{srcDir}/#{exclude}"
 
-        Promise.resolve(expand.apply(null, args)).then (paths) ->
+        kit.glob(args[1..], args[0])
+        .then (paths) ->
             log "\n\n>> Begin to compile #{paths.length} #{extSrc} files in #{srcDir} directory.".yellow
 
-            Promise.all(_.map paths, (path) ->
-                srcPath = join(opts.srcPath, path)
-                distPath = join(opts.distPath, path)
-                    .replace new RegExp("\\.#{extSrc}$"), ".#{extBin}"
+            yakuUtils.async ->
+                path = paths.pop()
+                if path
+                    srcPath = join(opts.srcPath, path)
+                    distPath = join(opts.distPath, path)
+                        .replace new RegExp("\\.#{extSrc}$"), ".#{extBin}"
 
-                log '>> Compile: '.cyan + srcPath.replace(rootPath, '') + ' -> '.grey + distPath.replace(rootPath, '')
+                    log '>> Compile: '.cyan + srcPath.replace(rootPath, '') + ' -> '.grey + distPath.replace(rootPath, '')
 
-                renderer.render(srcPath, ".#{extBin}").then (code) ->
-                    kit.outputFile(distPath, code) if code
-            )
+                    renderer.render(srcPath, ".#{extBin}").then (code) ->
+                        kit.outputFile(distPath, code) if code
+                else
+                    yakuUtils.end
 
     cleanUseless: ->
         { rootPath, distPath } = @
