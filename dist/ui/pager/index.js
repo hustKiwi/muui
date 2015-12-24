@@ -44,6 +44,7 @@ define(['muui/core/base'], function(Base) {
     };
 
     Pager.prototype.render = function(data) {
+      data = _.extend(this.$el.data('pager'), data);
       return Pager.__super__.render.call(this, this.build(data) || {
         args: null
       });

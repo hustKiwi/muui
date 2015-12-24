@@ -68,6 +68,7 @@ define [
             @$el.removeClass('loading')
 
         render: (data) ->
+            data = _.extend @$el.data('pager'), data
             super @build(data) or {
                 args: null
             }
