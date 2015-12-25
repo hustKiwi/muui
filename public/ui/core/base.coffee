@@ -22,7 +22,7 @@ define [
 
             unless opts.el
                 throw new Error 'el cannot be empty.'
-            @$el = $(opts.el)
+            @$el = $(opts.el).off()
 
             super()
             @beforeRender()
