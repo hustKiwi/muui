@@ -17,12 +17,16 @@ define [
 
         show: ->
             @$el.tooltip('show')
+            @
 
         hide: ->
             @$el.tooltip('hide')
+            @
 
         toggle: ->
             @$el.tooltip('toggle')
+            @
 
         destroy: ->
             @$el.off().tooltip('destroy')
+            @

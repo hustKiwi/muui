@@ -26,19 +26,23 @@ define(['muui/core/base', 'muui/lib/bootstrap/tooltip', 'muui/lib/bootstrap/tran
     };
 
     Tooltip.prototype.show = function() {
-      return this.$el.tooltip('show');
+      this.$el.tooltip('show');
+      return this;
     };
 
     Tooltip.prototype.hide = function() {
-      return this.$el.tooltip('hide');
+      this.$el.tooltip('hide');
+      return this;
     };
 
     Tooltip.prototype.toggle = function() {
-      return this.$el.tooltip('toggle');
+      this.$el.tooltip('toggle');
+      return this;
     };
 
     Tooltip.prototype.destroy = function() {
-      return this.$el.off().tooltip('destroy');
+      this.$el.off().tooltip('destroy');
+      return this;
     };
 
     return Tooltip;
