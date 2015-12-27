@@ -24,7 +24,8 @@ define(['muui/core/base'], function(Base) {
     };
 
     Tab.prototype.initEvents = function() {
-      var handles, itemCls, ref;
+      var handles, itemCls, ref, self;
+      self = this;
       ref = this.opts, itemCls = ref.itemCls, handles = ref.handles;
       return this.$el.on('mouseenter', "." + itemCls + ":not(.on)", function() {
         return $(this).addClass('hover');
@@ -37,6 +38,7 @@ define(['muui/core/base'], function(Base) {
         $this.siblings('.on').removeClass('on').end().removeClass('hover').addClass('on');
         $target.siblings('.on').removeClass('on').end().addClass('on');
         handles.change($this, $target);
+        self.trigger('tab:change', $this, $target);
         return false;
       });
     };

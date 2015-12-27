@@ -13,6 +13,7 @@ define [
             $.extend(true, {}, super(), Tab.defaults, options)
 
         initEvents: ->
+            self = @
             { itemCls, handles } = @opts
 
             @$el.on 'mouseenter', ".#{itemCls}:not(.on)", ->
@@ -29,5 +30,6 @@ define [
                     .end().addClass('on')
 
                 handles.change($this, $target)
+                self.trigger('tab:change', $this, $target)
 
-                return false
+                false
