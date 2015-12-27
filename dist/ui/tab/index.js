@@ -38,7 +38,7 @@ define(['muui/core/base'], function(Base) {
         $this.siblings('.on').removeClass('on').end().removeClass('hover').addClass('on');
         $target.siblings('.on').removeClass('on').end().addClass('on');
         handles.change($this, $target);
-        self.trigger('tab:change', $this, $target);
+        self.trigger('change', $this, $target);
         return false;
       });
     };

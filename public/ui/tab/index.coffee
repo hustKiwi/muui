@@ -30,6 +30,6 @@ define [
                     .end().addClass('on')
 
                 handles.change($this, $target)
-                self.trigger('tab:change', $this, $target)
+                self.trigger('change', $this, $target)
 
                 false
