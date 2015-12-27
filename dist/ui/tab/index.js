@@ -13,6 +13,7 @@ define(['muui/core/base'], function(Base) {
     Tab.defaults = {
       el: '.muui-tab',
       tmpl: 'muui/tab/index',
+      itemCls: 'muui-tab-item',
       handles: {
         change: function($item, $target) {}
       }
@@ -23,9 +24,8 @@ define(['muui/core/base'], function(Base) {
     };
 
     Tab.prototype.initEvents = function() {
-      var handles, itemCls;
-      itemCls = 'muui-tab-item';
-      handles = this.opts.handles;
+      var handles, itemCls, ref;
+      ref = this.opts, itemCls = ref.itemCls, handles = ref.handles;
       return this.$el.on('mouseenter', "." + itemCls + ":not(.on)", function() {
         return $(this).addClass('hover');
       }).on('mouseleave', "." + itemCls + ":not(.on)", function() {

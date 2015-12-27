@@ -5,6 +5,7 @@ define [
         @defaults:
             el: '.muui-tab'
             tmpl: 'muui/tab/index'
+            itemCls: 'muui-tab-item'
             handles:
                 change: ($item, $target) ->
 
@@ -12,8 +13,7 @@ define [
             $.extend(true, {}, super(), Tab.defaults, options)
 
         initEvents: ->
-            itemCls = 'muui-tab-item'
-            handles = @opts.handles
+            { itemCls, handles } = @opts
 
             @$el.on 'mouseenter', ".#{itemCls}:not(.on)", ->
                 $(@).addClass('hover')
