@@ -13,7 +13,7 @@ define [
             container: '<div class="muui-modal fade" tabindex="-1" style="display: none;"></div>'
             tmpl: _.template('''
                 <div class="muui-modal-stick"></div>
-                <div class="<%- cls && cls + ' ' || '' %>muui-modal-dialog modal-dialog">
+                <div class="<%- cls && cls + ' ' || '' %>muui-modal-dialog modal-dialog<%- title && '' || ' without-title' %>">
                     <div class="muui-modal-header">
                         <h3><%= title %></h3>
                         <% if (btns.close) { %>
@@ -74,12 +74,8 @@ define [
         afterRender: ->
             @modal = @$el.modal(@opts.modalOptions).data('bs.modal')
 
-        show: (rerender = false) ->
-            if rerender
-                @render(@opts.renderArgs).done =>
-                    @modal.show()
-            else
-                @modal.show()
+        show: ->
+            @modal.show()
             @
 
         hide: ->
