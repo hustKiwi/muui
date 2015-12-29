@@ -74,8 +74,11 @@ define [
         afterRender: ->
             @modal = @$el.modal(@opts.modalOptions).data('bs.modal')
 
-        show: ->
-            @render(@opts.renderArgs).done =>
+        show: (rerender = false) ->
+            if rerender
+                @render(@opts.renderArgs).done =>
+                    @modal.show()
+            else
                 @modal.show()
             @
 

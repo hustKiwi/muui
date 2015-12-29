@@ -59,12 +59,19 @@ define(['muui/core/base', 'muui/core/utils', 'muui/lib/bootstrap/modal', 'muui/l
       return this.modal = this.$el.modal(this.opts.modalOptions).data('bs.modal');
     };
 
-    Modal.prototype.show = function() {
-      this.render(this.opts.renderArgs).done((function(_this) {
-        return function() {
-          return _this.modal.show();
-        };
-      })(this));
+    Modal.prototype.show = function(rerender) {
+      if (rerender == null) {
+        rerender = false;
+      }
+      if (rerender) {
+        this.render(this.opts.renderArgs).done((function(_this) {
+          return function() {
+            return _this.modal.show();
+          };
+        })(this));
+      } else {
+        this.modal.show();
+      }
       return this;
     };
 
