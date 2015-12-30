@@ -45,13 +45,13 @@ define(['muui/core/base', 'muui/core/utils', 'muui/lib/bootstrap/modal', 'muui/l
       return $el.on('click', '.muui-modal-footer .muui-btn', function() {
         return $(this).blur();
       }).on('hide.bs.modal', function() {
-        return $el.empty();
+        return $el.empty().removeClass('muui-modal-loading');
       });
     };
 
     Modal.prototype.beforeRender = function() {
       if (!this.$el.length) {
-        return this.$el = $(this.opts.container).appendTo($body);
+        return this.$el = $(this.opts.container).appendTo($body).removeClass('muui-modal-loading');
       }
     };
 
