@@ -68,9 +68,11 @@ define [
                 $el.empty().removeClass('muui-modal-loading')
 
         beforeRender: ->
-            unless @$el.length
-                @$el = $(@opts.container).appendTo($body)
-                    .removeClass('muui-modal-loading')
+            { $el } = @
+            unless $el.length
+                $el = $(@opts.container).appendTo($body)
+            $el.removeClass('muui-modal-loading')
+            @$el = $el
 
         afterRender: ->
             @modal = @$el.modal(@opts.modalOptions).data('bs.modal')
