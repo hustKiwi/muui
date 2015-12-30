@@ -42,7 +42,7 @@ define(['muui/core/base', 'muui/core/utils', 'muui/lib/bootstrap/modal', 'muui/l
     Modal.prototype.initEvents = function() {
       var $el;
       $el = this.$el;
-      return $el.on('click', '.muui-modal-footer .muui-btn', function() {
+      return $el.off().on('click', '.muui-modal-footer .muui-btn', function() {
         return $(this).blur();
       }).on('show.bs.modal', function() {
         return $el.removeClass('muui-modal-loading');

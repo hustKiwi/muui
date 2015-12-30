@@ -62,7 +62,7 @@ define [
 
         initEvents: ->
             { $el } = @
-            $el.on 'click', '.muui-modal-footer .muui-btn', ->
+            $el.off().on 'click', '.muui-modal-footer .muui-btn', ->
                 $(@).blur()
             .on 'show.bs.modal', ->
                 $el.removeClass('muui-modal-loading')
