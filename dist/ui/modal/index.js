@@ -50,17 +50,13 @@ define(['muui/core/base', 'muui/core/utils', 'muui/lib/bootstrap/modal', 'muui/l
     };
 
     Modal.prototype.beforeRender = function() {
-      var $el;
-      $el = this.$el;
-      if (!$el.length) {
-        $el = $(this.opts.container).appendTo($body);
+      if (!this.$el.length) {
+        return this.$el = $(this.opts.container).appendTo($body);
       }
-      $el.removeClass('muui-modal-loading');
-      return this.$el = $el;
     };
 
     Modal.prototype.afterRender = function() {
-      return this.modal = this.$el.modal(this.opts.modalOptions).data('bs.modal');
+      return this.modal = this.$el.modal(this.opts.modalOptions).removeClass('muui-modal-loading').data('bs.modal');
     };
 
     Modal.prototype.show = function() {
