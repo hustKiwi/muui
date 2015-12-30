@@ -44,10 +44,8 @@ define(['muui/core/base', 'muui/core/utils', 'muui/lib/bootstrap/modal', 'muui/l
       $el = this.$el;
       return $el.off().on('click', '.muui-modal-footer .muui-btn', function() {
         return $(this).blur();
-      }).on('show.bs.modal', function() {
+      }).on('show.bs.modal, hide.bs.modal', function() {
         return $el.removeClass('muui-modal-loading');
-      }).on('hide.bs.modal', function() {
-        return $el.removeClass('muui-modal-loading').empty();
       });
     };
 
