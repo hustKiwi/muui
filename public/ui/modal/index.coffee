@@ -64,9 +64,10 @@ define [
             { $el } = @
             $el.on 'click', '.muui-modal-footer .muui-btn', ->
                 $(@).blur()
+            .on 'show.bs.modal', ->
+                $el.removeClass('muui-modal-loading')
             .on 'hide.bs.modal', ->
-                $el.empty().removeClass('muui-modal-loading')
-
+                $el.empty()
         beforeRender: ->
             unless @$el.length
                 @$el = $(@opts.container).appendTo($body)
