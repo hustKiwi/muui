@@ -13,7 +13,7 @@ define [
             container: '<div class="muui-modal fade" tabindex="-1" style="display: none;"></div>'
             tmpl: _.template('''
                 <div class="muui-modal-stick"></div>
-                <div class="<%- cls && cls + ' ' || '' %>muui-modal-dialog modal-dialog<%- title && '' || ' without-title' %>">
+                <div class="<%- cls && cls + ' ' || '' %>muui-modal-dialog modal-dialog<%- title ? '' : ' without-title' %>">
                     <div class="muui-modal-header">
                         <h3><%= title %></h3>
                         <% if (btns.close) { %>
