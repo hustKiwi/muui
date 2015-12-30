@@ -67,7 +67,7 @@ define [
             .on 'show.bs.modal', ->
                 $el.removeClass('muui-modal-loading')
             .on 'hide.bs.modal', ->
-                $el.empty()
+                $el.removeClass('muui-modal-loading').empty()
         beforeRender: ->
             unless @$el.length
                 @$el = $(@opts.container).appendTo($body)
