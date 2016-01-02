@@ -19,9 +19,6 @@ define [
 
         constructor: (options) ->
             @opts = opts = @getOpts(options)
-
-            unless opts.el
-                throw new Error 'el cannot be empty.'
             @$el = $(opts.el).off()
 
             super()

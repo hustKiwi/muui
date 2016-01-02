@@ -27,9 +27,6 @@ define(['muui/core/utils', 'muui/core/event_emitter'], function(utils, EventEmit
     function MuUI(options) {
       var opts;
       this.opts = opts = this.getOpts(options);
-      if (!opts.el) {
-        throw new Error('el cannot be empty.');
-      }
       this.$el = $(opts.el).off();
       MuUI.__super__.constructor.call(this);
       this.beforeRender();
