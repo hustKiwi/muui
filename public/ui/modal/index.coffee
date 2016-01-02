@@ -4,12 +4,11 @@ define [
     'muui/lib/bootstrap/modal'
     'muui/lib/bootstrap/transition'
 ], (Base, utils) ->
-    id = 0
     $body = $('body')
 
     class Modal extends Base
         @defaults:
-            container: '<div class="muui-modal fade" data-id=' + ++id + ' tabindex="-1" style="display: none;"></div>',
+            container: '<div class="muui-modal fade" tabindex="-1" style="display: none;"></div>',
             tmpl: _.template('''
                 <div class="muui-modal-stick"></div>
                 <div class="<%- cls && cls + ' ' || '' %>muui-modal-dialog modal-dialog<%- title ? '' : ' without-title' %>">
