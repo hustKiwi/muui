@@ -13,8 +13,8 @@ define(['muui/core/base', 'muui/core/utils', 'muui/lib/bootstrap/modal', 'muui/l
     }
 
     Modal.defaults = {
-      el: '.muui-modal',
-      container: '<div class="muui-modal fade" tabindex="-1" style="display: none;"></div>',
+      id: 0,
+      container: '<div class="muui-modal fade" data-id=' + (++Modal.defaults.id) + 'tabindex="-1" style="display: none;"></div>',
       tmpl: _.template('<div class="muui-modal-stick"></div>\n<div class="<%- cls && cls + \' \' || \'\' %>muui-modal-dialog modal-dialog<%- title ? \'\' : \' without-title\' %>">\n    <div class="muui-modal-header">\n        <h3><%= title %></h3>\n        <% if (btns.close) { %>\n            <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:;">×</a>\n        <% } %>\n    </div>\n    <div class="muui-modal-body"><%= body %></div>\n    <div class="muui-modal-footer">\n        <% if (_.isEmpty(footer)) { %>\n            <% if (btns.submit) { %>\n                <button class="muui-btn muui-btn-primary submit" data-dismiss="modal" aria-hidden="true">确定</button>\n            <% } %>\n            <% if (btns.cancel) { %>\n                <button class="muui-btn" data-dismiss="modal" aria-hidden="true">取消</button>\n            <% } %>\n        <% } else { %>\n            <%= footer %>\n        <% } %>\n    </div>\n</div>'),
       loadingTmpl: '<div class="loading-panel">\n    <i class="ui-loading"></i>\n    <p class="tip">\n        正在加载，请稍候 ...\n    </p>\n</div>',
       renderArgs: {
@@ -50,9 +50,7 @@ define(['muui/core/base', 'muui/core/utils', 'muui/lib/bootstrap/modal', 'muui/l
     };
 
     Modal.prototype.beforeRender = function() {
-      if (!this.$el.length) {
-        return this.$el = $(this.opts.container).appendTo($body);
-      }
+      return this.$el = $(this.opts.container).appendTo($body);
     };
 
     Modal.prototype.afterRender = function() {

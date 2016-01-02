@@ -9,8 +9,8 @@ define [
 
     class Modal extends Base
         @defaults:
-            el: '.muui-modal'
-            container: '<div class="muui-modal fade" tabindex="-1" style="display: none;"></div>'
+            id: 0,
+            container: '<div class="muui-modal fade" data-id=' + (++@defaults.id) + 'tabindex="-1" style="display: none;"></div>',
             tmpl: _.template('''
                 <div class="muui-modal-stick"></div>
                 <div class="<%- cls && cls + ' ' || '' %>muui-modal-dialog modal-dialog<%- title ? '' : ' without-title' %>">
@@ -68,8 +68,7 @@ define [
                 $el.removeClass('muui-modal-loading')
 
         beforeRender: ->
-            unless @$el.length
-                @$el = $(@opts.container).appendTo($body)
+            @$el = $(@opts.container).appendTo($body)
 
         afterRender: ->
             @modal = @$el.modal(@opts.modalOptions)
