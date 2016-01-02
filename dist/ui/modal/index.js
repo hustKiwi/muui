@@ -2,8 +2,8 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
   hasProp = {}.hasOwnProperty;
 
 define(['muui/core/base', 'muui/core/utils', 'muui/lib/bootstrap/modal', 'muui/lib/bootstrap/transition'], function(Base, utils) {
-  var $body, $doc, Modal, fn, i, item, len, ref;
-  $doc = $(document);
+  var $body, Modal, fn, i, id, item, len, ref;
+  id = 0;
   $body = $('body');
   Modal = (function(superClass) {
     extend(Modal, superClass);
@@ -13,8 +13,7 @@ define(['muui/core/base', 'muui/core/utils', 'muui/lib/bootstrap/modal', 'muui/l
     }
 
     Modal.defaults = {
-      id: 0,
-      container: '<div class="muui-modal fade" data-id=' + (++Modal.defaults.id) + 'tabindex="-1" style="display: none;"></div>',
+      container: '<div class="muui-modal fade" data-id=' + ++id + ' tabindex="-1" style="display: none;"></div>',
       tmpl: _.template('<div class="muui-modal-stick"></div>\n<div class="<%- cls && cls + \' \' || \'\' %>muui-modal-dialog modal-dialog<%- title ? \'\' : \' without-title\' %>">\n    <div class="muui-modal-header">\n        <h3><%= title %></h3>\n        <% if (btns.close) { %>\n            <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:;">×</a>\n        <% } %>\n    </div>\n    <div class="muui-modal-body"><%= body %></div>\n    <div class="muui-modal-footer">\n        <% if (_.isEmpty(footer)) { %>\n            <% if (btns.submit) { %>\n                <button class="muui-btn muui-btn-primary submit" data-dismiss="modal" aria-hidden="true">确定</button>\n            <% } %>\n            <% if (btns.cancel) { %>\n                <button class="muui-btn" data-dismiss="modal" aria-hidden="true">取消</button>\n            <% } %>\n        <% } else { %>\n            <%= footer %>\n        <% } %>\n    </div>\n</div>'),
       loadingTmpl: '<div class="loading-panel">\n    <i class="ui-loading"></i>\n    <p class="tip">\n        正在加载，请稍候 ...\n    </p>\n</div>',
       renderArgs: {
