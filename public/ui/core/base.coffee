@@ -56,14 +56,8 @@ define [
                 else
                     render renderArgs
 
-            if tmpl
-                if utils.isTemplate(tmpl)
-                    renderTmpl tmpl
-                else
-                    require [
-                        "text!#{tmpl}.html"
-                    ], (tmpl) ->
-                        renderTmpl _.template(tmpl)
+            if tmpl and utils.isTemplate(tmpl)
+                renderTmpl tmpl
             else
                 def.resolve()
 

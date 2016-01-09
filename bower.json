@@ -20,7 +20,6 @@
     "lodash": "~3.10.1",
     "requirejs": "~2.1.22",
     "zeptojs": "1.1.6",
-    "requirejs-text": "2.0.14",
     "bootstrap": "3.3.5",
     "tinycarousel": "https://github.com/wieringen/tinycarousel.git#2.1.8",
     "eventEmitter": "4.3.0"

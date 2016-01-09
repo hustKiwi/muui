@@ -68,14 +68,8 @@ define(['muui/core/utils', 'muui/core/event_emitter'], function(utils, EventEmit
           return render(renderArgs);
         }
       };
-      if (tmpl) {
-        if (utils.isTemplate(tmpl)) {
-          renderTmpl(tmpl);
-        } else {
-          require(["text!" + tmpl + ".html"], function(tmpl) {
-            return renderTmpl(_.template(tmpl));
-          });
-        }
+      if (tmpl && utils.isTemplate(tmpl)) {
+        renderTmpl(tmpl);
       } else {
         def.resolve();
       }

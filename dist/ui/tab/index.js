@@ -12,7 +12,6 @@ define(['muui/core/base'], function(Base) {
 
     Tab.defaults = {
       el: '.muui-tab',
-      tmpl: 'muui/tab/index',
       itemCls: 'muui-tab-item',
       handles: {
         change: function($item, $target) {}

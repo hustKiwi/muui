@@ -4,7 +4,6 @@ define [
     class Tab extends Base
         @defaults:
             el: '.muui-tab'
-            tmpl: 'muui/tab/index'
             itemCls: 'muui-tab-item'
             handles:
                 change: ($item, $target) ->
