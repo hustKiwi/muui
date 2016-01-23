@@ -69,13 +69,15 @@ define [
 
         render: (data) ->
             data = _.extend @$el.data('pager'), data
+            data.path = '?page={page}'
+            if _.isObject(data.query)
+                data.path += '&' + $.param(data.query)
             super @build(data) or {
                 args: null
             }
 
         build: (data) ->
             data = _.extend {
-                path: '?page={page}'
                 size: 10
                 length: 7
                 prevLabel: '上一页'

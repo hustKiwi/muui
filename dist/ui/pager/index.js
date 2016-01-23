@@ -45,6 +45,10 @@ define(['muui/core/base'], function(Base) {
 
     Pager.prototype.render = function(data) {
       data = _.extend(this.$el.data('pager'), data);
+      data.path = '?page={page}';
+      if (_.isObject(data.query)) {
+        data.path += '&' + $.param(data.query);
+      }
       return Pager.__super__.render.call(this, this.build(data) || {
         args: null
       });
@@ -53,7 +57,6 @@ define(['muui/core/base'], function(Base) {
     Pager.prototype.build = function(data) {
       var canFill, cur, hasNext, hasPrev, i, j, k, l, length, m, offset, pageNum, r, ref, ref1, ref2, ref3, results, results1, results2, results3, size, total;
       data = _.extend({
-        path: '?page={page}',
         size: 10,
         length: 7,
         prevLabel: '上一页',
