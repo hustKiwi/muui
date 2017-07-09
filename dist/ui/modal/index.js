@@ -76,8 +76,8 @@ define(['muui/core/base', 'muui/core/utils', 'muui/lib/bootstrap/modal', 'muui/l
     };
 
     Modal.prototype.setModalBody = function(html) {
-      var $el, opts;
-      $el = this.$el, opts = this.opts;
+      var $el, opts, ref;
+      ref = this, $el = ref.$el, opts = ref.opts;
       $el.find('.muui-modal-body').html(html);
       if (html !== opts.loadingTmpl) {
         $el.removeClass('muui-modal-loading');

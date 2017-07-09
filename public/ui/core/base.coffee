@@ -56,7 +56,7 @@ define [
                 else
                     render renderArgs
 
-            if tmpl and utils.isTemplate(tmpl)
+            if tmpl
                 renderTmpl tmpl
             else
                 def.resolve()

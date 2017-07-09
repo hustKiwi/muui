@@ -9,7 +9,6 @@
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.428571429;
-  -webkit-border-radius: 0;
   border-radius: 0;
   margin-bottom: 0;
   text-align: center;
@@ -326,21 +325,18 @@ fieldset[disabled] .muui-btn-danger.active {
   padding: 10px 16px;
   font-size: 18px;
   line-height: 1.33;
-  -webkit-border-radius: 0;
   border-radius: 0;
 }
 .muui-btn-sm {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
-  -webkit-border-radius: 0;
   border-radius: 0;
 }
 .muui-btn-xs {
   padding: 1px 5px;
   font-size: 12px;
   line-height: 1.5;
-  -webkit-border-radius: 0;
   border-radius: 0;
 }
 .muui-btn-block {

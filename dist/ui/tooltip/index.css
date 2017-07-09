@@ -31,7 +31,6 @@
   margin-left: -6px;
 }
 .muui-tooltip .tooltip-inner {
-  -webkit-border-radius: 4px;
   border-radius: 4px;
   color: #fff;
   overflow: hidden;

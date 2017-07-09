@@ -47,9 +47,6 @@ define(function() {
         }
       });
       return def.promise();
-    },
-    isTemplate: function(tmpl) {
-      return _.isFunction(tmpl) && 'source' in tmpl;
     }
   };
 });

@@ -1,6 +1,6 @@
 {
   "name": "muui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A simple interactive UI lib.",
   "authors": "https://github.com/hustKiwi",
   "repository": {
@@ -9,25 +9,26 @@
   },
   "license": "MIT",
   "keywords": [
-    "UI", "interactive"
+    "UI",
+    "interactive"
   ],
   "bugs": {
     "url": "https://github.com/hustKiwi/muui/issues"
   },
   "devDependencies": {
-    "bower": "1.4.1",
-    "coffee-script": "1.9.3",
-    "coffeelint": "1.10.1",
-    "gulp": "3.9.0",
-    "gulp-coffee": "2.3.1",
-    "gulp-concat": "2.6.0",
-    "gulp-if": "1.2.5",
-    "jade": "1.11.0",
-    "nib": "1.1.0",
-    "nobone": "1.7.0",
-    "requirejs": "2.1.20",
-    "stylus": "0.52.0",
-    "uglify-js": "2.4.24",
-    "yaku": "0.3.8"
+    "bower": "^1.4.1",
+    "coffee-script": "^1.9.3",
+    "coffeelint": "^1.10.1",
+    "gulp": "^3.9.0",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-if": "^2.0.2",
+    "jade": "^1.11.0",
+    "nib": "^1.1.0",
+    "nobone": "^1.7.0",
+    "requirejs": "^2.1.20",
+    "stylus": "^0.54.5",
+    "uglify-js": "^3.0.24",
+    "yaku": "^0.3.8"
   }
 }

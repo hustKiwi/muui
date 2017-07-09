@@ -28,8 +28,8 @@ define(['muui/core/base', 'muui/lib/tinycarousel/jquery.tinycarousel'], function
     };
 
     Slider.prototype.initEvents = function() {
-      var $arrow, $el, tinycarousel;
-      $el = this.$el, tinycarousel = this.tinycarousel;
+      var $arrow, $el, ref, tinycarousel;
+      ref = this, $el = ref.$el, tinycarousel = ref.tinycarousel;
       $arrow = $el.find('.arrow');
       $el.on('mouseenter', function() {
         $arrow.fadeIn();
@@ -46,8 +46,8 @@ define(['muui/core/base', 'muui/lib/tinycarousel/jquery.tinycarousel'], function
     };
 
     Slider.prototype.beforeRender = function() {
-      var $el, $items, opts, ref, tinycarouselOptions;
-      $el = this.$el, opts = this.opts, (ref = this.opts, tinycarouselOptions = ref.tinycarouselOptions);
+      var $el, $items, opts, ref, ref1, tinycarouselOptions;
+      ref = this, $el = ref.$el, opts = ref.opts, (ref1 = ref.opts, tinycarouselOptions = ref1.tinycarouselOptions);
       this.$items = $items = $el.find('.' + opts.itemCls);
       if (tinycarouselOptions.buttons) {
         $el.append($(opts.buttonsTmpl));
@@ -77,8 +77,8 @@ define(['muui/core/base', 'muui/lib/tinycarousel/jquery.tinycarousel'], function
     };
 
     Slider.prototype.prev = function() {
-      var ref, slideCurrent, slidesTotal, tinycarousel;
-      tinycarousel = this.tinycarousel, (ref = this.tinycarousel, slideCurrent = ref.slideCurrent, slidesTotal = ref.slidesTotal);
+      var ref, ref1, slideCurrent, slidesTotal, tinycarousel;
+      ref = this, tinycarousel = ref.tinycarousel, (ref1 = ref.tinycarousel, slideCurrent = ref1.slideCurrent, slidesTotal = ref1.slidesTotal);
       if (slideCurrent === 0) {
         return tinycarousel.move(slidesTotal - 1);
       } else {

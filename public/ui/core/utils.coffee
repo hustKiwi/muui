@@ -43,8 +43,4 @@ define ->
                     opts.handleError(msg)
 
             def.promise()
-
-        # http://stackoverflow.com/questions/18410421/detect-instanceof-underscore-template
-        isTemplate: (tmpl) ->
-            _.isFunction(tmpl) and 'source' of tmpl
     }

@@ -45,10 +45,10 @@ define(['muui/core/utils', 'muui/core/event_emitter'], function(utils, EventEmit
     }
 
     MuUI.prototype.render = function(renderArgs) {
-      var $el, dataFilter, dataSource, def, opts, ref, renderFn, renderTmpl, self, tmpl;
+      var $el, dataFilter, dataSource, def, opts, ref, ref1, renderFn, renderTmpl, self, tmpl;
       self = this;
       def = $.Deferred();
-      $el = this.$el, opts = this.opts, (ref = this.opts, tmpl = ref.tmpl, renderFn = ref.renderFn, dataSource = ref.dataSource, dataFilter = ref.dataFilter);
+      ref = this, $el = ref.$el, opts = ref.opts, (ref1 = ref.opts, tmpl = ref1.tmpl, renderFn = ref1.renderFn, dataSource = ref1.dataSource, dataFilter = ref1.dataFilter);
       renderTmpl = function(tmpl) {
         var render;
         render = function(data) {
@@ -68,7 +68,7 @@ define(['muui/core/utils', 'muui/core/event_emitter'], function(utils, EventEmit
           return render(renderArgs);
         }
       };
-      if (tmpl && utils.isTemplate(tmpl)) {
+      if (tmpl) {
         renderTmpl(tmpl);
       } else {
         def.resolve();
